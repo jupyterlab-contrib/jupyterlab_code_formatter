@@ -1,0 +1,63 @@
+{
+    "jupyter.lab.setting-icon-class": "jp-EditIcon",
+    "jupyter.lab.setting-icon-label": "Jupyterlab Code Formatter",
+    "title": "Jupyterlab Code Formatter",
+    "description": "Jupyterlab Code Formatter settings.",
+    "definitions": {
+        "black": {
+            "properties": {
+                "line_length": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "yapf": {
+            "properties": {
+                "style_config": {
+                    "type": "string",
+                    "enum": [
+                        "pep8",
+                        "chromium",
+                        "google",
+                        "facebook"
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "autopep8": {
+            "properties": {},
+            "additionalProperties": false,
+            "type": "object"
+        }
+    },
+    "properties": {
+        "black": {
+            "title": "Black Config",
+            "description": "Config to be passed into black's format_str function call.",
+            "$ref": "#/definitions/black",
+            "default": {
+                "line_length": 88
+            }
+        },
+        "yapf": {
+            "title": "YAPF Config",
+            "description": "Config to be passed into yapf's FormatCode function call.",
+            "$ref": "#/definitions/yapf",
+            "default": {
+                "style_config": "google"
+            }
+        },
+        "autopep8": {
+            "title": "Autopep8 Config",
+            "description": "Config to be passed into autopep8's fix_code function call. Personally I don't use this, PR welcomed to fix this.",
+            "$ref": "#/definitions/autopep8",
+            "default": {}
+        }
+    },
+    "additionalProperties": false,
+    "type": "object"
+}

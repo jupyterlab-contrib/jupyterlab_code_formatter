@@ -1,5 +1,5 @@
 {
-  "name": "jupyterlab_code_formatter",
+  "name": "@ryantam626/jupyterlab_code_formatter",
   "version": "0.1.0",
   "description": "A universal code formatter for JupyterLab.",
   "keywords": [
@@ -15,7 +15,8 @@
   "author": "Ryan Tam",
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "schema/*.json"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,13 +31,15 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.17.0"
+    "@jupyterlab/application": "^0.17.0",
+    "@jupyterlab/notebook": "^0.17.2"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
     "typescript": "~2.9.2"
   },
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "schemaDir": "schema"
   }
 }
