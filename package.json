@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/ryantam626/jupyterlab_code_formatter/issues"
   },
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "author": "Ryan Tam",
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
