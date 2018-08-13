@@ -52,12 +52,6 @@ class FormattersAPIHandler(APIHandler):
             )
         )
 
-    def post(self) -> None:
-        """Update non native formatters info."""
-        # TODO: Implement me!
-        pass
-
-
 class FormatAPIHandler(APIHandler):
     def post(self) -> None:
         data = json.loads(self.request.body.decode("utf-8"))
