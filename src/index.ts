@@ -1,4 +1,3 @@
-// tslint:disable:no-string-literal
 import {
   ICommandPalette,
 } from "@jupyterlab/apputils";
@@ -64,11 +63,11 @@ class JupyterLabCodeFormatter {
     // tslint:disable-next-line:no-console
     request("formatters", "GET", null, ServerConnection.defaultSettings).then(
       (data) => {
-        const formatters = JSON.parse(data)["formatters"];
+        const formatters = JSON.parse(data).formatters;
         Object.keys(formatters).map(
           (formatter) => {
-            if (formatters[formatter]["enabled"]) {
-              this.setupButton(formatter, formatters[formatter]["label"]);
+            if (formatters[formatter].enabled) {
+              this.setupButton(formatter, formatters[formatter].label);
             }
           },
         );
