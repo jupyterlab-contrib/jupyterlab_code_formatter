@@ -69,7 +69,7 @@ class YapfFormatter(BaseFormatter):
         return FormatCode(code, **options)[0]
 
 
-NATIVE_FORMATTERS = {
+SERVER_FORMATTERS = {
     'black': BlackFormatter(),
     'autopep8': Autopep8Formatter(),
     'yapf': YapfFormatter(),

@@ -4,7 +4,7 @@ from notebook.notebookapp import NotebookWebApplication
 from notebook.utils import url_path_join
 from notebook.base.handlers import APIHandler
 
-from jupyterlab_code_formatter.formatters import NATIVE_FORMATTERS
+from jupyterlab_code_formatter.formatters import SERVER_FORMATTERS
 
 
 def setup_handlers(web_app: NotebookWebApplication) -> None:
@@ -33,7 +33,7 @@ class FormattersAPIHandler(APIHandler):
         self.finish(
             json.dumps(
                 {
-                    'formatters': {name: {'enabled': formatter.importable, 'label': formatter.label} for name, formatter in NATIVE_FORMATTERS.items()}
+                    'formatters': {name: {'enabled': formatter.importable, 'label': formatter.label} for name, formatter in SERVER_FORMATTERS.items()}
                 }
             )
 
@@ -49,7 +49,7 @@ class FormatAPIHandler(APIHandler):
 
     def post(self) -> None:
         data = json.loads(self.request.body.decode("utf-8"))
-        formatter_instance = NATIVE_FORMATTERS.get(data['formatter'])
+        formatter_instance = SERVER_FORMATTERS.get(data['formatter'])
 
         if formatter_instance is None or not formatter_instance.importable:
             self.set_status(404, 'Formatter not found!')
