@@ -35,6 +35,10 @@ Install at least one of them through `pip install black` for example (or its equ
 
 Assuming you do have one of the formatters installed in the Python environment that runs JupyterLab, some extra options would appear under `JUPYTERLAB CODE FORMATTER`, use those to apply formatting to current codecell (no multiple code cell application atm).
 
+### Configs
+
+There are some formatter config exposed through the Jupyter Lab Advanced Settings Editor, have a browse and change it if you wish.
+
 ### How about a keyboard shortcut?
 
 Add an extra extry to your keyboard shortcuts settings with something like
