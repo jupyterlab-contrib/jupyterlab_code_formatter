@@ -16,7 +16,7 @@ Code formatter for JupyterLab.
 ## Installation
 
 ```bash
-jupyter labextension install jupyterlab_code_formatter
+jupyter labextension install @ryantam626/jupyterlab_code_formatter
 pip install jupyterlab_code_formatter
 jupyter serverextension enable --py jupyterlab_code_formatter
 ```
