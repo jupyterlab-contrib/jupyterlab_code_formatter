@@ -2,6 +2,8 @@
 
 Code formatter for JupyterLab.
 
+![](https://github.com/ryantam626/jupyterlab_code_formatter/raw/master/code-formatter-demo.gif)
+
 ## Prerequisites
 
 * JupyterLab installed under Python3.6+ environment
@@ -32,10 +34,6 @@ Install at least one of them through `pip install black` for example (or its equ
 ### Usage
 
 Assuming you do have one of the formatters installed in the Python environment that runs JupyterLab, some extra options would appear under `JUPYTERLAB CODE FORMATTER`, use those to apply formatting to current codecell (no multiple code cell application atm).
-
-### Demo
-
-![](https://raw.githubusercontent.com/ryantam626/jupyterlab_code_formatter/master/code-formatter-demo.gif)
 
 ### How about a keyboard shortcut?
 
