@@ -1,6 +1,6 @@
 {
   "name": "@ryantam626/jupyterlab_code_formatter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Code formatter for JupyterLab.",
   "keywords": [
     "jupyter",
@@ -31,8 +31,8 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.17.0",
-    "@jupyterlab/notebook": "^0.17.2"
+    "@jupyterlab/application": ">=0.17.0 <0.19.0",
+    "@jupyterlab/notebook": ">=0.17.0 <0.19.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
