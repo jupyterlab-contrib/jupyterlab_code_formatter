@@ -125,7 +125,7 @@ class JupyterLabCodeFormatter {
   }
 
   private setupButton(name: string, label: string) {
-    const command = "jupyterlab_black:" + name;
+    const command = "jupyterlab_code_formatter:" + name;
     this.app.commands.addCommand(command, {
       execute: () => {
         this.maybeFormatCodecell(name);

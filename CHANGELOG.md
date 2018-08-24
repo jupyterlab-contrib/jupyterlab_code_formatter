@@ -1,6 +1,8 @@
 UNRELEASED
 ----------
 
+* Fix typo in command;
+
 0.1.1 2018-08-18
 ----------------
 
