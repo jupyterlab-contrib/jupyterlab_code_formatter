@@ -33,7 +33,7 @@ class BlackFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from black import format_str
 
-        return format_str(code, **options)
+        return format_str(code, **options)[:-1]
 
 
 class Autopep8Formatter(BaseFormatter):
