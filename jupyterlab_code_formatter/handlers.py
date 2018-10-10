@@ -52,6 +52,7 @@ class FormattersAPIHandler(APIHandler):
             )
         )
 
+
 class FormatAPIHandler(APIHandler):
     def post(self) -> None:
         data = json.loads(self.request.body.decode("utf-8"))
