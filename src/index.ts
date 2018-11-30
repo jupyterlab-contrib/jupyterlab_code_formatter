@@ -3,6 +3,10 @@ import {
 } from "@jupyterlab/apputils";
 
 import {
+  IMainMenu
+} from "@jupyterlab/mainmenu";
+
+import {
   INotebookTracker,
 } from "@jupyterlab/notebook";
 
@@ -47,6 +51,7 @@ class JupyterLabCodeFormatter {
   private tracker: INotebookTracker;
   private palette: ICommandPalette;
   private settingRegistry: ISettingRegistry;
+  private menu: IMainMenu;
   private config: any;
 
   private working = false;
@@ -54,23 +59,29 @@ class JupyterLabCodeFormatter {
   constructor(
     app: JupyterLab, tracker: INotebookTracker,
     palette: ICommandPalette, settingRegistry: ISettingRegistry,
+    menu: IMainMenu,
   ) {
     this.app = app;
     this.tracker = tracker;
     this.palette = palette;
     this.settingRegistry = settingRegistry;
+    this.menu = menu;
     this.setupSettings();
     // tslint:disable-next-line:no-console
     request("formatters", "GET", null, ServerConnection.defaultSettings).then(
       (data) => {
         const formatters = JSON.parse(data).formatters;
-        Object.keys(formatters).map(
+        let menuGroup: {command: string}[] = [];
+        Object.keys(formatters).forEach(
           (formatter) => {
             if (formatters[formatter].enabled) {
-              this.setupButton(formatter, formatters[formatter].label);
+              const command = "jupyterlab_code_formatter:" + formatter;
+              this.setupButton(formatter, formatters[formatter].label, command);
+              menuGroup.push({ command });
             }
           },
         );
+        this.menu.editMenu.addGroup(menuGroup);
       },
     );
   }
@@ -124,8 +135,7 @@ class JupyterLabCodeFormatter {
     }
   }
 
-  private setupButton(name: string, label: string) {
-    const command = "jupyterlab_code_formatter:" + name;
+  private setupButton(name: string, label: string, command: string) {
     this.app.commands.addCommand(command, {
       execute: () => {
         this.maybeFormatCodecell(name);
@@ -144,15 +154,16 @@ const extension: JupyterLabPlugin<void> = {
   activate: (
     app: JupyterLab, palette: ICommandPalette,
     tracker: INotebookTracker, settingRegistry: ISettingRegistry,
+    menu: IMainMenu,
   ) => {
     // tslint:disable-next-line:no-console
     console.log("JupyterLab extension jupyterlab_code_formatter is activated!");
     // tslint:disable-next-line:no-unused-expression
-    new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry);
+    new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu);
   },
   autoStart: true,
   id: "jupyterlab_code_formatter",
-  requires: [ICommandPalette, INotebookTracker, ISettingRegistry],
+  requires: [ICommandPalette, INotebookTracker, ISettingRegistry, IMainMenu],
 };
 
 export default extension;
