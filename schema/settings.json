@@ -29,7 +29,29 @@
             "type": "object"
         },
         "autopep8": {
-            "properties": {},
+            "properties": {
+		"aggressive": {
+		    "type": "number"
+		},
+		"max_line_length": {
+		    "type": "number"
+		},
+		"ignore": {
+		    "type": "array",
+		    "items": {
+			"type": "string"
+		    }
+		},
+		"select": {
+		    "type": "array",
+		    "items": {
+			"type": "string"
+		    }
+		},
+		"experimental": {
+		    "type": "boolean"
+		}
+	    },
             "additionalProperties": false,
             "type": "object"
         }
@@ -53,7 +75,7 @@
         },
         "autopep8": {
             "title": "Autopep8 Config",
-            "description": "Config to be passed into autopep8's fix_code function call. Personally I don't use this, PR welcomed to fix this.",
+            "description": "Config to be passed into autopep8's fix_code function call as the options dictionary.",
             "$ref": "#/definitions/autopep8",
             "default": {}
         }
