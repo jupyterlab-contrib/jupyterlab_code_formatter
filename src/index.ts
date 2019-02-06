@@ -113,31 +113,7 @@ class JupyterLabCodeFormatter {
     if (this.working) {
       // tslint:disable-next-line:no-console
       console.log("Already working on something!! CHILL.");
-    } else {
-      if (this.tracker.activeCell instanceof CodeCell) {
-        console.log("Formatting a notebook cell");
-        this.working = true;
-        request(
-          "format", "POST", JSON.stringify(
-            {
-              code: this.tracker.activeCell.model.value.text,
-              formatter: formatterName,
-              options: this.config[formatterName],
-            },
-          ), ServerConnection.defaultSettings,
-        ).then(
-            (data) => {
-              this.tracker.activeCell.model.value.text = JSON.parse(data);
-              this.working = false;
-            },
-        ).catch(
-          () => {
-            this.working = false;
-            // tslint:disable-next-line:no-console
-            console.error("Something went wrong :(");
-          },
-        );
-      } else if(editorWidget.isVisible){
+    } else if (editorWidget.isVisible){
         console.log("Formatting a file");
         this.working = true;
         const editor = editorWidget.editor;
@@ -161,12 +137,34 @@ class JupyterLabCodeFormatter {
             // tslint:disable-next-line:no-console
             console.error("Something went wrong :(");
           },
-        );  
+        );    
+    } else if (this.tracker.activeCell instanceof CodeCell) {
+        console.log("Formatting a notebook cell");
+        this.working = true;
+        request(
+          "format", "POST", JSON.stringify(
+            {
+              code: this.tracker.activeCell.model.value.text,
+              formatter: formatterName,
+              options: this.config[formatterName],
+            },
+          ), ServerConnection.defaultSettings,
+        ).then(
+            (data) => {
+              this.tracker.activeCell.model.value.text = JSON.parse(data);
+              this.working = false;
+            },
+        ).catch(
+          () => {
+            this.working = false;
+            // tslint:disable-next-line:no-console
+            console.error("Something went wrong :(");
+          },
+        );
       } else {
         // tslint:disable-next-line:no-console
         console.log("This doesn't seem like a code cell or a file...");
       }
-    }
   }
 
   private setupButton(name: string, label: string, command: string) {
