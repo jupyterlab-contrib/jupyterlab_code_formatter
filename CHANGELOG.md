@@ -1,6 +1,11 @@
 UNRELEASED
 ----------
 
+0.1.7 2019-02-16
+----------------
+
+* Support formatting files in FileEditor - courtesy of rbedi;
+
 0.1.6 2019-01-19
 ----------------
 
