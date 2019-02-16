@@ -63,6 +63,9 @@ This basically says "Under edit mode (detected through the selector), using the 
 
 For Autopep8 or YAPF, simply do autopep8/yapf instead of black.
 
+## Using the Black formatter on Windows
+
+You might see some errors about writing grammar tables when using the black formatter on Windows, simply manually create the directory as suggested in [here](https://github.com/ryantam626/jupyterlab_code_formatter/issues/10) and you should be good to go.
 
 ## Development
 
