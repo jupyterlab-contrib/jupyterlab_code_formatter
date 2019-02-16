@@ -1,6 +1,16 @@
 UNRELEASED
 ----------
 
+0.1.6 2019-01-19
+----------------
+
+* Expose autopep8 options - courtesy of timlod;
+
+0.1.5 2018-12-01
+----------------
+
+* Add commands to the main menu for better accessibility - courtesy of jtpio;
+
 0.1.4 2018-10-10
 ----------------
 
