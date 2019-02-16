@@ -26,6 +26,10 @@ import {
   JupyterLab, JupyterLabPlugin,
 } from "@jupyterlab/application";
 
+import {
+  IEditorTracker,
+} from '@jupyterlab/fileeditor';
+
 import "../style/index.css";
 
 function request(
@@ -53,16 +57,18 @@ class JupyterLabCodeFormatter {
   private settingRegistry: ISettingRegistry;
   private menu: IMainMenu;
   private config: any;
+  private editorTracker: IEditorTracker;
 
   private working = false;
 
   constructor(
     app: JupyterLab, tracker: INotebookTracker,
     palette: ICommandPalette, settingRegistry: ISettingRegistry,
-    menu: IMainMenu,
+    menu: IMainMenu, editorTracker: IEditorTracker
   ) {
     this.app = app;
     this.tracker = tracker;
+    this.editorTracker = editorTracker;
     this.palette = palette;
     this.settingRegistry = settingRegistry;
     this.menu = menu;
@@ -102,11 +108,38 @@ class JupyterLabCodeFormatter {
 
   private maybeFormatCodecell(formatterName: string) {
     // TODO: Check current kernel is of appropriate kernel
+    console.log("Formatting something!");
+    const editorWidget = this.editorTracker.currentWidget.content;
     if (this.working) {
       // tslint:disable-next-line:no-console
       console.log("Already working on something!! CHILL.");
-    } else {
-      if (this.tracker.activeCell instanceof CodeCell) {
+    } else if (editorWidget.isVisible){
+        console.log("Formatting a file");
+        this.working = true;
+        const editor = editorWidget.editor;
+        const code = editor.model.value.text;
+        request(
+          "format", "POST", JSON.stringify(
+            {
+              code: code,
+              formatter: formatterName,
+              options: this.config[formatterName],
+            },
+          ), ServerConnection.defaultSettings,
+        ).then(
+            (data) => {
+              this.editorTracker.currentWidget.content.editor.model.value.text = JSON.parse(data);
+              this.working = false;
+            },
+        ).catch(
+          () => {
+            this.working = false;
+            // tslint:disable-next-line:no-console
+            console.error("Something went wrong :(");
+          },
+        );    
+    } else if (this.tracker.activeCell instanceof CodeCell) {
+        console.log("Formatting a notebook cell");
         this.working = true;
         request(
           "format", "POST", JSON.stringify(
@@ -130,9 +163,8 @@ class JupyterLabCodeFormatter {
         );
       } else {
         // tslint:disable-next-line:no-console
-        console.log("This doesn't seem like a code cell...");
+        console.log("This doesn't seem like a code cell or a file...");
       }
-    }
   }
 
   private setupButton(name: string, label: string, command: string) {
@@ -154,16 +186,16 @@ const extension: JupyterLabPlugin<void> = {
   activate: (
     app: JupyterLab, palette: ICommandPalette,
     tracker: INotebookTracker, settingRegistry: ISettingRegistry,
-    menu: IMainMenu,
+    menu: IMainMenu, editorTracker: IEditorTracker
   ) => {
     // tslint:disable-next-line:no-console
-    console.log("JupyterLab extension jupyterlab_code_formatter is activated!");
+    console.log("Hello! JupyterLab extension jupyterlab_code_formatter is activated!");
     // tslint:disable-next-line:no-unused-expression
-    new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu);
+    new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu, editorTracker);
   },
   autoStart: true,
   id: "jupyterlab_code_formatter",
-  requires: [ICommandPalette, INotebookTracker, ISettingRegistry, IMainMenu],
+  requires: [ICommandPalette, INotebookTracker, ISettingRegistry, IMainMenu, IEditorTracker],
 };
 
 export default extension;
