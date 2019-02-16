@@ -109,14 +109,14 @@ class JupyterLabCodeFormatter {
   private maybeFormatCodecell(formatterName: string) {
     // TODO: Check current kernel is of appropriate kernel
     console.log("Formatting something!");
-    const editorWidget = this.editorTracker.currentWidget.content;
+    const editorWidget = this.editorTracker.currentWidget;
     if (this.working) {
       // tslint:disable-next-line:no-console
       console.log("Already working on something!! CHILL.");
-    } else if (editorWidget.isVisible){
+    } else if (editorWidget.content !== null &&  editorWidget.content.isVisible){
         console.log("Formatting a file");
         this.working = true;
-        const editor = editorWidget.editor;
+        const editor = editorWidget.content.editor;
         const code = editor.model.value.text;
         request(
           "format", "POST", JSON.stringify(
