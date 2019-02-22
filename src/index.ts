@@ -113,7 +113,7 @@ class JupyterLabCodeFormatter {
     if (this.working) {
       // tslint:disable-next-line:no-console
       console.log("Already working on something!! CHILL.");
-    } else if (editorWidget.content !== null &&  editorWidget.content.isVisible){
+    } else if (editorWidget && editorWidget.content !== null &&  editorWidget.content.isVisible){
         console.log("Formatting a file");
         this.working = true;
         const editor = editorWidget.content.editor;
