@@ -23,7 +23,7 @@ import {
 } from "@jupyterlab/services";
 
 import {
-  JupyterLab, JupyterLabPlugin,
+  JupyterFrontEnd, JupyterFrontEndPlugin,
 } from "@jupyterlab/application";
 
 import {
@@ -51,7 +51,7 @@ function request(
 }
 
 class JupyterLabCodeFormatter {
-  private app: JupyterLab;
+  private app: JupyterFrontEnd;
   private tracker: INotebookTracker;
   private palette: ICommandPalette;
   private settingRegistry: ISettingRegistry;
@@ -62,7 +62,7 @@ class JupyterLabCodeFormatter {
   private working = false;
 
   constructor(
-    app: JupyterLab, tracker: INotebookTracker,
+    app: JupyterFrontEnd, tracker: INotebookTracker,
     palette: ICommandPalette, settingRegistry: ISettingRegistry,
     menu: IMainMenu, editorTracker: IEditorTracker
   ) {
@@ -182,9 +182,9 @@ class JupyterLabCodeFormatter {
 /**
  * Initialization data for the jupyterlab_code_formatter extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
   activate: (
-    app: JupyterLab, palette: ICommandPalette,
+    app: JupyterFrontEnd, palette: ICommandPalette,
     tracker: INotebookTracker, settingRegistry: ISettingRegistry,
     menu: IMainMenu, editorTracker: IEditorTracker
   ) => {
