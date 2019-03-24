@@ -31,9 +31,12 @@ class BlackFormatter(BaseFormatter):
             return False
 
     def format_code(self, code: str, **options) -> str:
-        from black import format_str
+        import black
 
-        return format_str(code, **options)[:-1]
+        if black.__version__ >= '19.3b0':
+            return black.format_str(code, mode=black.FileMode(**options))[:-1]
+        else:
+            return black.format_str(code, **options)[:-1]
 
 
 class Autopep8Formatter(BaseFormatter):
