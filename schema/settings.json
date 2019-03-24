@@ -30,28 +30,28 @@
         },
         "autopep8": {
             "properties": {
-		"aggressive": {
-		    "type": "number"
-		},
-		"max_line_length": {
-		    "type": "number"
-		},
-		"ignore": {
-		    "type": "array",
-		    "items": {
-			"type": "string"
-		    }
-		},
-		"select": {
-		    "type": "array",
-		    "items": {
-			"type": "string"
-		    }
-		},
-		"experimental": {
-		    "type": "boolean"
-		}
-	    },
+                "aggressive": {
+                    "type": "number"
+                },
+                "max_line_length": {
+                    "type": "number"
+                },
+                "ignore": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "select": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "experimental": {
+                    "type": "boolean"
+                }
+            },
             "additionalProperties": false,
             "type": "object"
         }
