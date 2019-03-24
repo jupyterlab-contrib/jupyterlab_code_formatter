@@ -1,6 +1,6 @@
 {
   "name": "@ryantam626/jupyterlab_code_formatter",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Code formatter for JupyterLab.",
   "keywords": [
     "jupyter",

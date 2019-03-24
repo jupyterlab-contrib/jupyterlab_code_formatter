@@ -2,11 +2,16 @@ UNRELEASED
 ----------
 
 
+0.2.0 2019-03-24
+----------------
+
+* Handle format_str interface change for black>=19.3b0;
+* Support Isort as a formatter;
+
 0.1.8 2019-02-16
 ----------------
 
 * Minor fix for formatting files in code cells;
-
 
 0.1.7 2019-02-16
 ----------------
