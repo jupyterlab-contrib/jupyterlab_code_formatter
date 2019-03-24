@@ -13,6 +13,102 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "isort": {
+            "properties": {
+                "force_to_top": {
+                    "type": "string"
+                },
+                "line_length": {
+                    "type": "number"
+                },
+                "wrap_length": {
+                    "type": "number"
+                },
+                "known_future_library": {
+                    "type": "string"
+                },
+                "known_standard_library": {
+                    "type": "string"
+                },
+                "known_third_party": {
+                    "type": "string"
+                },
+                "known_first_party": {
+                    "type": "string"
+                },
+                "multi_line_output": {
+                    "type": "number"
+                },
+                "forced_separate": {
+                    "type": "string"
+                },
+                "indent": {
+                    "type": "number"
+                },
+                "length_sort": {
+                    "type": "boolean"
+                },
+                "force_single_line": {
+                    "type": "boolean"
+                },
+                "force_grid_wrap": {
+                    "type": "number"
+                },
+                "default_section": {
+                    "type": "string"
+                },
+                "import_heading_future": {
+                    "type": "string"
+                },
+                "import_heading_stdlib": {
+                    "type": "string"
+                },
+                "import_heading_thirdparty": {
+                    "type": "string"
+                },
+                "import_heading_firstparty": {
+                    "type": "string"
+                },
+                "import_heading_localfolder": {
+                    "type": "string"
+                },
+                "balanced_wrapping": {
+                    "type": "boolean"
+                },
+                "order_by_type": {
+                    "type": "boolean"
+                },
+                "lines_after_imports": {
+                    "type": "number"
+                },
+                "lines_between_types": {
+                    "type": "number"
+                },
+                "combine_as_imports": {
+                    "type": "boolean"
+                },
+                "combine_star": {
+                    "type": "boolean"
+                },
+                "include_trailing_comma": {
+                    "type": "boolean"
+                },
+                "use_parentheses": {
+                    "type": "boolean"
+                },
+                "from_first": {
+                    "type": "boolean"
+                },
+                "case_sensitive": {
+                    "type": "boolean"
+                },
+                "force_alphabetical_sort": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
         "yapf": {
             "properties": {
                 "style_config": {
@@ -77,6 +173,12 @@
             "title": "Autopep8 Config",
             "description": "Config to be passed into autopep8's fix_code function call as the options dictionary.",
             "$ref": "#/definitions/autopep8",
+            "default": {}
+        },
+        "isort": {
+            "title": "Isort Config",
+            "description": "Config to be passed into isort's SortImports function call.",
+            "$ref": "#/definitions/isort",
             "default": {}
         }
     },
