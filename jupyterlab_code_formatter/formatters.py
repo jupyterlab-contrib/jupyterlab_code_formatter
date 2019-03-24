@@ -31,9 +31,12 @@ class BlackFormatter(BaseFormatter):
             return False
 
     def format_code(self, code: str, **options) -> str:
-        from black import format_str
+        import black
 
-        return format_str(code, **options)[:-1]
+        if black.__version__ >= '19.3b0':
+            return black.format_str(code, mode=black.FileMode(**options))[:-1]
+        else:
+            return black.format_str(code, **options)[:-1]
 
 
 class Autopep8Formatter(BaseFormatter):
@@ -74,8 +77,28 @@ class YapfFormatter(BaseFormatter):
         return FormatCode(code, **options)[0]
 
 
+class IsortFormatter(BaseFormatter):
+
+    label = "Apply Isort Formatter"
+
+    @property
+    def importable(self) -> bool:
+        try:
+            import isort
+
+            return True
+        except ImportError:
+            return False
+
+    def format_code(self, code: str, **options) -> str:
+        from isort import SortImports
+
+        return SortImports(file_contents=code, **options).output[:-1]
+
+
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
+    "isort": IsortFormatter(),
 }

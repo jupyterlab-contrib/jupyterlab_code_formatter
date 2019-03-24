@@ -1,6 +1,6 @@
 {
   "name": "@ryantam626/jupyterlab_code_formatter",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Code formatter for JupyterLab.",
   "keywords": [
     "jupyter",
@@ -31,14 +31,14 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0-alpha.3",
-    "@jupyterlab/mainmenu": "^1.0.0-alpha.3",
-    "@jupyterlab/notebook": "^1.0.0-alpha.3",
-    "@jupyterlab/fileeditor": "^1.0.0-alpha.3"
+    "@jupyterlab/application": ">=0.17.0 <0.20.0",
+    "@jupyterlab/mainmenu": ">=0.8.0 < 0.9.0",
+    "@jupyterlab/notebook": ">=0.17.0 <0.20.0",
+    "@jupyterlab/fileeditor": ">=0.17.0 <0.20.0"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2",
-    "typescript": "~3.1.1"
+    "rimraf": "^2.6.1",
+    "typescript": "~2.9.2"
   },
   "jupyterlab": {
     "extension": true,
