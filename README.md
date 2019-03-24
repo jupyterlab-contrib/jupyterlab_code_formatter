@@ -33,6 +33,7 @@ For `jupyterlab_code_formatter` to work, you would also need some formatters, th
 - Black;
 - YAPF;
 - Autopep8;
+- Isort;
 
 Install at least one of them through `pip install black` for example (or its equivalent in other package management systems).
 
@@ -61,7 +62,7 @@ Add an extra extry to your keyboard shortcuts settings with something like
 
 This basically says "Under edit mode (detected through the selector), using the chord Ctrl K + Ctrl M, invoke the `jupyterlab_code_formatter:black` command". And there you have it :tada:
 
-For Autopep8 or YAPF, simply do autopep8/yapf instead of black.
+For Autopep8, YAPF or Isort, simply do autopep8/yapf/isort instead of black.
 
 ## Using the Black formatter on Windows
 
