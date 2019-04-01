@@ -1,4 +1,5 @@
 import abc
+import re
 
 
 class BaseFormatter:
@@ -33,11 +34,16 @@ class BlackFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         import black
 
-        if black.__version__ >= '19.3b0':
-            return black.format_str(code, mode=black.FileMode(**options))[:-1]
-        else:
-            return black.format_str(code, **options)[:-1]
+        code = re.sub("^%", "#%#", code, flags=re.M)
 
+        if black.__version__ >= '19.3b0':
+            code = black.format_str(code, mode=black.FileMode(**options))[:-1]
+        else:
+            code = black.format_str(code, **options)[:-1]
+
+        code = re.sub("^#%#", "%", code, flags=re.M)
+
+        return code
 
 class Autopep8Formatter(BaseFormatter):
 
