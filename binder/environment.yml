@@ -1,0 +1,11 @@
+name: jupyterlab_code_formatter
+channels:
+- conda-forge
+dependencies:
+- autopep8
+- black
+- isort
+- jupyterlab=0.35
+- yapf
+- pip:
+  - jupyterlab_code_formatter
