@@ -1,6 +1,25 @@
 UNRELEASED
 ==========
 
+0.2.1 2019-04-29
+================
+
+General
+-------
+* Add Binder to README - courtesy of jtpio;
+* Add a test notebook for easier testing with Binder;
+
+Server extension
+----------------
+
+* Add LICENSE in sdist - courtesy of xhochy;
+* Handle the exsistence of magic commands in codecell for Black;
+
+Jupyterlab extension
+--------------------
+
+No Change
+
 0.2.0 2019-03-24
 ================
 
