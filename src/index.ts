@@ -108,13 +108,11 @@ class JupyterLabCodeFormatter {
 
   private maybeFormatCodecell(formatterName: string) {
     // TODO: Check current kernel is of appropriate kernel
-    console.log("Formatting something!");
     const editorWidget = this.editorTracker.currentWidget;
     if (this.working) {
-      // tslint:disable-next-line:no-console
-      console.log("Already working on something!! CHILL.");
-    } else if (editorWidget && editorWidget.content !== null &&  editorWidget.content.isVisible){
-        console.log("Formatting a file");
+      return;
+    }
+    if (editorWidget && editorWidget.content !== null &&  editorWidget.content.isVisible){
         this.working = true;
         const editor = editorWidget.content.editor;
         const code = editor.model.value.text;
@@ -139,7 +137,6 @@ class JupyterLabCodeFormatter {
           },
         );    
     } else if (this.tracker.activeCell instanceof CodeCell) {
-        console.log("Formatting a notebook cell");
         this.working = true;
         request(
           "format", "POST", JSON.stringify(
@@ -161,9 +158,6 @@ class JupyterLabCodeFormatter {
             console.error("Something went wrong :(");
           },
         );
-      } else {
-        // tslint:disable-next-line:no-console
-        console.log("This doesn't seem like a code cell or a file...");
       }
   }
 
@@ -188,8 +182,6 @@ const extension: JupyterLabPlugin<void> = {
     tracker: INotebookTracker, settingRegistry: ISettingRegistry,
     menu: IMainMenu, editorTracker: IEditorTracker
   ) => {
-    // tslint:disable-next-line:no-console
-    console.log("Hello! JupyterLab extension jupyterlab_code_formatter is activated!");
     // tslint:disable-next-line:no-unused-expression
     new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu, editorTracker);
   },
