@@ -15,7 +15,7 @@ import {
 } from "@jupyterlab/cells";
 
 import {
-  ISettingRegistry, URLExt,
+  ISettingRegistry, URLExt, PathExt,
 } from "@jupyterlab/coreutils";
 
 import {
@@ -165,6 +165,17 @@ class JupyterLabCodeFormatter {
     this.app.commands.addCommand(command, {
       execute: () => {
         this.maybeFormatCodecell(name);
+      },
+      isVisible: () => {
+        let widget = this.app.shell.currentWidget;
+        // TODO: handle other languages other than Python
+        let editorWidget = this.editorTracker.currentWidget;
+        let notebookWidget = this.tracker.currentWidget;
+        return widget && (
+          (editorWidget && widget === editorWidget && PathExt.extname(editorWidget.context.path) === '.py') ||
+          (notebookWidget && widget === notebookWidget) ||
+          false
+        );
       },
       label,
     });
