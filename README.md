@@ -48,7 +48,7 @@ There are some formatter config exposed through the Jupyter Lab Advanced Setting
 
 ### How about a keyboard shortcut?
 
-Add an extra extry to your keyboard shortcuts settings with something like
+Add an extra entry to your keyboard shortcuts settings with something like
 
 ```
 {"jupyterlab_code_formatter:black":{
