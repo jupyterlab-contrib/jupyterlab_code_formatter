@@ -35,6 +35,7 @@ jupyter labextension install @ryantam626/jupyterlab_code_formatter
 conda install -c conda-forge jupyterlab_code_formatter
 jupyter serverextension enable --py jupyterlab_code_formatter
 ```
+Make sure to restart jupyter server after installation.
 
 ## Installation of formatters
 
