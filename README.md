@@ -20,12 +20,22 @@ Code formatter for JupyterLab.
 
 ## Installation
 
+### Using pip
 ```bash
 jupyter labextension install @ryantam626/jupyterlab_code_formatter
 pip install jupyterlab_code_formatter
 jupyter serverextension enable --py jupyterlab_code_formatter
 # Remember to install one of the supported formatters (it's in the next section)
 ```
+
+### Using conda
+```bash
+conda install -c conda-forge black
+jupyter labextension install @ryantam626/jupyterlab_code_formatter
+conda install -c conda-forge jupyterlab_code_formatter
+jupyter serverextension enable --py jupyterlab_code_formatter
+```
+Make sure to restart jupyter server after installation.
 
 ## Installation of formatters
 
