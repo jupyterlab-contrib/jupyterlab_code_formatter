@@ -1,11 +1,31 @@
 UNRELEASED
 ==========
 
+0.2.2 2019-06-17
+================
+
+General
+-------
+
+* Minor updates to README - courtesy of akashlakhera and mzakariaCERN;
+
+Server extension
+----------------
+
+No Change
+
+Jupyterlab extension
+--------------------
+
+* Remove some excessive logging - courtesy of jtpio;
+* Make formatter commands visible for Python files and notebooks only - courtesy of jtpio;
+
 0.2.1 2019-04-29
 ================
 
 General
 -------
+
 * Add Binder to README - courtesy of jtpio;
 * Add a test notebook for easier testing with Binder;
 
@@ -13,7 +33,7 @@ Server extension
 ----------------
 
 * Add LICENSE in sdist - courtesy of xhochy;
-* Handle the exsistence of magic commands in codecell for Black;
+* Handle the exsistence of magic commands in codecell for Black - courtesy of Lif3line;
 
 Jupyterlab extension
 --------------------
@@ -25,6 +45,7 @@ No Change
 
 * Handle format_str interface change for black>=19.3b0;
 * Support Isort as a formatter;
+* Bugfixes - courtesy of gnestor;
 
 0.1.8 2019-02-16
 ================
@@ -65,7 +86,6 @@ No Change
 ================
 
 * Minor README update;
-
 
 0.1.0 2018-08-18
 ================
