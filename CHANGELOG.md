@@ -1,6 +1,11 @@
 UNRELEASED
 ==========
 
+0.2.3 2019-06-17
+================
+
+Same as v0.2.2 - Re-publishing because I messed up the versioning.
+
 0.2.2 2019-06-17
 ================
 
