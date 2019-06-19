@@ -54,8 +54,14 @@ Assuming you do have one of the formatters installed in the Python environment t
 
 ### Configs
 
-There are some formatter config exposed through the Jupyter Lab Advanced Settings Editor, have a browse and change it if you wish.
-
+There are some formatter config exposed through the Jupyter Lab Advanced Settings Editor, have a browse and change it if you wish. for example:
+```
+{
+    "autopep8":{"max_line_length" : 120,
+    "ignore": ["E226","E302","E41"]
+               }
+}
+```
 ### How about a keyboard shortcut?
 
 Add an extra entry to your keyboard shortcuts settings with something like
