@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="jupyterlab_code_formatter",
-    version="0.2.3",
+    version="0.3.0",
     packages=setuptools.find_packages(),
     description="The server extension for jupyterlab_code_formatter.",
     url="https://github.com/ryantam626/jupyterlab_code_formatter",

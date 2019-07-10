@@ -1,6 +1,28 @@
 UNRELEASED
 ==========
 
+
+0.3.0 2019-07-10
+==========
+
+General
+-------
+
+* Minor updates to README - courtesy of reza1615;
+
+
+Server extension
+----------------
+
+No Change
+
+Jupyterlab extension
+--------------------
+
+* Support Jupyterlab ^1.0.0 - courtesy of gnestor;
+* Remove custom_style enum restriction - courtesy of CaselIT;
+* Add companion packages info;
+
 0.2.3 2019-06-17
 ================
 
