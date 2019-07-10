@@ -115,13 +115,7 @@
         "yapf": {
             "properties": {
                 "style_config": {
-                    "type": "string",
-                    "enum": [
-                        "pep8",
-                        "chromium",
-                        "google",
-                        "facebook"
-                    ]
+                    "type": "string"
                 }
             },
             "additionalProperties": false,
