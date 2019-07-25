@@ -69,7 +69,7 @@ Add an extra entry to your keyboard shortcuts settings with something like
 ```
 {
     "shortcuts":[{
-        "command": "jupyterlab_code_formatter:autopep8",
+        "command": "jupyterlab_code_formatter:black",
         "keys": [
             "Ctrl K",
             "Ctrl M"
