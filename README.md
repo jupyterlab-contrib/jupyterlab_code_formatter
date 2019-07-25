@@ -64,7 +64,7 @@ There are some formatter config exposed through the Jupyter Lab Advanced Setting
 ```
 ### How about a keyboard shortcut?
 
-Add an extra entry to your keyboard shortcuts settings with something like
+Assuming you are using `jupyterlab>=1.0.0`,  you can add an extra entry to your keyboard shortcuts settings with something like
 
 ```
 {
