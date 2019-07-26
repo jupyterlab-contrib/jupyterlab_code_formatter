@@ -64,17 +64,19 @@ There are some formatter config exposed through the Jupyter Lab Advanced Setting
 ```
 ### How about a keyboard shortcut?
 
-Add an extra entry to your keyboard shortcuts settings with something like
+Assuming you are using `jupyterlab>=1.0.0`,  you can add an extra entry to your keyboard shortcuts settings with something like
 
 ```
-{"jupyterlab_code_formatter:black":{
-    "command": "jupyterlab_code_formatter:black",
-    "keys": [
-        "Ctrl K",
-        "Ctrl M"
-    ],
-    "selector": ".jp-Notebook.jp-mod-editMode"
-}}
+{
+    "shortcuts":[{
+        "command": "jupyterlab_code_formatter:black",
+        "keys": [
+            "Ctrl K",
+            "Ctrl M"
+        ],
+        "selector": ".jp-Notebook.jp-mod-editMode"
+    }]
+}
 ```
 
 This basically says "Under edit mode (detected through the selector), using the chord Ctrl K + Ctrl M, invoke the `jupyterlab_code_formatter:black` command". And there you have it :tada:
