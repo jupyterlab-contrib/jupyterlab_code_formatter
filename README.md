@@ -41,12 +41,17 @@ Make sure to restart jupyter server after installation.
 
 For `jupyterlab_code_formatter` to work, you would also need some formatters, three are currently supported:
 
+### Python
 - Black;
 - YAPF;
 - Autopep8;
 - Isort;
-
 Install at least one of them through `pip install black` for example (or its equivalent in other package management systems).
+
+### R
+- [formatR](https://github.com/yihui/formatR/)
+    * using pip:  `pip install rpy2` and use R command to install formatR package
+    * using conda: `conda install rpy2 r-formatr`  
 
 ### Usage
 

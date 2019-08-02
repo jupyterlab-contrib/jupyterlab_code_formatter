@@ -32,13 +32,15 @@ import {
 
 import "../style/index.css";
 
+const PLUGIN_NAME = "jupyterlab_code_formatter";
+
 function request(
   path: string,
   method: string,
   body: any,
   settings: ServerConnection.ISettings,
 ): Promise<any> {
-  const fullUrl = URLExt.join(settings.baseUrl, "jupyterlab_code_formatter", path);
+  const fullUrl = URLExt.join(settings.baseUrl, PLUGIN_NAME, path);
 
   return ServerConnection.makeRequest(fullUrl, { body, method }, settings).then((response) => {
     if (response.status !== 200) {
@@ -60,6 +62,8 @@ class JupyterLabCodeFormatter {
   private editorTracker: IEditorTracker;
 
   private working = false;
+  private pythonCommands = ["black", "yapf", "autopep8", "isort"].map(name=> `${PLUGIN_NAME}:${name}`);
+  private rCommands = ["formatR"].map(name=> `${PLUGIN_NAME}:${name}`);
 
   constructor(
     app: JupyterFrontEnd, tracker: INotebookTracker,
@@ -81,7 +85,7 @@ class JupyterLabCodeFormatter {
         Object.keys(formatters).forEach(
           (formatter) => {
             if (formatters[formatter].enabled) {
-              const command = "jupyterlab_code_formatter:" + formatter;
+              const command = `${PLUGIN_NAME}:` + formatter;
               this.setupButton(formatter, formatters[formatter].label, command);
               menuGroup.push({ command });
             }
@@ -94,7 +98,7 @@ class JupyterLabCodeFormatter {
 
   private setupSettings() {
     const self = this;
-    Promise.all([this.settingRegistry.load("@ryantam626/jupyterlab_code_formatter:settings")]).then(
+    Promise.all([this.settingRegistry.load(`@ryantam626/${PLUGIN_NAME}:settings`)]).then(
       ([settings]) => {
         function onSettingsUpdated(jsettings: ISettingRegistry.ISettings) {
           self.config = jsettings.composite;
@@ -171,10 +175,13 @@ class JupyterLabCodeFormatter {
         // TODO: handle other languages other than Python
         let editorWidget = this.editorTracker.currentWidget;
         let notebookWidget = this.tracker.currentWidget;
+
         return widget && (
-          (editorWidget && widget === editorWidget && PathExt.extname(editorWidget.context.path) === '.py') ||
-          (notebookWidget && widget === notebookWidget) ||
-          false
+          (this.pythonCommands.some(cmd=> cmd===command) && editorWidget && widget === editorWidget &&
+              PathExt.extname(editorWidget.context.path).toLowerCase() === '.py') ||
+          (this.rCommands.some(cmd=> cmd===command) && editorWidget && widget === editorWidget &&
+              PathExt.extname(editorWidget.context.path).toLowerCase() === '.r') ||
+          (notebookWidget && widget === notebookWidget)
         );
       },
       label,
@@ -197,7 +204,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu, editorTracker);
   },
   autoStart: true,
-  id: "jupyterlab_code_formatter",
+  id: PLUGIN_NAME,
   requires: [ICommandPalette, INotebookTracker, ISettingRegistry, IMainMenu, IEditorTracker],
 };
 
