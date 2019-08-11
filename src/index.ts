@@ -85,7 +85,7 @@ class JupyterLabCodeFormatter {
         Object.keys(formatters).forEach(
           (formatter) => {
             if (formatters[formatter].enabled) {
-              const command = `${PLUGIN_NAME}:` + formatter;
+              const command = `${PLUGIN_NAME}:${formatter}`;
               this.setupButton(formatter, formatters[formatter].label, command);
               menuGroup.push({ command });
             }
