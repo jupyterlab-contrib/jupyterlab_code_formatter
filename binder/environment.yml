@@ -8,5 +8,6 @@ dependencies:
 - jupyterlab=0.35
 - yapf
 - rpy2
+- r-formatr
 - pip:
   - jupyterlab_code_formatter
