@@ -7,5 +7,6 @@ dependencies:
 - isort
 - jupyterlab=0.35
 - yapf
+- rpy2
 - pip:
   - jupyterlab_code_formatter

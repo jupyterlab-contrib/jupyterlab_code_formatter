@@ -106,7 +106,6 @@ class IsortFormatter(BaseFormatter):
 class FormatRFormatter(BaseFormatter):
 
     label = "Apply FormatR Formatter"
-    required_packages = ["formatR"]
 
     @property
     def importable(self) -> bool:
