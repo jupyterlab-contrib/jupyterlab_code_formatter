@@ -1,6 +1,7 @@
 name: jupyterlab_code_formatter
 channels:
 - conda-forge
+- r
 dependencies:
 - autopep8
 - black
@@ -9,5 +10,6 @@ dependencies:
 - yapf
 - rpy2
 - r-formatr
+- r-styler
 - pip:
   - jupyterlab_code_formatter
