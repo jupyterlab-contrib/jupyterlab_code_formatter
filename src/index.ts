@@ -63,7 +63,7 @@ class JupyterLabCodeFormatter {
 
   private working = false;
   private pythonCommands = ["black", "yapf", "autopep8", "isort"].map(name=> `${PLUGIN_NAME}:${name}`);
-  private rCommands = ["formatR"].map(name=> `${PLUGIN_NAME}:${name}`);
+  private rCommands = ["formatR", "styler"].map(name=> `${PLUGIN_NAME}:${name}`);
 
   constructor(
     app: JupyterFrontEnd, tracker: INotebookTracker,
