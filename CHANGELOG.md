@@ -1,6 +1,18 @@
 UNRELEASED
 ==========
 
+0.4.0 2019-08-19
+==========
+
+Server extension
+----------------
+
+* Support `formatr` - A R code formatter - courtesy of dev-wei;
+
+Jupyterlab extension
+--------------------
+
+* Support `formatr` - A R code formatter - courtesy of dev-wei;
 
 0.3.0 2019-07-10
 ==========
