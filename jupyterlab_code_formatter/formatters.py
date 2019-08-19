@@ -45,6 +45,7 @@ class BlackFormatter(BaseFormatter):
 
         return code
 
+
 class Autopep8Formatter(BaseFormatter):
 
     label = "Apply Autopep8 Formatter"
@@ -102,9 +103,32 @@ class IsortFormatter(BaseFormatter):
         return SortImports(file_contents=code, **options).output[:-1]
 
 
+class FormatRFormatter(BaseFormatter):
+
+    label = "Apply FormatR Formatter"
+
+    @property
+    def importable(self) -> bool:
+        try:
+            import rpy2.robjects.packages as rpackages
+            rpackages.importr("formatR", robject_translations={".env": "env"})
+
+            return True
+        except ImportError:
+            return False
+
+    def format_code(self, code: str, **options) -> str:
+        import rpy2.robjects.packages as rpackages
+
+        format_r = rpackages.importr("formatR", robject_translations={".env": "env"})
+        formatted_code = format_r.tidy_source(text=code, output=False, **options)
+        return "\n".join(formatted_code[0])
+
+
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
+    "formatR": FormatRFormatter()
 }

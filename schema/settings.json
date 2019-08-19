@@ -147,6 +147,33 @@
             },
             "additionalProperties": false,
             "type": "object"
+        },
+        "formatR": {
+            "properties": {
+                "comment": {
+                    "type": "boolean"
+                },
+                "blank": {
+                    "type": "boolean"
+                },
+                "arrow": {
+                    "type": "boolean"
+                },
+                "brace_newline": {
+                    "type": "boolean"
+                },
+                "indent": {
+                    "type": "number"
+                },
+                "wrap": {
+                    "type": "boolean"
+                },
+                "width_cutoff": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
         }
     },
     "properties": {
@@ -178,6 +205,17 @@
             "description": "Config to be passed into isort's SortImports function call.",
             "$ref": "#/definitions/isort",
             "default": {}
+        },
+        "formatR": {
+            "title": "FormatR Config",
+            "description": "Config to be passed into formatR's tidy_source function call.",
+            "$ref": "#/definitions/formatR",
+            "default": {
+                "indent": 2,
+                "arrow": true,
+                "wrap": true,
+                "width_cutoff": 150
+            }
         }
     },
     "additionalProperties": false,
