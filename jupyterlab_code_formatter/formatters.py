@@ -106,12 +106,13 @@ class IsortFormatter(BaseFormatter):
 class FormatRFormatter(BaseFormatter):
 
     label = "Apply FormatR Formatter"
+    package_name = "formatR"
 
     @property
     def importable(self) -> bool:
         try:
             import rpy2.robjects.packages as rpackages
-            rpackages.importr("formatR", robject_translations={".env": "env"})
+            rpackages.importr(self.package_name, robject_translations={".env": "env"})
 
             return True
         except ImportError:
@@ -120,9 +121,32 @@ class FormatRFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
-        format_r = rpackages.importr("formatR", robject_translations={".env": "env"})
+        format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
         formatted_code = format_r.tidy_source(text=code, output=False, **options)
         return "\n".join(formatted_code[0])
+
+
+class StylerFormatter(BaseFormatter):
+
+    label = "Apply Styler Formatter"
+    package_name = "styler"
+
+    @property
+    def importable(self) -> bool:
+        try:
+            import rpy2.robjects.packages as rpackages
+            rpackages.importr(self.package_name)
+
+            return True
+        except ImportError:
+            return False
+
+    def format_code(self, code: str, **options) -> str:
+        import rpy2.robjects.packages as rpackages
+
+        styler_r = rpackages.importr(self.package_name)
+        formatted_code = styler_r.style_text(code, **options)
+        return "\n".join(formatted_code)
 
 
 SERVER_FORMATTERS = {
@@ -130,5 +154,6 @@ SERVER_FORMATTERS = {
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
-    "formatR": FormatRFormatter()
+    "formatR": FormatRFormatter(),
+    "styler": StylerFormatter()
 }
