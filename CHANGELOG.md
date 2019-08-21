@@ -1,6 +1,19 @@
 UNRELEASED
 ==========
 
+0.5.0 2019-08-21
+==========
+
+Server extension
+----------------
+
+* Support `styler` - Another R code formatter - courtesy of dev-wei;
+
+Jupyterlab extension
+--------------------
+
+* Support `styler` - Another R code formatter - courtesy of dev-wei;
+
 0.4.0 2019-08-19
 ==========
 
