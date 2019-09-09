@@ -115,7 +115,7 @@ class FormatRFormatter(BaseFormatter):
             rpackages.importr(self.package_name, robject_translations={".env": "env"})
 
             return True
-        except ImportError:
+        except Exception:
             return False
 
     def format_code(self, code: str, **options) -> str:
@@ -138,7 +138,7 @@ class StylerFormatter(BaseFormatter):
             rpackages.importr(self.package_name)
 
             return True
-        except ImportError:
+        except Exception:
             return False
 
     def format_code(self, code: str, **options) -> str:
