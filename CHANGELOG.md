@@ -1,6 +1,20 @@
 UNRELEASED
 ==========
 
+0.5.1 2019-09-09
+==========
+
+Server extension
+----------------
+
+* Fix bug where presence of `rpy2` could cause plugin to be useless;
+
+
+Jupyterlab extension
+--------------------
+
+No change.
+
 0.5.0 2019-08-21
 ==========
 
