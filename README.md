@@ -51,11 +51,11 @@ Install at least one of them through `pip install black` for example (or its equ
 ### R
 - [formatR](https://github.com/yihui/formatR/)
     * using pip:  `pip install rpy2` and use R command to install formatR package
-    * using conda: `conda install rpy2 r-formatr`  
+    * using conda: `conda install rpy2 r-formatr`
 - [styler](https://github.com/r-lib/styler)
     * using pip:  `pip install rpy2` and use R command to install styler package
     * using conda: `conda install rpy2 r-styler`
-    
+
 ### Usage
 
 Assuming you do have one of the formatters installed in the Python environment that runs JupyterLab, some extra options would appear under `JUPYTERLAB CODE FORMATTER`, use those to apply formatting to current codecell (no multiple code cell application atm).
