@@ -102,6 +102,12 @@ For Autopep8, YAPF or Isort, simply do autopep8/yapf/isort instead of black.
 
 You might see some errors about writing grammar tables when using the black formatter on Windows, simply manually create the directory as suggested in [here](https://github.com/ryantam626/jupyterlab_code_formatter/issues/10) and you should be good to go.
 
+## Why are the commands not showing up in the command pallete?
+
+Make sure you really have one of the formatters properly installed.
+
+And also make sure you have a suitable notebook/script opened for the formatters to work on when checking if the commands are there.
+
 ## Development
 
 For a development install (requires npm version 4 or later), do the following in the repository directory:
