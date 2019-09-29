@@ -1,6 +1,21 @@
 UNRELEASED
 ==========
 
+0.5.2 2019-09-29
+==========
+
+Server extension
+----------------
+
+* Trim trialing newline for autopep8;
+
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+
 0.5.1 2019-09-09
 ==========
 
