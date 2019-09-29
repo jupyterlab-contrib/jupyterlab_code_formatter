@@ -62,7 +62,7 @@ class Autopep8Formatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from autopep8 import fix_code
 
-        return fix_code(code, options=options)
+        return fix_code(code, options=options)[:-1]
 
 
 class YapfFormatter(BaseFormatter):
