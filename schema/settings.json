@@ -4,6 +4,24 @@
     "title": "Jupyterlab Code Formatter",
     "description": "Jupyterlab Code Formatter settings.",
     "definitions": {
+        "preferences": {
+            "properties": {
+                "default_formatter": {
+                    "properties": {
+                        "python": {
+                            "type": "string"
+                        },
+                        "r": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
         "black": {
             "properties": {
                 "line_length": {
@@ -189,6 +207,17 @@
         }
     },
     "properties": {
+        "preferences": {
+            "title": "Code Formatter Preferences",
+            "description": "Preferences for this plugin",
+            "$ref": "#/definitions/preferences",
+            "default" : {
+                "default_formatter": {
+                    "python": "black",
+                    "r": "formatR"
+                }
+            }
+        },
         "black": {
             "title": "Black Config",
             "description": "Config to be passed into black's format_str function call.",
