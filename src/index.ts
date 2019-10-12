@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
 import {
-  ICommandPalette,
+  CommandToolbarButton, ICommandPalette,
 } from "@jupyterlab/apputils";
 
 import {
@@ -8,13 +8,12 @@ import {
 } from "@jupyterlab/mainmenu";
 
 import {
-  INotebookTracker,
-} from "@jupyterlab/notebook";
-
-import {
   Cell,
   CodeCell,
 } from "@jupyterlab/cells";
+import {
+    INotebookModel, INotebookTracker, NotebookPanel,
+} from "@jupyterlab/notebook";
 
 import {
   ISettingRegistry, PathExt, URLExt,
@@ -29,14 +28,20 @@ import {
 } from "@jupyterlab/application";
 
 import {
+    DocumentRegistry,
+} from "@jupyterlab/docregistry";
+import {
   IEditorTracker,
 } from "@jupyterlab/fileeditor";
+import {
+    DisposableDelegate, IDisposable,
+} from "@phosphor/disposable";
 
 import "../style/index.css";
 
 const PLUGIN_NAME = "jupyterlab_code_formatter";
 const FORMAT_COMMAND = "jupyterlab_code_foramtter:format";
-// const FORMAT_ALL_COMMAND = 'jupyterlab_code_foramtter:format_all';
+const FORMAT_ALL_COMMAND = "jupyterlab_code_foramtter:format_all";
 
 function request(
   path: string,
@@ -56,7 +61,7 @@ function request(
   });
 }
 
-class JupyterLabCodeFormatter {
+class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
   private app: JupyterFrontEnd;
   private tracker: INotebookTracker;
   private palette: ICommandPalette;
@@ -74,32 +79,43 @@ class JupyterLabCodeFormatter {
     palette: ICommandPalette, settingRegistry: ISettingRegistry,
     menu: IMainMenu, editorTracker: IEditorTracker,
   ) {
-    this.app = app;
-    this.tracker = tracker;
-    this.editorTracker = editorTracker;
-    this.palette = palette;
-    this.settingRegistry = settingRegistry;
-    this.menu = menu;
-    this.setupSettings();
-    request("formatters", "GET", null, ServerConnection.defaultSettings).then(
-      (data) => {
-        const formatters = JSON.parse(data).formatters;
-        const menuGroup: Array<{command: string}> = [];
-        Object.keys(formatters).forEach(
-          (formatter) => {
-            if (formatters[formatter].enabled) {
-              const command = `${PLUGIN_NAME}:${formatter}`;
-              this.setupButton(formatter, formatters[formatter].label, command);
-              menuGroup.push({ command });
-            }
+      this.app = app;
+      this.tracker = tracker;
+      this.editorTracker = editorTracker;
+      this.palette = palette;
+      this.settingRegistry = settingRegistry;
+      this.menu = menu;
+      this.setupSettings();
+      request("formatters", "GET", null, ServerConnection.defaultSettings).then(
+          (data) => {
+              const formatters = JSON.parse(data).formatters;
+              const menuGroup: Array<{ command: string }> = [];
+              Object.keys(formatters).forEach(
+                  (formatter) => {
+                      if (formatters[formatter].enabled) {
+                          const command = `${PLUGIN_NAME}:${formatter}`;
+                          this.setupButton(formatter, formatters[formatter].label, command);
+                          menuGroup.push({command});
+                      }
+                  },
+              );
+              this.menu.editMenu.addGroup(menuGroup);
           },
-        );
-        this.menu.editMenu.addGroup(menuGroup);
-      },
-    );
+      );
   }
 
-  public getSelectedCodeCells() {
+    public createNew(nb: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+        const btn = new CommandToolbarButton({
+            commands: this.app.commands,
+            id: FORMAT_ALL_COMMAND,
+        });
+        nb.toolbar.insertAfter("cellType", this.app.commands.label(FORMAT_ALL_COMMAND), btn);
+        return new DisposableDelegate(() => {
+            btn.dispose();
+        });
+    }
+
+  public getCodeCells(selectedOnly = true) {
       if (!this.tracker.currentWidget) {
           return [];
       }
@@ -107,20 +123,38 @@ class JupyterLabCodeFormatter {
 
       const notebook = this.tracker.currentWidget.content;
       notebook.widgets.forEach((cell: Cell) => {
-          if (notebook.isSelectedOrActive(cell) && cell.model.type === "code") {
-              cells.push(cell as CodeCell);
-          }
+          if (cell.model.type === "code") {
+              if (!selectedOnly || notebook.isSelectedOrActive(cell) ) {
+                  cells.push(cell as CodeCell);
+              }
+         }
       });
       return cells;
   }
 
   public async formatSelectedCodeCells() {
+      return this._formatCells(true);
+  }
+
+  public async formatAllCodeCells() {
+      return this._formatCells(false);
+  }
+
+  public getDefaultFormatter() {
+      const notebookType = this.getNotebookType();
+      if (notebookType) {
+          return this.config.preferences.default_formatter[notebookType];
+      }
+      return null;
+  }
+
+  private async _formatCells(selectedOnly: boolean) {
       if (this.working) {
           return;
       }
       try {
           this.working = true;
-          const selectedCells = this.getSelectedCodeCells();
+          const selectedCells =  this.getCodeCells(selectedOnly);
           if (selectedCells.length === 0) {
               this.working = false;
               return;
@@ -133,13 +167,12 @@ class JupyterLabCodeFormatter {
               const currentText = currentTexts[i];
               const formattedText = formattedTexts.code[i];
               if (cell.model.value.text === currentText) {
-                  if(formattedText.code) {
+                  if (formattedText.code) {
                       cell.model.value.text = formattedText.code;
                   } else {
-                      console.error('Could not format cell: %s due to:\n%o', currentText, formattedText.error);
+                      console.error("Could not format cell: %s due to:\n%o", currentText, formattedText.error);
                   }
               } else {
-                  // ts
                   console.error("Value changed since we formatted - skipping: %s", cell.model.value.text);
               }
           }
@@ -148,14 +181,6 @@ class JupyterLabCodeFormatter {
           console.error("Something went wrong :(\n%o", err);
       }
       this.working = false;
-  }
-
-  public getDefaultFormatter() {
-      const notebookType = this.getNotebookType();
-      if (notebookType) {
-          return this.config.preferences.default_formatter[notebookType];
-      }
-      return null;
   }
 
   private getNotebookType() {
@@ -179,7 +204,6 @@ class JupyterLabCodeFormatter {
         settings.changed.connect(onSettingsUpdated);
         onSettingsUpdated(settings);
       },
-      // tslint:disable-next-line:no-console
     ).catch((reason: Error) => console.error(reason.message));
   }
 
@@ -195,16 +219,15 @@ class JupyterLabCodeFormatter {
         const code = editor.model.value.text;
         this.formatCode([code], formatterName).then(
             (data) => {
-                if(data.code[0].error) {
+                if (data.code[0].error) {
                     throw data.code[0].error;
                 }
-              this.editorTracker.currentWidget.content.editor.model.value.text = data.code[0].code;
-              this.working = false;
+                this.editorTracker.currentWidget.content.editor.model.value.text = data.code[0].code;
+                this.working = false;
             },
         ).catch(
           (err) => {
             this.working = false;
-            // tslint:disable-next-line:no-console
             console.error("Something went wrong :(:\n%o", err);
           },
         );
@@ -213,16 +236,15 @@ class JupyterLabCodeFormatter {
         const code = this.tracker.activeCell.model.value.text;
         this.formatCode([code], formatterName).then(
             (data) => {
-                if(data.code[0].error) {
+                if (data.code[0].error) {
                     throw data.code[0].error;
                 }
-              this.tracker.activeCell.model.value.text = data.code[0].code;
-              this.working = false;
+                this.tracker.activeCell.model.value.text = data.code[0].code;
+                this.working = false;
             },
         ).catch(
           (err) => {
             this.working = false;
-            // tslint:disable-next-line:no-console
             console.error("Something went wrong :(:\n%o", err);
           },
         );
@@ -275,15 +297,22 @@ const extension: JupyterFrontEndPlugin<void> = {
     tracker: INotebookTracker, settingRegistry: ISettingRegistry,
     menu: IMainMenu, editorTracker: IEditorTracker,
   ) => {
-    // tslint:disable-next-line:no-unused-expression
     const jlcf = new JupyterLabCodeFormatter(app, tracker, palette, settingRegistry, menu, editorTracker);
+    app.docRegistry.addWidgetExtension("Notebook", jlcf);
 
     app.commands.addCommand(FORMAT_COMMAND, {
-        execute: async () => {
-          await jlcf.formatSelectedCodeCells();
-        },
-        isVisible: () => jlcf.getDefaultFormatter() && jlcf.getSelectedCodeCells().length > 0,
-        label: "Format cell",
+          execute: async () => {
+              await jlcf.formatSelectedCodeCells();
+          },
+          isVisible: () => jlcf.getDefaultFormatter() && jlcf.getCodeCells().length > 0,
+          label: "Format cell",
+      });
+    app.commands.addCommand(FORMAT_ALL_COMMAND, {
+          execute: async () => {
+              await jlcf.formatAllCodeCells();
+          },
+          isVisible: () => jlcf.getDefaultFormatter(),
+          label: "Format notebook",
       });
     app.contextMenu.addItem({ command: FORMAT_COMMAND, selector: ".jp-Notebook" });
   },
