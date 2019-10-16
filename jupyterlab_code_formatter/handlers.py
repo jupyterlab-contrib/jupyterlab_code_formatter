@@ -62,7 +62,13 @@ class FormatAPIHandler(APIHandler):
             self.set_status(404, "Formatter not found!")
             self.finish()
         else:
-            formatted_code = formatter_instance.format_code(
-                data["code"], **(data["options"] or {})
-            )
-            self.finish(json.dumps(formatted_code))
+            options = data["options"] or {}
+            formatted_code = []
+            for code in data["code"]:
+                try:
+                    formatted_code.append({
+                        'code': formatter_instance.format_code(code, **options)
+                    })
+                except Exception as e:
+                    formatted_code.append({"error": str(e)})
+            self.finish(json.dumps({'code': formatted_code}))
