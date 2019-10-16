@@ -1,6 +1,23 @@
 UNRELEASED
 ==========
 
+0.6.0 2019-10-16
+==========
+
+Server extension
+----------------
+
+* Support formatting multiple code cell at the same time - courtesy of mlucool;
+* Return formatting error if they exists - courtesy of mlucool;
+
+
+Jupyterlab extension
+--------------------
+
+* Add `jupyterlab_code_foramtter:format` command and context menu button - courtesy of mlucool;
+* Add `jupyterlab_code_foramtter:format_all` command and command tools bar button - courtesy of mlucool;
+
+
 0.5.2 2019-09-29
 ==========
 

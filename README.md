@@ -58,7 +58,9 @@ Install at least one of them through `pip install black` for example (or its equ
 
 ### Usage
 
-Assuming you do have one of the formatters installed in the Python environment that runs JupyterLab, some extra options would appear under `JUPYTERLAB CODE FORMATTER`, use those to apply formatting to current codecell (no multiple code cell application atm).
+Assuming you do have one of the formatters installed in the Python environment that runs JupyterLab, some extra options would appear under `JUPYTERLAB CODE FORMATTER`, use those to apply formatting to current codecell.
+
+For mass application of formatter, you will need to use `Format Cell` found in the context menu (right click on notebook), or `Format Notebook` on the command tools bar, you might need to configure your default formatters for this to work like you intended (see the "Configs" section below).
 
 ### Configs
 
@@ -75,6 +77,19 @@ There are some formatter config exposed through the Jupyter Lab Advanced Setting
     }
 }
 ```
+
+In order to use the `jupyterlab_code_formatter:format` and `jupyterlab_code_formatter:format_all` commands with your favourite formatters, you might need to configure your default formatters, for example:
+```
+{
+    "preferences": {
+        "default_formatter": {
+            "python": "autopep8",
+            "r": "styler"
+        }
+    }
+}
+```
+
 ### How about a keyboard shortcut?
 
 Assuming you are using `jupyterlab>=1.0.0`,  you can add an extra entry to your keyboard shortcuts settings with something like
@@ -97,6 +112,8 @@ Assuming you are using `jupyterlab>=1.0.0`,  you can add an extra entry to your 
 This basically says "Under edit mode (detected through the selector), using the chord Ctrl K + Ctrl M, invoke the `jupyterlab_code_formatter:black` command". And there you have it :tada:
 
 For Autopep8, YAPF or Isort, simply do autopep8/yapf/isort instead of black.
+
+For the mass application of formatters, the commands would be `jupyterlab_code_formatter:format` and `jupyterlab_code_formatter:format_all`, again please check out the "Configs" section to see how to choose the correct formatter.
 
 ## Using the Black formatter on Windows
 
