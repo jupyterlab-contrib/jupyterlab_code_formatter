@@ -36,7 +36,7 @@ class BlackFormatter(BaseFormatter):
 
         has_semicolon = code.strip().endswith(";")
         
-        code = re.sub("^%", "#%#", original_code, flags=re.M)
+        code = re.sub("^%", "#%#", code, flags=re.M)
 
         if black.__version__ >= '19.3b0':
             code = black.format_str(code, mode=black.FileMode(**options))[:-1]
