@@ -1,6 +1,21 @@
 UNRELEASED
 ==========
 
+0.6.1 2019-10-23
+==========
+
+Server extension
+----------------
+
+* Retain semicolon after black's formatting action - courtesy of dfm;
+
+
+Jupyterlab extension
+--------------------
+
+No Change.
+
+
 0.6.0 2019-10-16
 ==========
 
