@@ -35,7 +35,7 @@ class BlackFormatter(BaseFormatter):
         import black
 
         has_semicolon = code.strip().endswith(";")
-        
+
         code = re.sub("^%", "#%#", code, flags=re.M)
 
         if black.__version__ >= '19.3b0':
@@ -47,7 +47,7 @@ class BlackFormatter(BaseFormatter):
 
         if has_semicolon:
             code += ";"
-        
+
         return code
 
 
