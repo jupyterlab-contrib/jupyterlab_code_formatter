@@ -46,6 +46,7 @@ For `jupyterlab_code_formatter` to work, you would also need some formatters, th
 - YAPF;
 - Autopep8;
 - Isort;
+
 Install at least one of them through `pip install black` for example (or its equivalent in other package management systems).
 
 ### R
