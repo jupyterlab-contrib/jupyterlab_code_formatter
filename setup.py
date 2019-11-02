@@ -9,5 +9,5 @@ setuptools.setup(
     author="Ryan Tam",
     author_email="ryantam626@gmail.com",
     license="MIT",
-    install_requires=["notebook"],
+    install_requires=["notebook", "packaging"],
 )
