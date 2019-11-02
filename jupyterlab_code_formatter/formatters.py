@@ -1,4 +1,5 @@
 import abc
+import copy
 import re
 
 from packaging import version
