@@ -196,10 +196,16 @@
         "styler": {
             "properties": {
                 "scope": {
-                    "type": "boolean"
+                    "type": "string"
                 },
                 "strict": {
                     "type": "boolean"
+                },
+                "math_token_spacing": {
+                    "type": "object"
+                },
+                "reindention": {
+                    "type": "object"
                 }
             },
             "additionalProperties": false,

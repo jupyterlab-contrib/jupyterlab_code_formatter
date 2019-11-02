@@ -161,8 +161,24 @@ class StylerFormatter(BaseFormatter):
         import rpy2.robjects.packages as rpackages
 
         styler_r = rpackages.importr(self.package_name)
-        formatted_code = styler_r.style_text(code, **options)
+        formatted_code = styler_r.style_text(code, **self._transform_options(options))
         return "\n".join(formatted_code)
+
+    @staticmethod
+    def _transform_options(options):
+        transformed_options = copy.deepcopy(options)
+
+        if "math_token_spacing" in transformed_options:
+            transformed_options["math_token_spacing"] = rpy2.robjects.ListVector(
+                transformed_options["math_token_spacing"]
+            )
+
+        if "reindention" in transformed_options:
+            transformed_options["reindention"] = rpy2.robjects.ListVector(
+                transformed_options["reindention"]
+            )
+
+        return transformed_options
 
 
 SERVER_FORMATTERS = {
