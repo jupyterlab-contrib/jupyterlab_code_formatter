@@ -86,7 +86,7 @@ class YapfFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from yapf.yapflib.yapf_api import FormatCode
 
-        return FormatCode(code, **options)[0]
+        return FormatCode(code, **options)[0][:-1]
 
 
 class IsortFormatter(BaseFormatter):
