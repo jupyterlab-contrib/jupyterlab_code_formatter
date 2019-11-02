@@ -2,7 +2,7 @@ UNRELEASED
 ==========
 
 0.6.1 2019-10-23
-==========
+================
 
 Server extension
 ----------------
@@ -17,7 +17,7 @@ No Change.
 
 
 0.6.0 2019-10-16
-==========
+================
 
 Server extension
 ----------------
@@ -34,7 +34,7 @@ Jupyterlab extension
 
 
 0.5.2 2019-09-29
-==========
+================
 
 Server extension
 ----------------
@@ -49,7 +49,7 @@ No change.
 
 
 0.5.1 2019-09-09
-==========
+================
 
 Server extension
 ----------------
@@ -63,7 +63,7 @@ Jupyterlab extension
 No change.
 
 0.5.0 2019-08-21
-==========
+================
 
 Server extension
 ----------------
@@ -76,7 +76,7 @@ Jupyterlab extension
 * Support `styler` - Another R code formatter - courtesy of dev-wei;
 
 0.4.0 2019-08-19
-==========
+================
 
 Server extension
 ----------------
@@ -89,7 +89,7 @@ Jupyterlab extension
 * Support `formatr` - A R code formatter - courtesy of dev-wei;
 
 0.3.0 2019-07-10
-==========
+================
 
 General
 -------
