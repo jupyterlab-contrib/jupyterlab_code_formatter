@@ -1,6 +1,23 @@
 UNRELEASED
 ==========
 
+0.7.0 2019-11-02
+================
+
+Server extension
+----------------
+
+* Support more styler options;
+* Fix bad string comparsion of version strings;
+* Compile regex once only;
+
+
+Jupyterlab extension
+--------------------
+
+* Support more styler options;
+* Fix bad capitalisation of config schema;
+
 0.6.1 2019-10-23
 ================
 
