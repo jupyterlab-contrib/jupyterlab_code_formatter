@@ -1,8 +1,12 @@
 import abc
 import re
 
+from packaging import version
+
+
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^#%#", flags=re.M)
+VERSION_BLACK_LEGACY = version.parse("19.3b0")
 
 
 class BaseFormatter:
@@ -41,7 +45,7 @@ class BlackFormatter(BaseFormatter):
 
         code = re.sub(MAGIC_COMMAND_RE, "#%#", code)
 
-        if black.__version__ >= "19.3b0":
+        if version.parse(black.__version__) >= VERSION_BLACK_LEGACY:
             code = black.format_str(code, mode=black.FileMode(**options))[:-1]
         else:
             code = black.format_str(code, **options)[:-1]
