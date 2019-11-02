@@ -66,9 +66,9 @@ class FormatAPIHandler(APIHandler):
             formatted_code = []
             for code in data["code"]:
                 try:
-                    formatted_code.append({
-                        'code': formatter_instance.format_code(code, **options)
-                    })
+                    formatted_code.append(
+                        {"code": formatter_instance.format_code(code, **options)}
+                    )
                 except Exception as e:
                     formatted_code.append({"error": str(e)})
-            self.finish(json.dumps({'code': formatted_code}))
+            self.finish(json.dumps({"code": formatted_code}))

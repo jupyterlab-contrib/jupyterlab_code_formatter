@@ -41,7 +41,7 @@ class BlackFormatter(BaseFormatter):
 
         code = re.sub(MAGIC_COMMAND_RE, "#%#", code)
 
-        if black.__version__ >= '19.3b0':
+        if black.__version__ >= "19.3b0":
             code = black.format_str(code, mode=black.FileMode(**options))[:-1]
         else:
             code = black.format_str(code, **options)[:-1]
@@ -120,6 +120,7 @@ class FormatRFormatter(BaseFormatter):
     def importable(self) -> bool:
         try:
             import rpy2.robjects.packages as rpackages
+
             rpackages.importr(self.package_name, robject_translations={".env": "env"})
 
             return True
@@ -129,7 +130,9 @@ class FormatRFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
-        format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
+        format_r = rpackages.importr(
+            self.package_name, robject_translations={".env": "env"}
+        )
         formatted_code = format_r.tidy_source(text=code, output=False, **options)
         return "\n".join(formatted_code[0])
 
@@ -143,6 +146,7 @@ class StylerFormatter(BaseFormatter):
     def importable(self) -> bool:
         try:
             import rpy2.robjects.packages as rpackages
+
             rpackages.importr(self.package_name)
 
             return True
@@ -163,5 +167,5 @@ SERVER_FORMATTERS = {
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
     "formatR": FormatRFormatter(),
-    "styler": StylerFormatter()
+    "styler": StylerFormatter(),
 }
