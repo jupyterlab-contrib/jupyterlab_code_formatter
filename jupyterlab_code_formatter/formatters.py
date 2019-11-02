@@ -1,6 +1,9 @@
 import abc
 import re
 
+MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
+COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^#%#", flags=re.M)
+
 
 class BaseFormatter:
     @property
@@ -36,14 +39,14 @@ class BlackFormatter(BaseFormatter):
 
         has_semicolon = code.strip().endswith(";")
 
-        code = re.sub("^%", "#%#", code, flags=re.M)
+        code = re.sub(MAGIC_COMMAND_RE, "#%#", code)
 
         if black.__version__ >= '19.3b0':
             code = black.format_str(code, mode=black.FileMode(**options))[:-1]
         else:
             code = black.format_str(code, **options)[:-1]
 
-        code = re.sub("^#%#", "%", code, flags=re.M)
+        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%")
 
         if has_semicolon:
             code += ";"
