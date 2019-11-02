@@ -51,7 +51,7 @@ class BlackFormatter(BaseFormatter):
         else:
             code = black.format_str(code, **options)[:-1]
 
-        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%")
+        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
 
         if has_semicolon:
             code += ";"
