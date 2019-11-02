@@ -85,7 +85,7 @@ In order to use the `jupyterlab_code_formatter:format` and `jupyterlab_code_form
     "preferences": {
         "default_formatter": {
             "python": "autopep8",
-            "r": "styler"
+            "R": "styler"
         }
     }
 }
