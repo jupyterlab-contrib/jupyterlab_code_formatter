@@ -42,6 +42,7 @@ import "../style/index.css";
 const PLUGIN_NAME = "jupyterlab_code_formatter";
 const FORMAT_COMMAND = "jupyterlab_code_foramtter:format";
 const FORMAT_ALL_COMMAND = "jupyterlab_code_foramtter:format_all";
+const ICON_FORMAT_ALL = 'fa fa-superpowers';
 
 function request(
   path: string,
@@ -312,7 +313,8 @@ const extension: JupyterFrontEndPlugin<void> = {
               await jlcf.formatAllCodeCells();
           },
           isVisible: () => jlcf.getDefaultFormatter(),
-          label: "Format notebook",
+          iconClass: ICON_FORMAT_ALL,
+          iconLabel: "Format notebook",
       });
     app.contextMenu.addItem({ command: FORMAT_COMMAND, selector: ".jp-Notebook" });
   },
