@@ -11,3 +11,9 @@ __pycache__/
 .idea/
 
 .vscode/
+
+*.swp
+venv/
+
+**/.hypothesis/
+.Rhistory
