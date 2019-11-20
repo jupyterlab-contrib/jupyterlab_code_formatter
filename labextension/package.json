@@ -29,6 +29,7 @@
     "clean": "rimraf lib",
     "watch": "tsc -w",
     "format": "tslint --fix src/*.ts",
+    "lint": "tslint src/*.ts",
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
