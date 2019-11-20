@@ -2,6 +2,8 @@ import abc
 import copy
 import re
 
+import rpy2
+import rpy2.robjects
 from packaging import version
 
 
