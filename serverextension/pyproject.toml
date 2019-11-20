@@ -16,3 +16,6 @@ rpy2 = "^3.2"
 black = {version = "^18.3-alpha.0", allows-prereleases = true}
 packaging = "^19.2"
 rpy2 = "^3.2"
+autopep8 = "^1.4"
+yapf = "^0.28.0"
+isort = "^4.3"
