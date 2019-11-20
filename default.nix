@@ -8,6 +8,9 @@ stdenv.mkDerivation {
     python37Packages.poetry
     python37Packages.virtualenv
     python37Full
+    R
+    rPackages.styler
+    rPackages.formatR
     nodejs-12_x
     gnumake
   ];
