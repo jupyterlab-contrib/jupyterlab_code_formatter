@@ -9,7 +9,6 @@ from packaging import version
 
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^#%#", flags=re.M)
-VERSION_BLACK_LEGACY = version.parse("19.3b0")
 
 
 class BaseFormatter:
@@ -41,18 +40,24 @@ class BlackFormatter(BaseFormatter):
         except ImportError:
             return False
 
+    @staticmethod
+    def handle_options(**options):
+        import black
+
+        file_mode_change_version = version.parse("19.3b0")
+        current_black_version = version.parse(black.__version__)
+        if current_black_version >= file_mode_change_version:
+            return {"mode": black.FileMode(**options)}
+        else:
+            return options
+
     def format_code(self, code: str, **options) -> str:
         import black
 
         has_semicolon = code.strip().endswith(";")
 
         code = re.sub(MAGIC_COMMAND_RE, "#%#", code)
-
-        if version.parse(black.__version__) >= VERSION_BLACK_LEGACY:
-            code = black.format_str(code, mode=black.FileMode(**options))[:-1]
-        else:
-            code = black.format_str(code, **options)[:-1]
-
+        code = black.format_str(code, **self.handle_options(**options))[:-1]
         code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
 
         if has_semicolon:
