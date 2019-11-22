@@ -7,6 +7,7 @@ stdenv.mkDerivation {
     python37Packages.pip
     python37Packages.poetry
     python37Packages.virtualenv
+    python37Packages.rpy2
     python37Full
     R
     rPackages.styler
