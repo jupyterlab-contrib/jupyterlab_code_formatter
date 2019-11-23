@@ -136,3 +136,24 @@ class TestHandlers(NotebookTestBase):
         assert (
             json_result["code"][0]["error"] == "Cannot parse: 1:13: this_is_bad = 'hihi"
         )
+
+    def test_can_handle_magic(self):
+        """Check that it's fine to run formatters for code with magic."""
+        given = "%%timeit\nsome_string='abc'"
+        expected = "%%timeit\nsome_string = 'abc'"
+
+        response = self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {
+                    "code": [given],
+                    "options": {"line_length": 123, "string_normalization": False},
+                    "formatter": "black",
+                }
+            ),
+        )
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        assert response.json()["code"][0]["code"] == expected
