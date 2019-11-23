@@ -13,7 +13,7 @@ dev-install-serverextension:  ## Use poetry to install the server extension in d
 		jupyter serverextension enable --py jupyterlab_code_formatter
 
 dev-install-labextension:  ## Use npm to install the lab extension in dev mode
-	cd labextension && \
+	cd $(LABEXTENSION_PATH) && \
 		npm install && \
 		npm run build && \
 		jupyter labextension link . && \
@@ -22,24 +22,24 @@ dev-install-labextension:  ## Use npm to install the lab extension in dev mode
 dev-install: dev-install-serverextension dev-install-labextension  ## Install both lab and server extension in dev mode
 
 dev-watch-labextension:  ## Recompile labextension on changes
-	cd labextension && \
+	cd $LABEXTENSION_PATH && \
 		npm run watch
 
 dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
 	jupyter lab --watch
 
 remove-dev-env:  # Remove all dev env dirs
-	(rm -rf labextension/node_modules || echo "No node modules") && \
+	(rm -rf $(LABEXTENSION_PATH)/node_modules || echo "No node modules") && \
 		(rm -rf venv || echo "No venv")
 
 lint:  # Run linters
 	find serverextension -name '*.py' | xargs black --check && \
-		cd labextension && \
+		cd $(LABEXTENSION_PATH) && \
 		npm run lint
 
 format:  # Run formatterse
 	find serverextension -name '*.py' | xargs black && \
-		cd labextension && \
+		cd $(LABEXTENSION_PATH) && \
 		npm run format
 
 test:  # Run test
