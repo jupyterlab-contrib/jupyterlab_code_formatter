@@ -28,16 +28,16 @@ dev-watch-labextension:  ## Recompile labextension on changes
 dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
 	jupyter lab --watch
 
-remove-dev-env:
+remove-dev-env:  # Remove all dev env dirs
 	(rm -rf labextension/node_modules || echo "No node modules") && \
 		(rm -rf venv || echo "No venv")
 
-lint:
+lint:  # Run linters
 	find serverextension -name '*.py' | xargs black --check && \
 		cd labextension && \
 		npm run lint
 
-format:
+format:  # Run formatterse
 	find serverextension -name '*.py' | xargs black && \
 		cd labextension && \
 		npm run format
