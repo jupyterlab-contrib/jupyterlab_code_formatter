@@ -31,6 +31,8 @@ stdenv.mkDerivation {
     echo -e "''${YELLOW}Installing poetry...''${NC}"
     curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
 
-    export PATH=$PWD/labextension/node_modules/.bin/:$PATH
+    export LABEXTENSION_PATH=$PWD/labextension/packages/jupyterlab-code-formatter
+    export LABEXTENSION_TESTS_PATH=$PWD/labextension/tests/test-jupyterlab-code-formatter
+    export PATH=$LABEXTENSION_PATH/node_modules/.bin/:$LABEXTENSION_TESTS_PATH/node_modules/.bin/:$PATH
   '';
 }
