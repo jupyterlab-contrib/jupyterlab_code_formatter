@@ -41,3 +41,6 @@ format:  # Run formatterse
 	find serverextension -name '*.py' | xargs black && \
 		cd labextension && \
 		npm run format
+
+test:  # Run test
+	pytest
