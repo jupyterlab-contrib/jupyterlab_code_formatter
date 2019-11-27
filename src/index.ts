@@ -40,8 +40,8 @@ import {
 import "../style/index.css";
 
 const PLUGIN_NAME = "jupyterlab_code_formatter";
-const FORMAT_COMMAND = "jupyterlab_code_foramtter:format";
-const FORMAT_ALL_COMMAND = "jupyterlab_code_foramtter:format_all";
+const FORMAT_COMMAND = "jupyterlab_code_formatter:format";
+const FORMAT_ALL_COMMAND = "jupyterlab_code_formatter:format_all";
 const ICON_FORMAT_ALL = 'fa fa-superpowers';
 
 function request(
