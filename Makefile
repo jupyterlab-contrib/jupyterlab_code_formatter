@@ -44,3 +44,4 @@ format:  # Run formatterse
 
 test:  # Run test
 	pytest
+	cd $(LABEXTENSION_TESTS_PATH) && npm run test
