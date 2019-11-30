@@ -22,7 +22,7 @@ dev-install-labextension:  ## Use npm to install the lab extension in dev mode
 dev-install: dev-install-serverextension dev-install-labextension  ## Install both lab and server extension in dev mode
 
 dev-watch-labextension:  ## Recompile labextension on changes
-	cd $LABEXTENSION_PATH && \
+	cd $(LABEXTENSION_PATH) && \
 		npm run watch
 
 dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
