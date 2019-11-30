@@ -8,6 +8,8 @@ stdenv.mkDerivation {
     python37Packages.poetry
     python37Packages.virtualenv
     python37Packages.rpy2
+    python37Packages.sphinx
+    python37Packages.sphinx_rtd_theme
     python37Full
     R
     rPackages.styler
