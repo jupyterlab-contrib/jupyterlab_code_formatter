@@ -1,54 +1,24 @@
-/* tslint:disable:no-console */
-import { CommandToolbarButton, ICommandPalette } from '@jupyterlab/apputils';
-
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
-import { Cell, CodeCell } from '@jupyterlab/cells';
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 import {
   INotebookModel,
   INotebookTracker,
   NotebookPanel
 } from '@jupyterlab/notebook';
-
-import { ISettingRegistry, PathExt, URLExt } from '@jupyterlab/coreutils';
-
-import { ServerConnection } from '@jupyterlab/services';
-
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
-import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { CommandToolbarButton, ICommandPalette } from '@jupyterlab/apputils';
+import { ISettingRegistry } from '@jupyterlab/coreutils';
+import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
+import JupyterlabCodeFormatterClient from './client';
+import {
+  JupyterlabFileEditorCodeFormatter,
+  JupyterlabNotebookCodeFormatter
+} from './formatter';
 import { DisposableDelegate, IDisposable } from '@phosphor/disposable';
-
-import '../style/index.css';
-
-const PLUGIN_NAME = 'jupyterlab_code_formatter';
-const FORMAT_COMMAND = 'jupyterlab_code_foramtter:format';
-const FORMAT_ALL_COMMAND = 'jupyterlab_code_foramtter:format_all';
-const ICON_FORMAT_ALL = 'fa fa-superpowers';
-
-function request(
-  path: string,
-  method: string,
-  body: any,
-  settings: ServerConnection.ISettings
-): Promise<any> {
-  const fullUrl = URLExt.join(settings.baseUrl, PLUGIN_NAME, path);
-
-  return ServerConnection.makeRequest(fullUrl, { body, method }, settings).then(
-    response => {
-      if (response.status !== 200) {
-        return response.text().then(data => {
-          throw new ServerConnection.ResponseError(response, data);
-        });
-      }
-      return response.text();
-    }
-  );
-}
+import { Constants } from './constants';
 
 class JupyterLabCodeFormatter
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
@@ -59,14 +29,9 @@ class JupyterLabCodeFormatter
   private menu: IMainMenu;
   private config: any;
   private editorTracker: IEditorTracker;
-
-  private working = false;
-  private pythonCommands = ['black', 'yapf', 'autopep8', 'isort'].map(
-    name => `${PLUGIN_NAME}:${name}`
-  );
-  private rCommands = ['formatR', 'styler'].map(
-    name => `${PLUGIN_NAME}:${name}`
-  );
+  private client: JupyterlabCodeFormatterClient;
+  private notebookCodeFormatter: JupyterlabNotebookCodeFormatter;
+  private fileEditorCodeFormatter: JupyterlabFileEditorCodeFormatter;
 
   constructor(
     app: JupyterFrontEnd,
@@ -82,21 +47,20 @@ class JupyterLabCodeFormatter
     this.palette = palette;
     this.settingRegistry = settingRegistry;
     this.menu = menu;
-    this.setupSettings();
-    request('formatters', 'GET', null, ServerConnection.defaultSettings).then(
-      data => {
-        const formatters = JSON.parse(data).formatters;
-        const menuGroup: Array<{ command: string }> = [];
-        Object.keys(formatters).forEach(formatter => {
-          if (formatters[formatter].enabled) {
-            const command = `${PLUGIN_NAME}:${formatter}`;
-            this.setupButton(formatter, formatters[formatter].label, command);
-            menuGroup.push({ command });
-          }
-        });
-        this.menu.editMenu.addGroup(menuGroup);
-      }
+    this.client = new JupyterlabCodeFormatterClient();
+    this.notebookCodeFormatter = new JupyterlabNotebookCodeFormatter(
+      this.client,
+      this.tracker
     );
+    this.fileEditorCodeFormatter = new JupyterlabFileEditorCodeFormatter(
+      this.client,
+      this.editorTracker
+    );
+
+    this.setupSettings();
+    this.setupAllCommands();
+    this.setupContentMenu();
+    this.setupWidgetExtension();
   }
 
   public createNew(
@@ -105,11 +69,11 @@ class JupyterLabCodeFormatter
   ): IDisposable {
     const btn = new CommandToolbarButton({
       commands: this.app.commands,
-      id: FORMAT_ALL_COMMAND
+      id: Constants.FORMAT_ALL_COMMAND
     });
     nb.toolbar.insertAfter(
       'cellType',
-      this.app.commands.label(FORMAT_ALL_COMMAND),
+      this.app.commands.label(Constants.FORMAT_ALL_COMMAND),
       btn
     );
     return new DisposableDelegate(() => {
@@ -117,96 +81,51 @@ class JupyterLabCodeFormatter
     });
   }
 
-  public getCodeCells(selectedOnly = true) {
-    if (!this.tracker.currentWidget) {
-      return [];
-    }
-    const cells: CodeCell[] = [];
+  private setupWidgetExtension() {
+    this.app.docRegistry.addWidgetExtension('Notebook', this);
+  }
 
-    const notebook = this.tracker.currentWidget.content;
-    notebook.widgets.forEach((cell: Cell) => {
-      if (cell.model.type === 'code') {
-        if (!selectedOnly || notebook.isSelectedOrActive(cell)) {
-          cells.push(cell as CodeCell);
-        }
-      }
+  private setupContentMenu() {
+    this.app.contextMenu.addItem({
+      command: Constants.FORMAT_COMMAND,
+      selector: '.jp-Notebook'
     });
-    return cells;
   }
 
-  public async formatSelectedCodeCells() {
-    return this._formatCells(true);
-  }
-
-  public async formatAllCodeCells() {
-    return this._formatCells(false);
-  }
-
-  public getDefaultFormatter() {
-    const notebookType = this.getNotebookType();
-    if (notebookType) {
-      return this.config.preferences.default_formatter[notebookType];
-    }
-    return null;
-  }
-
-  private async _formatCells(selectedOnly: boolean) {
-    if (this.working) {
-      return;
-    }
-    try {
-      this.working = true;
-      const selectedCells = this.getCodeCells(selectedOnly);
-      if (selectedCells.length === 0) {
-        this.working = false;
-        return;
-      }
-      const currentTexts = selectedCells.map(cell => cell.model.value.text);
-      const formatter = this.getDefaultFormatter();
-      const formattedTexts = await this.formatCode(currentTexts, formatter);
-      for (let i = 0; i < selectedCells.length; ++i) {
-        const cell = selectedCells[i];
-        const currentText = currentTexts[i];
-        const formattedText = formattedTexts.code[i];
-        if (cell.model.value.text === currentText) {
-          if (formattedText.code) {
-            cell.model.value.text = formattedText.code;
-          } else {
-            console.error(
-              'Could not format cell: %s due to:\n%o',
-              currentText,
-              formattedText.error
-            );
-          }
-        } else {
-          console.error(
-            'Value changed since we formatted - skipping: %s',
-            cell.model.value.text
-          );
+  private setupAllCommands() {
+    this.client.getAvailableFormatters().then(data => {
+      const formatters = JSON.parse(data).formatters;
+      const menuGroup: Array<{ command: string }> = [];
+      Object.keys(formatters).forEach(formatter => {
+        if (formatters[formatter].enabled) {
+          const command = `${Constants.SHORT_PLUGIN_NAME}:${formatter}`;
+          this.setupCommand(formatter, formatters[formatter].label, command);
+          menuGroup.push({ command });
         }
-      }
-    } catch (err) {
-      console.error('Something went wrong :(\n%o', err);
-    }
-    this.working = false;
-  }
+      });
+      this.menu.editMenu.addGroup(menuGroup);
+    });
 
-  private getNotebookType() {
-    if (this.tracker.currentWidget) {
-      const metadata = this.tracker.currentWidget.content.model.metadata.toJSON();
-      if (metadata && metadata.kernelspec) {
-        // @ts-ignore
-        return metadata.kernelspec.language;
-      }
-    }
-    return null;
+    this.app.commands.addCommand(Constants.FORMAT_COMMAND, {
+      execute: async () => {
+        await this.notebookCodeFormatter.formatSelectedCodeCells(this.config);
+      },
+      // TODO: Add back isVisible
+      label: 'Format cell'
+    });
+    this.app.commands.addCommand(Constants.FORMAT_ALL_COMMAND, {
+      execute: async () => {
+        await this.notebookCodeFormatter.formatAllCodeCells(this.config);
+      },
+      iconClass: Constants.ICON_FORMAT_ALL,
+      iconLabel: 'Format notebook'
+      // TODO: Add back isVisible
+    });
   }
 
   private setupSettings() {
     const self = this;
-    Promise.all([
-      this.settingRegistry.load(`@ryantam626/${PLUGIN_NAME}:settings`)
-    ])
+    Promise.all([this.settingRegistry.load(Constants.SETTINGS_SECTION)])
       .then(([settings]) => {
         function onSettingsUpdated(jsettings: ISettingRegistry.ISettings) {
           self.config = jsettings.composite;
@@ -217,93 +136,36 @@ class JupyterLabCodeFormatter
       .catch((reason: Error) => console.error(reason.message));
   }
 
-  private maybeFormatCodecell(formatterName: string) {
-    // TODO: Check current kernel is of appropriate kernel
-    const editorWidget = this.editorTracker.currentWidget;
-    if (this.working) {
-      return;
-    }
-    if (
-      editorWidget &&
-      editorWidget.content !== null &&
-      editorWidget.content.isVisible
-    ) {
-      this.working = true;
-      const editor = editorWidget.content.editor;
-      const code = editor.model.value.text;
-      this.formatCode([code], formatterName)
-        .then(data => {
-          if (data.code[0].error) {
-            throw data.code[0].error;
-          }
-          this.editorTracker.currentWidget.content.editor.model.value.text =
-            data.code[0].code;
-          this.working = false;
-        })
-        .catch(err => {
-          this.working = false;
-          console.error('Something went wrong :(:\n%o', err);
-        });
-    } else if (this.tracker.activeCell instanceof CodeCell) {
-      this.working = true;
-      const code = this.tracker.activeCell.model.value.text;
-      this.formatCode([code], formatterName)
-        .then(data => {
-          if (data.code[0].error) {
-            throw data.code[0].error;
-          }
-          this.tracker.activeCell.model.value.text = data.code[0].code;
-          this.working = false;
-        })
-        .catch(err => {
-          this.working = false;
-          console.error('Something went wrong :(:\n%o', err);
-        });
-    }
-  }
-
-  private formatCode(code: string[], formatter: string) {
-    return request(
-      'format',
-      'POST',
-      JSON.stringify({
-        code,
-        formatter,
-        options: this.config[formatter]
-      }),
-      ServerConnection.defaultSettings
-    ).then(resp => JSON.parse(resp));
-  }
-
-  private setupButton(name: string, label: string, command: string) {
+  private setupCommand(name: string, label: string, command: string) {
     this.app.commands.addCommand(command, {
-      execute: () => {
-        this.maybeFormatCodecell(name);
+      execute: async () => {
+        for (let formatter of [
+          this.notebookCodeFormatter,
+          this.fileEditorCodeFormatter
+        ]) {
+          console.log(
+            formatter,
+            formatter.applicable(name, this.app.shell.currentWidget)
+          );
+          if (formatter.applicable(name, this.app.shell.currentWidget)) {
+            await formatter.formatAction(this.config, name);
+          }
+        }
       },
       isVisible: () => {
-        const widget = this.app.shell.currentWidget;
-        // TODO: handle other languages other than Python
-        const editorWidget = this.editorTracker.currentWidget;
-        const notebookWidget = this.tracker.currentWidget;
-
-        return (
-          widget &&
-          ((this.pythonCommands.some(cmd => cmd === command) &&
-            editorWidget &&
-            widget === editorWidget &&
-            PathExt.extname(editorWidget.context.path).toLowerCase() ===
-              '.py') ||
-            (this.rCommands.some(cmd => cmd === command) &&
-              editorWidget &&
-              widget === editorWidget &&
-              PathExt.extname(editorWidget.context.path).toLowerCase() ===
-                '.r') ||
-            (notebookWidget && widget === notebookWidget))
-        );
+        for (let formatter of [
+          this.notebookCodeFormatter,
+          this.fileEditorCodeFormatter
+        ]) {
+          if (formatter.applicable(name, this.app.shell.currentWidget)) {
+            return true;
+          }
+        }
+        return false;
       },
       label
     });
-    this.palette.addItem({ command, category: 'JupyterLab Code Formatter' });
+    this.palette.addItem({ command, category: Constants.COMMAND_SECTION_NAME });
   }
 }
 
@@ -319,7 +181,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu,
     editorTracker: IEditorTracker
   ) => {
-    const jlcf = new JupyterLabCodeFormatter(
+    new JupyterLabCodeFormatter(
       app,
       tracker,
       palette,
@@ -327,31 +189,9 @@ const extension: JupyterFrontEndPlugin<void> = {
       menu,
       editorTracker
     );
-    app.docRegistry.addWidgetExtension('Notebook', jlcf);
-
-    app.commands.addCommand(FORMAT_COMMAND, {
-      execute: async () => {
-        await jlcf.formatSelectedCodeCells();
-      },
-      isVisible: () =>
-        jlcf.getDefaultFormatter() && jlcf.getCodeCells().length > 0,
-      label: 'Format cell'
-    });
-    app.commands.addCommand(FORMAT_ALL_COMMAND, {
-      execute: async () => {
-        await jlcf.formatAllCodeCells();
-      },
-      iconClass: ICON_FORMAT_ALL,
-      iconLabel: 'Format notebook',
-      isVisible: () => jlcf.getDefaultFormatter()
-    });
-    app.contextMenu.addItem({
-      command: FORMAT_COMMAND,
-      selector: '.jp-Notebook'
-    });
   },
   autoStart: true,
-  id: PLUGIN_NAME,
+  id: Constants.SHORT_PLUGIN_NAME,
   requires: [
     ICommandPalette,
     INotebookTracker,
