@@ -16,6 +16,7 @@ stdenv.mkDerivation {
     rPackages.formatR
     nodejs-12_x
     gnumake
+    inotify-tools
   ];
 
   shellHook = ''
