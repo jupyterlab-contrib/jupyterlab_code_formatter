@@ -79,6 +79,8 @@ To change the default formatter used the format action in context menu/toolbar, 
         }
     }
 
+
+
 Changing Formatter Parameter
 ----------------------------
 
@@ -94,5 +96,25 @@ There are also some formatter config exposed through the Jupyter Lab Advanced Se
                 "E302",
                 "E41"
             ]
+        }
+    }
+
+Styler Configuration Example
+````````````````````````````
+
+The :code:`list` construct is actually a JSON dictionary, to use :code:`math_token_spacing` and :code:`reindention` config, one would need to do something like the following.
+
+.. code-block:: json
+
+    {
+        "styler": {
+            "math_token_spacing": {
+                "zero":["'^'"],
+                "one":["'+'", "'-'", "'*'","'/'"]
+            },
+            "reindention": {
+                "regex_pattern" : "^###",
+                "indention" : 0,
+                "comments_only" : true}
         }
     }
