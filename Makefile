@@ -45,3 +45,11 @@ format:  # Run formatterse
 test:  # Run test
 	cd $(SERVEREXTENSION_PATH) && poetry run pytest
 	python -m jupyterlab.browser_check
+
+
+publish:  # Publish
+	bin/pre-publish-check.sh && \
+	cd $(LABEXTENSION_PATH) && \
+	npm publish --access public && \
+	cd $(SERVEREXTENSION_PATH) && \
+	poetry build && poetry publish
