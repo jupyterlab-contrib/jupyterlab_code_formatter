@@ -38,7 +38,7 @@ lint:  # Run linters
 		npm run lint
 
 format:  # Run formatterse
-	find serverextension -name '*.py' | xargs black && \
+	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black && \
 		cd $(LABEXTENSION_PATH) && \
 		npm run format
 
