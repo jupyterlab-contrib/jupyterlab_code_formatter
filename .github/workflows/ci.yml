@@ -9,7 +9,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  build:
+  lint-and-test:
 
     runs-on: ubuntu-latest
 
@@ -37,10 +37,11 @@ jobs:
       run: |
         nix-shell --run "make dev-install"
 
+    - name: Run linters
+      run: |
+        nix-shell --run "make lint"
+
     - name: Run tests
       run: |
         nix-shell --run "make test"
 
-    - name: Run linters
-      run: |
-        nix-shell --run "make lint"
