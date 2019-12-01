@@ -2,8 +2,11 @@ import abc
 import copy
 import re
 
-import rpy2
-import rpy2.robjects
+try:
+    import rpy2
+    import rpy2.robjects
+except ImportError:
+    pass
 from packaging import version
 
 
