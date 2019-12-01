@@ -37,7 +37,7 @@ jobs:
       id: cache-node-modules
       uses: actions/cache@v1
       with:
-        path: node_modules
+        path: labextension/node_modules
         key: ${{ runner.OS }}-node
 
     - name: Install
