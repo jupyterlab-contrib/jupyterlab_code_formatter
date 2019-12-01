@@ -21,6 +21,7 @@ Jupyterlab extension
 
 * Major refactoring;
 * Temporarily removed language filtering for command palette;
+* Tooltip format notebook changed to icon - thanks to mlucool;
 
 General
 -------
