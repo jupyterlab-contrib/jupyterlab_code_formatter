@@ -1,6 +1,28 @@
 Changelog
 +++++++++
 
+1.0.0 2019-12-01
+================
+
+Server extension
+----------------
+
+* Fix missing `rpy2` import error;
+* Add tests;
+
+Jupyterlab extension
+--------------------
+
+* Major refactoring;
+* Temporarily removed language filtering for command palette;
+
+General
+-------
+
+* Project reorgnaisation;
+* Use nix for local development environment;
+* Documentation generation;
+
 0.7.0 2019-11-02
 ================
 
