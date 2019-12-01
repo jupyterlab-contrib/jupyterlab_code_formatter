@@ -19,3 +19,5 @@ venv/
 **/.hypothesis/
 .Rhistory
 build/
+
+**/dist/
