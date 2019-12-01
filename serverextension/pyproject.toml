@@ -10,10 +10,8 @@ python = "^3.6"
 jupyterlab = "^1.2"
 notebook = "^6.0"
 packaging = "^19.2"
-rpy2 = "^3.2"
 
 [tool.poetry.dev-dependencies]
-packaging = "^19.2"
 rpy2 = "^3.2"
 autopep8 = "^1.4"
 yapf = "^0.28.0"
