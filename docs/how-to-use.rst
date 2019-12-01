@@ -14,7 +14,7 @@ Highlight cells you want to format, then right click and select :code:`Format Ce
 
 .. important::
 
-    This uses the default formatter defined in config. See <TODO> for more info.
+    This uses the default formatter defined in config. See :ref:`Changing Default Formatter` for more info.
 
 
 Simple Usage (Selected All Cells)
@@ -24,7 +24,7 @@ An extra button should appear in the toolbar (it should say :code:`Format Notebo
 
 .. important::
 
-    This uses the default formatter defined in config. See <TODO> for more info.
+    This uses the default formatter defined in config. See :ref:`Changing Default Formatter` for more info.
 
 Keyboard Shortcuts
 ------------------
@@ -53,7 +53,7 @@ The above example breaks down to
     - Invoke the :code:`jupyterlab_code_formatter:black` command;
 
 
-Other available commands
+Other Available Commands
 ------------------------
 
 To find out what formatters are available, you can query http://localhost:8888/jupyterlab_code_formatter/formatters (you might need to replace the port and address), the keys of formatter are shown there.
@@ -61,3 +61,38 @@ To find out what formatters are available, you can query http://localhost:8888/j
 To bind the format selected cells/format all cells command, the command to use would be :code:`jupyterlab_code_formatter:format` and :code:`jupyterlab_code_formatter:format_all` respectively.
 
 
+.. _Changing Default Formatter:
+
+Changing Default Formatter
+--------------------------
+
+To change the default formatter used the format action in context menu/toolbar, you will need to change settings via Jupyter Lab Advanced Settings Editor, for example:
+
+.. code-block:: json
+
+    {
+        "preferences": {
+            "default_formatter": {
+                "python": "autopep8",
+                "R": "styler"
+            }
+        }
+    }
+
+Changing Formatter Parameter
+----------------------------
+
+There are also some formatter config exposed through the Jupyter Lab Advanced Settings Editor, have a browse and change it if you wish. for example:
+
+.. code-block:: json
+
+    {
+        "autopep8": {
+            "max_line_length": 120,
+            "ignore": [
+                "E226",
+                "E302",
+                "E41"
+            ]
+        }
+    }
