@@ -33,7 +33,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "19.3.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "A tool that automatically formats Python code to conform to the PEP 8 style guide"
 name = "autopep8"
 optional = false
@@ -513,7 +513,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.8.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Python style guide checker"
 name = "pycodestyle"
 optional = false
@@ -798,7 +798,7 @@ version = "0.6.0"
 more-itertools = "*"
 
 [metadata]
-content-hash = "a54e7934df1633bfbf0fadd9ec0a827eb7ec90faee36134cfaaf269b03df2661"
+content-hash = "92723a92029b16a59645241cb0668e9d054eff1547d4314468453c6c0909a5a3"
 python-versions = "^3.6"
 
 [metadata.hashes]
