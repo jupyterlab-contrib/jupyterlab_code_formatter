@@ -157,3 +157,101 @@ class TestHandlers(NotebookTestBase):
         json_result = response.json()
         validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
         assert response.json()["code"][0]["code"] == expected
+
+    def test_can_use_styler(self):
+        given = "a = 3; 2"
+        expected = "a <- 3\n2"
+        response = self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {
+                    "code": [given],
+                    "options": {"scope": "tokens"},
+                    "formatter": "styler",
+                }
+            ),
+        )
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        assert response.json()["code"][0]["code"] == expected
+
+    def test_can_use_styler_2(self):
+        given = """data_frame(
+     small  = 2 ,
+     medium = 4,#comment without space
+     large  =6
+)"""
+        expected = """data_frame(
+  small  = 2,
+  medium = 4, # comment without space
+  large  = 6
+)"""
+        response = self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {"code": [given], "options": {"strict": False}, "formatter": "styler",}
+            ),
+        )
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        assert response.json()["code"][0]["code"] == expected
+
+    def test_can_use_styler_3(self):
+        given = "1++1/2*2^2"
+        expected = "1 + +1/2*2^2"
+        response = self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {
+                    "code": [given],
+                    "options": {
+                        "math_token_spacing": {
+                            "one": ["'+'", "'-'"],
+                            "zero": ["'/'", "'*'", "'^'"],
+                        }
+                    },
+                    "formatter": "styler",
+                }
+            ),
+        )
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        assert response.json()["code"][0]["code"] == expected
+
+    def test_can_use_styler_4(self):
+        given = """a <- function() {
+    ### not to be indented
+    # indent normally
+    33
+    }"""
+        expected = """a <- function() {
+### not to be indented
+  # indent normally
+  33
+}"""
+
+        response = self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {
+                    "code": [given],
+                    "options": dict(
+                        reindention=dict(
+                            regex_pattern="^###", indention=0, comments_only=True
+                        )
+                    ),
+                    "formatter": "styler",
+                }
+            ),
+        )
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        assert response.json()["code"][0]["code"] == expected
