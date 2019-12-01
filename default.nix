@@ -17,6 +17,8 @@ stdenv.mkDerivation {
     nodejs-12_x
     gnumake
     inotify-tools
+    jq
+    gawk
   ];
 
   shellHook = ''
