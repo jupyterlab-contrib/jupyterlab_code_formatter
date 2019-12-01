@@ -30,7 +30,7 @@ dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
 
 remove-dev-env:  # Remove all dev env dirs
 	(rm -rf $(LABEXTENSION_PATH)/node_modules || echo "No node modules") && \
-		(rm -rf venv || echo "No venv")
+		(rm -rf $(SERVEREXTENSION_PATH)/.venv || echo "No venv")
 
 lint:  # Run linters
 	find serverextension -name '*.py' | xargs black --check && \
@@ -43,4 +43,4 @@ format:  # Run formatterse
 		npm run format
 
 test:  # Run test
-	pytest
+	cd $(SERVEREXTENSION_PATH) && poetry run pytest
