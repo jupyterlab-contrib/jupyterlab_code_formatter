@@ -18,9 +18,36 @@ jobs:
       uses: actions/checkout@v1
     - name: Install nix
       uses: cachix/install-nix-action@v6
+
+    - name: Cache nix store
+      id: cache-nix-store
+      uses: actions/cache@v1
+      with:
+        path: /nix/store
+        key: ${{ runner.os }}-nix-store
+
+    - name: Cache poetry managed venv
+      id: cache-poetry-venv
+      uses: actions/cache@v1
+      with:
+        path: serverextension/.venv
+        key: ${{ runner.os }}-poetry-venv
+
+    - name: Cache node modules
+      id: cache-node-modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-node
+
     - name: Install
       run: |
         nix-shell --run "make dev-install"
+
     - name: Run tests
       run: |
         nix-shell --run "make test"
+
+    - name: Run linters
+      run: |
+        nix-shell --run "make lint"
