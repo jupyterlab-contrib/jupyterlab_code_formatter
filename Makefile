@@ -44,3 +44,4 @@ format:  # Run formatterse
 
 test:  # Run test
 	cd $(SERVEREXTENSION_PATH) && poetry run pytest
+	python -m jupyterlab.browser_check
