@@ -1,6 +1,19 @@
 Changelog
 +++++++++
 
+1.0.2 2019-12-01
+================
+
+Server extension
+----------------
+
+* Fix optional :code:`rpy2` import crashing server extension;
+
+Jupyterlab extension
+--------------------
+
+No change.
+
 1.0.1 2019-12-01
 ================
 
