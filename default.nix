@@ -2,10 +2,12 @@ with import <nixpkgs> {};
 
 stdenv.mkDerivation {
   name = "jupyterlab_code_formatter";
+  NIX_ENV="jupyterlab_code_formatter";
+  # NOTE: To fix R shared object not found issue when install rpy2 via poetry instead of nix
+  LD_LIBRARY_PATH="${R}/lib/R/lib";
 
   buildInputs = [
     python37Packages.poetry
-    python37Packages.rpy2
     python37Packages.sphinx
     python37Packages.sphinx_rtd_theme
     python37Full
@@ -18,9 +20,6 @@ stdenv.mkDerivation {
   ];
 
   shellHook = ''
-    export NIX_ENV="jupyterlab_code_formatter"  # Purely for my zsh prompt to work
-
-    SOURCE_DATE_EPOCH=$(date +%s)  # so that we can use python wheels
     poetry config settings.virtualenvs.in-project true
     export SERVEREXTENSION_PATH=$PWD/serverextension
     export PATH=$SERVEREXTENSION_PATH/.venv/bin:$PATH
