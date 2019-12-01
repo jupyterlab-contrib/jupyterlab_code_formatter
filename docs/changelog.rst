@@ -1,6 +1,12 @@
 Changelog
 +++++++++
 
+1.0.1 2019-12-01
+================
+
+No change, simply fixing versioning error.
+
+
 1.0.0 2019-12-01
 ================
 
