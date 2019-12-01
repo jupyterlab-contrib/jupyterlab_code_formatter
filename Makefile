@@ -33,7 +33,7 @@ remove-dev-env:  # Remove all dev env dirs
 		(rm -rf $(SERVEREXTENSION_PATH)/.venv || echo "No venv")
 
 lint:  # Run linters
-	find serverextension -name '*.py' | xargs black --check && \
+	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black --check && \
 		cd $(LABEXTENSION_PATH) && \
 		npm run lint
 
