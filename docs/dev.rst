@@ -34,8 +34,7 @@ Live Recompiling Lab Extension
 To recompile the lab extension under watch mode,
 
 .. code-block:: bash
-
-    make dev-watch-jupyterlab  # Make sure you are actually in the nix shell
+    make dev-watch-labextension  # Make sure you are actually in the nix shell
 
 
 Running Jupyterlab
