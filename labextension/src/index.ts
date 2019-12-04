@@ -59,7 +59,7 @@ class JupyterLabCodeFormatter
 
     this.setupSettings();
     this.setupAllCommands();
-    this.setupContentMenu();
+    this.setupContextMenu();
     this.setupWidgetExtension();
   }
 
@@ -85,7 +85,7 @@ class JupyterLabCodeFormatter
     this.app.docRegistry.addWidgetExtension('Notebook', this);
   }
 
-  private setupContentMenu() {
+  private setupContextMenu() {
     this.app.contextMenu.addItem({
       command: Constants.FORMAT_COMMAND,
       selector: '.jp-Notebook'
