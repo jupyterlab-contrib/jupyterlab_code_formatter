@@ -143,10 +143,6 @@ class JupyterLabCodeFormatter
           this.notebookCodeFormatter,
           this.fileEditorCodeFormatter
         ]) {
-          console.log(
-            formatter,
-            formatter.applicable(name, this.app.shell.currentWidget)
-          );
           if (formatter.applicable(name, this.app.shell.currentWidget)) {
             await formatter.formatAction(this.config, name);
           }
