@@ -45,3 +45,8 @@ To run Jupyterlab under watch mode,
 .. code-block:: bash
 
     make dev-watch-jupyterlab  # Make sure you are actually in the nix shell
+
+Start Hacking
+~~~~~~~~~~~~~
+
+Assuming you have both the live recompile lab extension and a jupyter lab running as noted above, you can now start hacking!
