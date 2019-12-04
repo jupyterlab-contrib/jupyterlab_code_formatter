@@ -48,8 +48,10 @@ test:  # Run test
 
 
 publish:  # Publish
-	bin/pre-publish-check.sh && \
+	source bin/pre-publish-check.sh && \
 	cd $(LABEXTENSION_PATH) && \
 	npm publish --access public && \
 	cd $(SERVEREXTENSION_PATH) && \
-	poetry build && poetry publish
+	poetry build && poetry publish && \
+	git tag -a "${PUBLISH_VERSION}" -m "${PUBLISH_VERSION}" && \
+	git push origin --tags

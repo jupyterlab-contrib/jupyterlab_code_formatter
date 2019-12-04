@@ -9,6 +9,7 @@ CHANGELOG_VERSION=$(awk 'match($0, /(.*) [0-9]{4}-[0-9]{2}-[0-9]{2}/, a) {print 
 if [ "${SERVEREXTENSION_VERSION}" = "${LABEXTENSION_VERSION}" ] && [ "${LABEXTENSION_VERSION}" = "${CHANGELOG_VERSION}" ] && [ "${LABEXTENSION_VERSION}" = "${LABEXTENSION_LOCKED_VERSION}" ];
 then
    echo "Versions seem fine."
+   export PUBLISH_VERSION="v${CHANGELOG_VERSION}"
 else
    echo "Versions don't match."
    echo "Server extension version: ${SERVEREXTENSION_VERSION}"
