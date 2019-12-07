@@ -1,4 +1,5 @@
 .ONESHELL:
+.SHELLFLAGS = -ec
 .PHONY: help dev-install remove-dev-env
 .DEFAULT_GOAL: help
 
