@@ -126,16 +126,14 @@ class TestHandlers(NotebookTestBase):
 
     def test_can_handle_magic(self):
         """Check that it's fine to run formatters for code with magic."""
-        given = "%%timeit\nsome_string='abc'"
-        expected = "%%timeit\nsome_string = 'abc'"
-
-        response = self._format_code_request(
-            formatter="black",
-            code=[given],
-            options={"line_length": 123, "string_normalization": False},
-        )
-        json_result = self._check_http_200_and_schema(response)
-        assert json_result["code"][0]["code"] == expected
+        given = '%%timeit\nsome_string = "abc"'
+        expected = '%%timeit\nsome_string = "abc"'
+        for formatter in ["black", "yapf", "isort"]:
+            response = self._format_code_request(
+                formatter=formatter, code=[given], options={},
+            )
+            json_result = self._check_http_200_and_schema(response)
+            assert json_result["code"][0]["code"] == expected
 
     def test_can_use_styler(self):
         given = "a = 3; 2"

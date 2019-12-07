@@ -1,6 +1,7 @@
 import abc
 import copy
 import re
+from functools import wraps
 
 try:
     import rpy2
@@ -11,7 +12,7 @@ from packaging import version
 
 
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
-COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^#%#", flags=re.M)
+COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
 
 
 class BaseFormatter(abc.ABC):
@@ -28,6 +29,23 @@ class BaseFormatter(abc.ABC):
     @abc.abstractmethod
     def format_code(self, code: str, **options) -> str:
         pass
+
+
+def respect_semicolon_and_magic(func):
+    @wraps(func)
+    def wrapped(self, code: str, **options) -> str:
+        has_semicolon = code.strip().endswith(";")
+
+        code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
+        print(code)
+        code = func(self, code, **options)
+        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
+
+        if has_semicolon:
+            code += ";"
+        return code
+
+    return wrapped
 
 
 class BlackFormatter(BaseFormatter):
@@ -54,18 +72,11 @@ class BlackFormatter(BaseFormatter):
         else:
             return options
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         import black
 
-        has_semicolon = code.strip().endswith(";")
-
-        code = re.sub(MAGIC_COMMAND_RE, "#%#", code)
         code = black.format_str(code, **self.handle_options(**options))[:-1]
-        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
-
-        if has_semicolon:
-            code += ";"
-
         return code
 
 
@@ -82,6 +93,7 @@ class Autopep8Formatter(BaseFormatter):
         except ImportError:
             return False
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         from autopep8 import fix_code
 
@@ -101,6 +113,7 @@ class YapfFormatter(BaseFormatter):
         except ImportError:
             return False
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         from yapf.yapflib.yapf_api import FormatCode
 
@@ -120,6 +133,7 @@ class IsortFormatter(BaseFormatter):
         except ImportError:
             return False
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         from isort import SortImports
 
