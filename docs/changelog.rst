@@ -1,6 +1,26 @@
 Changelog
 +++++++++
 
+1.0.3 2019-12-07
+================
+
+Server extension
+----------------
+
+* Handle :code:`indent_by` and :code:`start_comments_with_one_space` for styler;
+* Unify magic and semicolon handling for Python formatters;
+
+Jupyterlab extension
+--------------------
+
+* Handle :code:`indent_by` and :code:`start_comments_with_one_space` for styler;
+
+General
+-------
+
+* Various fixes to docs;
+* Various fixes to Makefile;
+
 1.0.2 2019-12-01
 ================
 
