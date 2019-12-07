@@ -201,6 +201,12 @@
                 "strict": {
                     "type": "boolean"
                 },
+                "indent_by": {
+                    "type": "number"
+                },
+                "start_comments_with_one_space": {
+                    "type": "boolean"
+                },
                 "math_token_spacing": {
                     "type": "object"
                 },
