@@ -213,10 +213,22 @@ class TestHandlers(NotebookTestBase):
         response = self._format_code_request(
             code=[given],
             formatter="styler",
-            options=dict(
-                indent_by=4,
-                start_comments_with_one_space=True,
-            ),
+            options=dict(indent_by=4, start_comments_with_one_space=True),
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
+    def test_can_use_styler_6(self):
+        given = "1+1-3"
+        expected = "1 + 1 - 3"
+
+        response = self._format_code_request(
+            code=[given],
+            formatter="styler",
+            options={
+                "math_token_spacing": "tidyverse_math_token_spacing",
+                "reindention": "tidyverse_reindention",
+            },
         )
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected

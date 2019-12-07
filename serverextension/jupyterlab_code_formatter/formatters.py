@@ -172,23 +172,34 @@ class StylerFormatter(BaseFormatter):
         import rpy2.robjects.packages as rpackages
 
         styler_r = rpackages.importr(self.package_name)
-        formatted_code = styler_r.style_text(code, **self._transform_options(options))
+        formatted_code = styler_r.style_text(
+            code, **self._transform_options(styler_r, options)
+        )
         return "\n".join(formatted_code)
 
     @staticmethod
-    def _transform_options(options):
+    def _transform_options(styler_r, options):
         transformed_options = copy.deepcopy(options)
 
         if "math_token_spacing" in transformed_options:
-            transformed_options["math_token_spacing"] = rpy2.robjects.ListVector(
-                transformed_options["math_token_spacing"]
-            )
+            if isinstance(options["math_token_spacing"], dict):
+                transformed_options["math_token_spacing"] = rpy2.robjects.ListVector(
+                    options["math_token_spacing"]
+                )
+            else:
+                transformed_options["math_token_spacing"] = rpy2.robjects.ListVector(
+                    getattr(styler_r, options["math_token_spacing"])()
+                )
 
         if "reindention" in transformed_options:
-            transformed_options["reindention"] = rpy2.robjects.ListVector(
-                transformed_options["reindention"]
-            )
-
+            if isinstance(options["reindention"], dict):
+                transformed_options["reindention"] = rpy2.robjects.ListVector(
+                    options["reindention"]
+                )
+            else:
+                transformed_options["reindention"] = rpy2.robjects.ListVector(
+                    getattr(styler_r, options["reindention"])()
+                )
         return transformed_options
 
 
