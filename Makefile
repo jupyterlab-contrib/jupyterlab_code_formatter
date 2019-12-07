@@ -1,6 +1,7 @@
 .ONESHELL:
 .SHELLFLAGS = -ec
 .PHONY: help dev-install remove-dev-env
+SHELL := /bin/bash
 .DEFAULT_GOAL: help
 
 help:
