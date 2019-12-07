@@ -14,7 +14,7 @@ MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^#%#", flags=re.M)
 
 
-class BaseFormatter:
+class BaseFormatter(abc.ABC):
     @property
     @abc.abstractmethod
     def label(self) -> str:
