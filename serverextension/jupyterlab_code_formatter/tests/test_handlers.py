@@ -200,3 +200,23 @@ class TestHandlers(NotebookTestBase):
         )
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
+
+    def test_can_use_styler_5(self):
+        given = """call(
+#          SHOULD BE ONE SPACE BEFORE
+1,2)
+"""
+        expected = """call(
+    # SHOULD BE ONE SPACE BEFORE
+    1, 2
+)"""
+        response = self._format_code_request(
+            code=[given],
+            formatter="styler",
+            options=dict(
+                indent_by=4,
+                start_comments_with_one_space=True,
+            ),
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
