@@ -1,6 +1,8 @@
 import json
 import typing as t
 
+import pytest
+import requests
 from jsonschema import validate
 from jupyterlab_code_formatter.formatters import SERVER_FORMATTERS
 from jupyterlab_code_formatter.handlers import setup_handlers
@@ -54,6 +56,24 @@ class TestHandlers(NotebookTestBase):
     def setUp(self) -> None:
         setup_handlers(self.notebook.web_app)
 
+    def _format_code_request(
+        self, formatter: str, code: t.List[str], options: t.Dict[str, t.Any]
+    ) -> requests.Response:
+        return self.request(
+            verb="POST",
+            path="/jupyterlab_code_formatter/format",
+            data=json.dumps(
+                {"code": code, "options": options, "formatter": formatter,}
+            ),
+        )
+
+    @staticmethod
+    def _check_http_200_and_schema(response):
+        assert response.status_code == 200
+        json_result = response.json()
+        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        return json_result
+
     def test_list_formatters(self):
         """Check if the formatters list route works."""
         response = self.request(
@@ -63,35 +83,19 @@ class TestHandlers(NotebookTestBase):
 
     def test_404_on_unknown(self):
         """Check that it 404 correctly if formatter name is bad."""
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [SIMPLE_VALID_PYTHON_CODE],
-                    "options": {},
-                    "formatter": "something_unknown",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="UNKNOWN", code=[SIMPLE_VALID_PYTHON_CODE], options={}
         )
         assert response.status_code == 404
 
     def test_can_apply_python_formatter(self):
         """Check that it can apply black with simple config."""
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [SIMPLE_VALID_PYTHON_CODE],
-                    "options": {"line_length": 88},
-                    "formatter": "black",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="black",
+            code=[SIMPLE_VALID_PYTHON_CODE],
+            options={"line_length": 88},
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == "x = 22\ne = 1"
 
     def test_can_use_black_config(self):
@@ -99,40 +103,23 @@ class TestHandlers(NotebookTestBase):
         given = "some_string='abc'"
         expected = "some_string = 'abc'"
 
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [given],
-                    "options": {"line_length": 123, "string_normalization": False},
-                    "formatter": "black",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="black",
+            options={"line_length": 123, "string_normalization": False},
+            code=[given],
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
 
     def test_return_error_if_any(self):
         """Check that it returns the error if any."""
         bad_python = "this_is_bad = 'hihi"
-
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [bad_python],
-                    "options": {"line_length": 123, "string_normalization": False},
-                    "formatter": "black",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="black",
+            options={"line_length": 123, "string_normalization": False},
+            code=[bad_python],
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        json_result = self._check_http_200_and_schema(response)
         assert (
             json_result["code"][0]["error"] == "Cannot parse: 1:13: this_is_bad = 'hihi"
         )
@@ -142,40 +129,22 @@ class TestHandlers(NotebookTestBase):
         given = "%%timeit\nsome_string='abc'"
         expected = "%%timeit\nsome_string = 'abc'"
 
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [given],
-                    "options": {"line_length": 123, "string_normalization": False},
-                    "formatter": "black",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={"line_length": 123, "string_normalization": False},
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
 
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [given],
-                    "options": {"scope": "tokens"},
-                    "formatter": "styler",
-                }
-            ),
+        response = self._format_code_request(
+            formatter="styler", code=[given], options={"scope": "tokens"},
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
 
     def test_can_use_styler_2(self):
         given = """data_frame(
@@ -188,41 +157,27 @@ class TestHandlers(NotebookTestBase):
   medium = 4, # comment without space
   large  = 6
 )"""
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {"code": [given], "options": {"strict": False}, "formatter": "styler",}
-            ),
+        response = self._format_code_request(
+            code=[given], options={"strict": False}, formatter="styler",
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
 
     def test_can_use_styler_3(self):
         given = "1++1/2*2^2"
         expected = "1 + +1/2*2^2"
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [given],
-                    "options": {
-                        "math_token_spacing": {
-                            "one": ["'+'", "'-'"],
-                            "zero": ["'/'", "'*'", "'^'"],
-                        }
-                    },
-                    "formatter": "styler",
+        response = self._format_code_request(
+            formatter="styler",
+            options={
+                "math_token_spacing": {
+                    "one": ["'+'", "'-'"],
+                    "zero": ["'/'", "'*'", "'^'"],
                 }
-            ),
+            },
+            code=[given],
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
 
     def test_can_use_styler_4(self):
         given = """a <- function() {
@@ -236,22 +191,12 @@ class TestHandlers(NotebookTestBase):
   33
 }"""
 
-        response = self.request(
-            verb="POST",
-            path="/jupyterlab_code_formatter/format",
-            data=json.dumps(
-                {
-                    "code": [given],
-                    "options": dict(
-                        reindention=dict(
-                            regex_pattern="^###", indention=0, comments_only=True
-                        )
-                    ),
-                    "formatter": "styler",
-                }
+        response = self._format_code_request(
+            code=[given],
+            formatter="styler",
+            options=dict(
+                reindention=dict(regex_pattern="^###", indention=0, comments_only=True)
             ),
         )
-        assert response.status_code == 200
-        json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
-        assert response.json()["code"][0]["code"] == expected
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
