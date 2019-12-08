@@ -52,4 +52,4 @@ test:  # Run test
 
 
 publish:  # Publish
-    bin/publish.sh
+	bin/publish.sh
