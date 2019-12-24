@@ -37,7 +37,6 @@ def respect_semicolon_and_magic(func):
         has_semicolon = code.strip().endswith(";")
 
         code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
-        print(code)
         code = func(self, code, **options)
         code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
 
