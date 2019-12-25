@@ -82,6 +82,12 @@ Installation Step 3 (Restarting Jupyterlab)
 If you have been following the above steps while Jupyterlab is already running, you will need to restart it for the changes to fully take effect.
 
 
+Installation Step 4 (Configuring the plugin)
+--------------------------------------------
+
+You might need to change the default formatter selection via configuration as shown in  :ref:`Changing Default Formatter`, if you are unsure, continue reading in :ref:`How To Use This Plugin`.
+
+
 .. _Autopep8: https://github.com/hhatto/autopep8
 .. _Black: https://github.com/psf/black
 .. _Isort: https://github.com/timothycrosley/isort
