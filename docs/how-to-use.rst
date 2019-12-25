@@ -1,3 +1,5 @@
+.. _How To Use This Plugin:
+
 How To Use This Plugin
 ======================
 
