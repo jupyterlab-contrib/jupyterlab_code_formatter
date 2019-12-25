@@ -8,12 +8,14 @@ Server extension
 ----------------
 
 * Defer trailing newline removal to labextension;
+* Prohibit mismatched lab and server extension usage;
 
 Jupyterlab extension
 --------------------
 
 * Make tool bar format all button respect where it's clicked;
 * Delete trailing newline for notebook cells only;
+* Prohibit mismatched lab and server extension usage;
 
 1.0.3 2019-12-07
 ================
