@@ -124,7 +124,9 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         const formattedText = formattedTexts.code[i];
         if (cell.model.value.text === currentText) {
           if (formattedText.code) {
-            cell.model.value.text = formattedText.code;
+            cell.model.value.text = formattedText.code.endsWith('\n')
+              ? formattedText.code.slice(0, -1)
+              : formattedText.code;
           } else {
             console.error(
               'Could not format cell: %s due to:\n%o',
