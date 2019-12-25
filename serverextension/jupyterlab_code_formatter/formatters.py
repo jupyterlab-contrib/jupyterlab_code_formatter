@@ -75,7 +75,7 @@ class BlackFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         import black
 
-        code = black.format_str(code, **self.handle_options(**options))[:-1]
+        code = black.format_str(code, **self.handle_options(**options))
         return code
 
 
@@ -96,7 +96,7 @@ class Autopep8Formatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from autopep8 import fix_code
 
-        return fix_code(code, options=options)[:-1]
+        return fix_code(code, options=options)
 
 
 class YapfFormatter(BaseFormatter):
@@ -116,7 +116,7 @@ class YapfFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from yapf.yapflib.yapf_api import FormatCode
 
-        return FormatCode(code, **options)[0][:-1]
+        return FormatCode(code, **options)[0]
 
 
 class IsortFormatter(BaseFormatter):
@@ -136,7 +136,7 @@ class IsortFormatter(BaseFormatter):
     def format_code(self, code: str, **options) -> str:
         from isort import SortImports
 
-        return SortImports(file_contents=code, **options).output[:-1]
+        return SortImports(file_contents=code, **options).output
 
 
 class FormatRFormatter(BaseFormatter):
