@@ -1,6 +1,7 @@
 import json
 import typing as t
 
+import pkg_resources
 import pytest
 import requests
 from jsonschema import validate
@@ -56,8 +57,21 @@ class TestHandlers(NotebookTestBase):
     def setUp(self) -> None:
         setup_handlers(self.notebook.web_app)
 
+    def _create_headers(
+        self, plugin_version: t.Optional[str] = None
+    ) -> t.Dict[str, str]:
+        return {
+            "Plugin-Version": plugin_version
+            if plugin_version is not None
+            else pkg_resources.get_distribution("jupyterlab_code_formatter").version
+        }
+
     def _format_code_request(
-        self, formatter: str, code: t.List[str], options: t.Dict[str, t.Any]
+        self,
+        formatter: str,
+        code: t.List[str],
+        options: t.Dict[str, t.Any],
+        plugin_version: t.Optional[str] = None,
     ) -> requests.Response:
         return self.request(
             verb="POST",
@@ -65,6 +79,7 @@ class TestHandlers(NotebookTestBase):
             data=json.dumps(
                 {"code": code, "options": options, "formatter": formatter,}
             ),
+            headers=self._create_headers(plugin_version),
         )
 
     @staticmethod
@@ -77,7 +92,9 @@ class TestHandlers(NotebookTestBase):
     def test_list_formatters(self):
         """Check if the formatters list route works."""
         response = self.request(
-            verb="GET", path="/jupyterlab_code_formatter/formatters"
+            verb="GET",
+            path="/jupyterlab_code_formatter/formatters",
+            headers=self._create_headers(),
         )
         validate(instance=response.json(), schema=EXPECTED_LIST_FORMATTERS_SCHEMA)
 
@@ -230,3 +247,11 @@ class TestHandlers(NotebookTestBase):
         )
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
+
+    def test_422_on_mismatch_version_1(self):
+        response = self.request(
+            verb="GET",
+            path="/jupyterlab_code_formatter/formatters",
+            headers=self._create_headers("0.0.0"),
+        )
+        assert response.status_code == 422
