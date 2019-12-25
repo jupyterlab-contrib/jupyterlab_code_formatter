@@ -7,12 +7,13 @@ Unreleased
 Server extension
 ----------------
 
-No change.
+* Defer trailing newline removal to labextension;
 
 Jupyterlab extension
 --------------------
 
 * Make tool bar format all button respect where it's clicked;
+* Delete trailing newline for notebook cells only;
 
 1.0.3 2019-12-07
 ================
