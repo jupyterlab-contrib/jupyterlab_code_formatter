@@ -96,12 +96,12 @@ class TestHandlers(NotebookTestBase):
             options={"line_length": 88},
         )
         json_result = self._check_http_200_and_schema(response)
-        assert json_result["code"][0]["code"] == "x = 22\ne = 1"
+        assert json_result["code"][0]["code"] == "x = 22\ne = 1\n"
 
     def test_can_use_black_config(self):
         """Check that it can apply black with advanced config."""
         given = "some_string='abc'"
-        expected = "some_string = 'abc'"
+        expected = "some_string = 'abc'\n"
 
         response = self._format_code_request(
             formatter="black",
@@ -127,7 +127,7 @@ class TestHandlers(NotebookTestBase):
     def test_can_handle_magic(self):
         """Check that it's fine to run formatters for code with magic."""
         given = '%%timeit\nsome_string = "abc"'
-        expected = '%%timeit\nsome_string = "abc"'
+        expected = '%%timeit\nsome_string = "abc"\n'
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
                 formatter=formatter, code=[given], options={},
