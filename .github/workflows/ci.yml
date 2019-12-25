@@ -19,13 +19,6 @@ jobs:
     - name: Install nix
       uses: cachix/install-nix-action@v6
 
-    - name: Cache poetry managed venv
-      id: cache-poetry-venv
-      uses: actions/cache@v1
-      with:
-        path: serverextension/.venv
-        key: ${{ runner.os }}-poetry-venv
-
     - name: Cache node modules
       id: cache-node-modules
       uses: actions/cache@v1
