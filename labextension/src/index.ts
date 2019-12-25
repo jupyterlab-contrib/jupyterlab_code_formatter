@@ -8,7 +8,7 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { CommandToolbarButton, ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, ToolbarButton } from '@jupyterlab/apputils';
 import { ISettingRegistry } from '@jupyterlab/coreutils';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
@@ -67,17 +67,25 @@ class JupyterLabCodeFormatter
     nb: NotebookPanel,
     context: DocumentRegistry.IContext<INotebookModel>
   ): IDisposable {
-    const btn = new CommandToolbarButton({
-      commands: this.app.commands,
-      id: Constants.FORMAT_ALL_COMMAND
+    const self = this;
+    const button = new ToolbarButton({
+      iconClassName: Constants.ICON_FORMAT_ALL,
+      iconLabel: 'Format notebook',
+      onClick: async () => {
+        await self.notebookCodeFormatter.formatAllCodeCells(
+          this.config,
+          undefined,
+          nb.content
+        );
+      }
     });
     nb.toolbar.insertAfter(
       'cellType',
       this.app.commands.label(Constants.FORMAT_ALL_COMMAND),
-      btn
+      button
     );
     return new DisposableDelegate(() => {
-      btn.dispose();
+      button.dispose();
     });
   }
 

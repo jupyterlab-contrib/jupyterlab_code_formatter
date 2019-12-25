@@ -1,5 +1,5 @@
 import { Cell, CodeCell } from '@jupyterlab/cells';
-import { INotebookTracker } from '@jupyterlab/notebook';
+import { INotebookTracker, Notebook } from '@jupyterlab/notebook';
 import { ServerConnection } from '@jupyterlab/services';
 import JupyterlabCodeFormatterClient from './client';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
@@ -43,20 +43,28 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return this.formatCells(true, config, formatter);
   }
 
-  public async formatSelectedCodeCells(config: any, formatter?: string) {
-    return this.formatCells(true, config, formatter);
+  public async formatSelectedCodeCells(
+    config: any,
+    formatter?: string,
+    notebook?: Notebook
+  ) {
+    return this.formatCells(true, config, formatter, notebook);
   }
 
-  public async formatAllCodeCells(config: any, formatter?: string) {
-    return this.formatCells(false, config, formatter);
+  public async formatAllCodeCells(
+    config: any,
+    formatter?: string,
+    notebook?: Notebook
+  ) {
+    return this.formatCells(false, config, formatter, notebook);
   }
 
-  private getCodeCells(selectedOnly = true): CodeCell[] {
+  private getCodeCells(selectedOnly = true, notebook?: Notebook): CodeCell[] {
     if (!this.notebookTracker.currentWidget) {
       return [];
     }
     const codeCells: CodeCell[] = [];
-    const notebook = this.notebookTracker.currentWidget.content;
+    notebook = notebook || this.notebookTracker.currentWidget.content;
     notebook.widgets.forEach((cell: Cell) => {
       if (cell.model.type === 'code') {
         if (!selectedOnly || notebook.isSelectedOrActive(cell)) {
@@ -89,14 +97,15 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   private async formatCells(
     selectedOnly: boolean,
     config: any,
-    formatter?: string
+    formatter?: string,
+    notebook?: Notebook
   ) {
     if (this.working) {
       return;
     }
     try {
       this.working = true;
-      const selectedCells = this.getCodeCells(selectedOnly);
+      const selectedCells = this.getCodeCells(selectedOnly, notebook);
       if (selectedCells.length === 0) {
         this.working = false;
         return;
