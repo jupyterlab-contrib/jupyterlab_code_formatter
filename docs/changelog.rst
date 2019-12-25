@@ -1,6 +1,19 @@
 Changelog
 +++++++++
 
+Unreleased
+==========
+
+Server extension
+----------------
+
+No change.
+
+Jupyterlab extension
+--------------------
+
+* Make tool bar format all button respect where it's clicked;
+
 1.0.3 2019-12-07
 ================
 
