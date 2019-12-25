@@ -16,7 +16,14 @@ class JupyterlabCodeFormatterClient {
     );
     return ServerConnection.makeRequest(
       fullUrl,
-      { body, method },
+      {
+        body,
+        method,
+        headers: new Headers({
+          // TODO: Use package.json info
+          'Plugin-Version': '1.0.3'
+        })
+      },
       settings
     ).then(response => {
       if (response.status !== 200) {
