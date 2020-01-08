@@ -4,7 +4,7 @@ Frequently Asked Questions
 Error when writing grammar tables?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You might see some errors about writing grammar tables when using the black formatter, simply manually create the directory as suggested in `here`_ and you should be good to go.
+You might see some errors about writing grammar tables when using the black formatter, simply manually create the directory by running: `python -c "import black; black.CACHE_DIR.mkdir(parents=True, exist_ok=True)"`. For more information see `here`_.
 
 Why are the commands not showing up in the command pallete?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
