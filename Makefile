@@ -9,10 +9,18 @@ help:
 	printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
 	}' $(MAKEFILE_LIST)
 
-dev-install-serverextension:  ## Use poetry to install the server extension in dev mode 
-	cd serverextension
-	PYTHONPATH="" poetry install
-	cd -
+
+conda-install:  # Use conda to install dev dependencies using unpinned env specification
+	conda env create -f environment.yml --force --name jupyterlab-code-formatter
+
+conda-freeze:  # Use conda to freeze the current env available
+	conda env export | grep -v prefix: > environment-frozen.yml
+
+conda-install-frozen:  # Use conda to install dev dependencies using pinned env specification - subject to repodata.json changes
+	conda env create -f environment-frozen.yml --force --name jupyterlab-code-formatter
+
+dev-install-serverextension:  # Use pip to install the server extension in dev mode
+	pip install -e serverextension
 	jupyter serverextension enable --py jupyterlab_code_formatter
 
 dev-install-labextension:  ## Use npm to install the lab extension in dev mode
@@ -31,25 +39,20 @@ dev-watch-labextension:  ## Recompile labextension on changes
 dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
 	jupyter lab --watch
 
-remove-dev-env:  # Remove all dev env dirs
-	rm -rf $(LABEXTENSION_PATH)/node_modules || echo "No node modules"
-	rm -rf $(SERVEREXTENSION_PATH)/.venv || echo "No venv"
-
 lint:  # Run linters
 	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black --check
 	cd $(LABEXTENSION_PATH)
 	npm run lint
 
-format:  # Run formatterse
+format:  # Run formatters
 	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black
 	cd $(LABEXTENSION_PATH)
 	npm run format
 
 test:  # Run test
 	cd $(SERVEREXTENSION_PATH)
-	PYTHONPATH="" poetry run pytest
+	pytest
 	python -m jupyterlab.browser_check
-
 
 publish:  # Publish
 	bin/publish.sh

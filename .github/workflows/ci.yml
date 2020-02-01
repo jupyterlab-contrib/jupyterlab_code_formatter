@@ -15,9 +15,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-    - name: Install nix
-      uses: cachix/install-nix-action@v6
+      uses: actions/checkout@v2
+
+    - uses: goanpeca/setup-miniconda@v1
+      with:
+        auto-update-conda: true
+        python-version: 3.8
 
     - name: Cache node modules
       id: cache-node-modules
@@ -26,15 +29,22 @@ jobs:
         path: labextension/node_modules
         key: ${{ runner.OS }}-node
 
-    - name: Install
+    - name: Install conda environment
+      shell: bash -l {0}
       run: |
-        nix-shell --run "make dev-install"
+        make conda-install-frozen
+
+    - name: Install plugin
+      shell: bash -l {0}
+      run: |
+        source ./start_env.sh && make dev-install
 
     - name: Run linters
+      shell: bash -l {0}
       run: |
-        nix-shell --run "make lint"
+        source ./start_env.sh && make lint
 
     - name: Run tests
+      shell: bash -l {0}
       run: |
-        nix-shell --run "make test"
-
+        source ./start_env.sh && make test
