@@ -1,26 +1,26 @@
 Developement
 ============
 
-For developement, I am experimenting with nix, follow the installation guide in the official site.
-
-.. danger::
-
-    Do not take anything you see in this repo as good nix usage, I am still learning nix.
+For developement, I am using a conda environment, follow the installation guide in the official site, it doesn't matter what flavor it is really.
 
 Initial Setup
 ~~~~~~~~~~~~~
 
-First go into a shell with the correct environment, with
+First create the conda environment for working on this plugin with
 
 .. code-block:: bash
 
-    nix-shell
+    make conda-install-frozen
 
-This will take a while if you are doing this for the first time.
+Enter the conda environment with
+
+.. code-block:: bash
+
+    source ./start_env.sh
 
 .. important::
 
-    You will need to execute this command every time you want to work on this plugin with nix!
+    You will need to execute this command every time you want to work on this plugin with conda!
 
 Then install both the server extension and lab extension locally with
 
@@ -34,7 +34,8 @@ Live Recompiling Lab Extension
 To recompile the lab extension under watch mode,
 
 .. code-block:: bash
-    make dev-watch-labextension  # Make sure you are actually in the nix shell
+
+    make dev-watch-labextension
 
 
 Running Jupyterlab
@@ -44,7 +45,7 @@ To run Jupyterlab under watch mode,
 
 .. code-block:: bash
 
-    make dev-watch-jupyterlab  # Make sure you are actually in the nix shell
+    make dev-watch-jupyterlab
 
 Start Hacking
 ~~~~~~~~~~~~~
