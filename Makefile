@@ -10,16 +10,16 @@ help:
 	}' $(MAKEFILE_LIST)
 
 
-conda-install:  # Use conda to install dev dependencies using unpinned env specification
+conda-install:  ## Use conda to install dev dependencies using unpinned env specification
 	conda env create -f environment.yml --force --name jupyterlab-code-formatter
 
-conda-freeze:  # Use conda to freeze the current env available
+conda-freeze:  ## Use conda to freeze the current env available
 	conda env export | grep -v prefix: > environment-frozen.yml
 
-conda-install-frozen:  # Use conda to install dev dependencies using pinned env specification - subject to repodata.json changes
+conda-install-frozen:  ## Use conda to install dev dependencies using pinned env specification - subject to repodata.json changes
 	conda env create -f environment-frozen.yml --force --name jupyterlab-code-formatter
 
-dev-install-serverextension:  # Use pip to install the server extension in dev mode
+dev-install-serverextension:  ## Use pip to install the server extension in dev mode
 	pip install -e serverextension
 	jupyter serverextension enable --py jupyterlab_code_formatter
 
