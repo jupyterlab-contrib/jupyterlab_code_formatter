@@ -33,14 +33,14 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0",
-    "@jupyterlab/fileeditor": "^1.0.0",
-    "@jupyterlab/mainmenu": "^1.0.0",
-    "@jupyterlab/notebook": "^1.0.0"
+    "@jupyterlab/application": "^2.0.0",
+    "@jupyterlab/fileeditor": "^2.0.0",
+    "@jupyterlab/mainmenu": "^2.0.0",
+    "@jupyterlab/notebook": "^2.0.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
-    "typescript": "~3.5.1",
+    "typescript": "~3.7.4",
     "prettier": "^1.19.1",
     "tslint": "^5.15.0",
     "tslint-config-prettier": "^1.18.0",
