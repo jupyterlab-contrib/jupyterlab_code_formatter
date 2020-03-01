@@ -4,6 +4,16 @@ Changelog
 Unreleased
 ==========
 
+Server extension
+----------------
+
+No Changes
+
+Jupyterlab extension
+--------------------
+
+* Address Jupyter lab 2.0.0 breaing changes;
+
 1.1.0 2020-02-08
 ================
 

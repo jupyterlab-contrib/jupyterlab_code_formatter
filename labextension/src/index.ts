@@ -9,7 +9,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 import { ICommandPalette, ToolbarButton } from '@jupyterlab/apputils';
-import { ISettingRegistry } from '@jupyterlab/coreutils';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 import JupyterlabCodeFormatterClient from './client';
@@ -17,8 +17,9 @@ import {
   JupyterlabFileEditorCodeFormatter,
   JupyterlabNotebookCodeFormatter
 } from './formatter';
-import { DisposableDelegate, IDisposable } from '@phosphor/disposable';
+import { DisposableDelegate, IDisposable } from '@lumino/disposable';
 import { Constants } from './constants';
+import { LabIcon } from '@jupyterlab/ui-components';
 
 class JupyterLabCodeFormatter
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
@@ -69,8 +70,11 @@ class JupyterLabCodeFormatter
   ): IDisposable {
     const self = this;
     const button = new ToolbarButton({
-      iconClassName: Constants.ICON_FORMAT_ALL,
-      iconLabel: 'Format notebook',
+      tooltip: 'Format notebook',
+      icon: new LabIcon({
+        name: Constants.FORMAT_ALL_COMMAND,
+        svgstr: Constants.ICON_FORMAT_ALL_SVG
+      }),
       onClick: async () => {
         await self.notebookCodeFormatter.formatAllCodeCells(
           this.config,

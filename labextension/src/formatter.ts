@@ -3,7 +3,7 @@ import { INotebookTracker, Notebook } from '@jupyterlab/notebook';
 import { ServerConnection } from '@jupyterlab/services';
 import JupyterlabCodeFormatterClient from './client';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
-import { Widget } from '@phosphor/widgets';
+import { Widget } from '@lumino/widgets';
 
 class JupyterlabCodeFormatter {
   protected client: JupyterlabCodeFormatterClient;
