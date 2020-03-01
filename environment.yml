@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - r
 dependencies:
-  - jupyterlab==1.2.6
+  - jupyterlab==2.0.0
   - rpy2
   - r-formatr
   - r-styler
