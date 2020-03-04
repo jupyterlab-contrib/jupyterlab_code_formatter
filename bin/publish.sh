@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 source bin/pre-publish-check.sh
 cd $LABEXTENSION_PATH
