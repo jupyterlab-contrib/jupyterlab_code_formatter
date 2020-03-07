@@ -9,6 +9,11 @@ Server extension
 
 * Add version API handler;
 
+Jupyterlab extension
+--------------------
+
+* Fully prohibit mismatched lab and server extension usage (accounting for either stale lab or server extension);
+
 1.2.0 2020-03-04
 ================
 
