@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@jupyterlab/application": "^2.0.0",
+    "@jupyterlab/apputils": "^2.0.0",
     "@jupyterlab/fileeditor": "^2.0.0",
     "@jupyterlab/mainmenu": "^2.0.0",
     "@jupyterlab/notebook": "^2.0.0"
