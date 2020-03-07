@@ -42,6 +42,15 @@ class JupyterlabCodeFormatterClient {
       ServerConnection.defaultSettings
     );
   }
+
+  public getVersion() {
+    return this.request(
+      'version',
+      'GET',
+      null,
+      ServerConnection.defaultSettings
+    );
+  }
 }
 
 export default JupyterlabCodeFormatterClient;
