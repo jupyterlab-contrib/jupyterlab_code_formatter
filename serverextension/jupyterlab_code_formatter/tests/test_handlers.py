@@ -27,6 +27,11 @@ def _generate_list_formaters_entry_json_schema(
     }
 
 
+EXPECTED_VERSION_SCHEMA = {
+    "type": "object",
+    "properties": {"version": {"type": "string",}},
+}
+
 EXPECTED_LIST_FORMATTERS_SCHEMA = {
     "type": "object",
     "properties": {
@@ -255,3 +260,26 @@ class TestHandlers(NotebookTestBase):
             headers=self._create_headers("0.0.0"),
         )
         assert response.status_code == 422
+
+    def test_200_on_version_without_header(self):
+        response = self.request(verb="GET", path="/jupyterlab_code_formatter/version",)
+        assert response.status_code == 200
+        validate(instance=response.json(), schema=EXPECTED_VERSION_SCHEMA)
+
+    def test_200_on_version_with_wrong_header(self):
+        response = self.request(
+            verb="GET",
+            path="/jupyterlab_code_formatter/version",
+            headers=self._create_headers("0.0.0"),
+        )
+        assert response.status_code == 200
+        validate(instance=response.json(), schema=EXPECTED_VERSION_SCHEMA)
+
+    def test_200_on_version_with_correct_header(self):
+        response = self.request(
+            verb="GET",
+            path="/jupyterlab_code_formatter/version",
+            headers=self._create_headers(),
+        )
+        assert response.status_code == 200
+        validate(instance=response.json(), schema=EXPECTED_VERSION_SCHEMA)

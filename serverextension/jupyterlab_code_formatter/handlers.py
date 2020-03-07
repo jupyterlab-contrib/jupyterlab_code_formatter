@@ -34,6 +34,17 @@ def setup_handlers(web_app: NotebookWebApplication) -> None:
             )
         ],
     )
+    web_app.add_handlers(
+        host_pattern,
+        [
+            (
+                url_path_join(
+                    web_app.settings["base_url"], "/jupyterlab_code_formatter/version"
+                ),
+                VersionAPIHandler,
+            )
+        ],
+    )
 
 
 def check_plugin_version(handler: APIHandler):
@@ -92,3 +103,17 @@ class FormatAPIHandler(APIHandler):
                     except Exception as e:
                         formatted_code.append({"error": str(e)})
                 self.finish(json.dumps({"code": formatted_code}))
+
+
+class VersionAPIHandler(APIHandler):
+    def get(self) -> None:
+        """Show what version is this server plguin on."""
+        self.finish(
+            json.dumps(
+                {
+                    "version": pkg_resources.get_distribution(
+                        "jupyterlab_code_formatter"
+                    ).version
+                }
+            )
+        )
