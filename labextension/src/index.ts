@@ -8,7 +8,11 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { ICommandPalette, ToolbarButton } from '@jupyterlab/apputils';
+import {
+  ICommandPalette,
+  showErrorMessage,
+  ToolbarButton
+} from '@jupyterlab/apputils';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
@@ -58,10 +62,12 @@ class JupyterLabCodeFormatter
       this.editorTracker
     );
 
-    this.setupSettings();
-    this.setupAllCommands();
-    this.setupContextMenu();
-    this.setupWidgetExtension();
+    this.checkVersion().then(() => {
+      this.setupSettings();
+      this.setupAllCommands();
+      this.setupContextMenu();
+      this.setupWidgetExtension();
+    });
   }
 
   public createNew(
@@ -174,6 +180,30 @@ class JupyterLabCodeFormatter
       label
     });
     this.palette.addItem({ command, category: Constants.COMMAND_SECTION_NAME });
+  }
+
+  private async checkVersion() {
+    this.client
+      .getVersion()
+      .then(data => {
+        let serverPluginVersion = JSON.parse(data).version;
+        let versionMatches = serverPluginVersion === Constants.PLUGIN_VERSION;
+        if (!versionMatches) {
+          void showErrorMessage(
+            'Jupyterlab Code Formatter Version Mismatch',
+            `Lab plugin version: ${Constants.PLUGIN_VERSION}. ` +
+              `Server plugin version: ${serverPluginVersion}.`
+          );
+        }
+        return versionMatches;
+      })
+      .catch(error => {
+        void showErrorMessage(
+          'Jupyterlab Code Formatter Error',
+          'Unable to find server plugin version, consider upgrading.'
+        );
+        return false;
+      });
   }
 }
 
