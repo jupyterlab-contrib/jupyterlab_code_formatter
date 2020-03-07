@@ -4,6 +4,7 @@ import { ServerConnection } from '@jupyterlab/services';
 import JupyterlabCodeFormatterClient from './client';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { Widget } from '@lumino/widgets';
+import { showErrorMessage } from '@jupyterlab/apputils';
 
 class JupyterlabCodeFormatter {
   protected client: JupyterlabCodeFormatterClient;
@@ -128,21 +129,20 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
               ? formattedText.code.slice(0, -1)
               : formattedText.code;
           } else {
-            console.error(
-              'Could not format cell: %s due to:\n%o',
-              currentText,
+            await showErrorMessage(
+              'Jupyterlab Code Formatter Error',
               formattedText.error
             );
           }
         } else {
-          console.error(
-            'Value changed since we formatted - skipping: %s',
-            cell.model.value.text
+          await showErrorMessage(
+            'Jupyterlab Code Formatter Error',
+            `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
           );
         }
       }
-    } catch (err) {
-      console.error('Something went wrong :(\n%o', err);
+    } catch (error) {
+      await showErrorMessage('Jupyterlab Code Formatter Error', error);
     }
     this.working = false;
   }
@@ -182,9 +182,9 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
           data.code[0].code;
         this.working = false;
       })
-      .catch(err => {
+      .catch(error => {
         this.working = false;
-        console.error('Something went wrong :(:\n%o', err);
+        void showErrorMessage('Jupyterlab Code Formatter Error', error);
       });
   }
 
