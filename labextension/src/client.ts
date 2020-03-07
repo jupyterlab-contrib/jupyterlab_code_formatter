@@ -20,8 +20,7 @@ class JupyterlabCodeFormatterClient {
         body,
         method,
         headers: new Headers({
-          // TODO: Use package.json info
-          'Plugin-Version': '1.2.0'
+          'Plugin-Version': Constants.PLUGIN_VERSION
         })
       },
       settings
