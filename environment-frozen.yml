@@ -9,14 +9,14 @@ dependencies:
   - attrs=19.3.0=py_0
   - backcall=0.1.0=py_0
   - binutils_impl_linux-64=2.33.1=h53a641e_8
-  - binutils_linux-64=2.33.1=h9595d00_16
+  - binutils_linux-64=2.33.1=h9595d00_17
   - bleach=3.1.1=py_0
   - bwidget=1.9.14=0
   - bzip2=1.0.8=h516909a_2
   - ca-certificates=2019.11.28=hecc5488_0
   - cairo=1.16.0=hfb77d84_1002
   - certifi=2019.11.28=py38_0
-  - cffi=1.13.2=py38h8022711_0
+  - cffi=1.14.0=py38hd463f26_0
   - curl=7.68.0=hf8cf82a_0
   - decorator=4.4.2=py_0
   - defusedxml=0.6.0=py_0
@@ -26,15 +26,15 @@ dependencies:
   - fribidi=1.0.5=h516909a_1002
   - gawk=5.0.1=h516909a_1
   - gcc_impl_linux-64=7.3.0=hd420e75_5
-  - gcc_linux-64=7.3.0=h553295d_16
+  - gcc_linux-64=7.3.0=h553295d_17
   - gettext=0.19.8.1=hc5be6a0_1002
   - gfortran_impl_linux-64=7.3.0=hdf63c60_5
-  - gfortran_linux-64=7.3.0=h553295d_16
+  - gfortran_linux-64=7.3.0=h553295d_17
   - glib=2.58.3=py38h6f030ca_1002
   - graphite2=1.3.13=hf484d3e_1000
   - gsl=2.6=h294904e_0
   - gxx_impl_linux-64=7.3.0=hdf63c60_5
-  - gxx_linux-64=7.3.0=h553295d_16
+  - gxx_linux-64=7.3.0=h553295d_17
   - harfbuzz=2.4.0=h9f30f68_3
   - icu=64.2=he1b5a44_1
   - importlib_metadata=1.5.0=py38_0
@@ -51,7 +51,7 @@ dependencies:
   - jupyter_client=6.0.0=py_0
   - jupyter_core=4.6.3=py38_0
   - jupyterlab=2.0.0=py_1
-  - jupyterlab_server=1.0.6=py_0
+  - jupyterlab_server=1.0.7=py_0
   - krb5=1.16.4=h2fd8d38_0
   - ld_impl_linux-64=2.33.1=h53a641e_8
   - libblas=3.8.0=15_openblas
@@ -89,20 +89,21 @@ dependencies:
   - pandoc=2.9.2=0
   - pandocfilters=1.4.2=py_1
   - pango=1.42.4=ha030887_1
-  - parso=0.6.1=py_0
+  - parso=0.6.2=py_0
   - pcre=8.44=he1b5a44_0
   - pexpect=4.8.0=py38_0
   - pickleshare=0.7.5=py38_1000
   - pip=20.0.2=py_2
   - pixman=0.38.0=h516909a_1003
   - prometheus_client=0.7.1=py_0
-  - prompt_toolkit=3.0.3=py_0
+  - prompt-toolkit=3.0.4=py_0
+  - prompt_toolkit=3.0.4=0
   - pthread-stubs=0.4=h14c3975_1001
   - ptyprocess=0.6.0=py_1001
-  - pycparser=2.19=py_2
+  - pycparser=2.20=py_0
   - pygments=2.5.2=py_0
   - pyrsistent=0.15.7=py38h516909a_0
-  - python=3.8.2=h9d8adfe_1_cpython
+  - python=3.8.2=h9d8adfe_4_cpython
   - python-dateutil=2.8.1=py_0
   - pytz=2019.3=py_0
   - pyzmq=19.0.0=py38h1768529_0
@@ -125,7 +126,7 @@ dependencies:
   - r-r.oo=1.23.0=r36h6115d3f_0
   - r-r.utils=2.9.2=r36h6115d3f_0
   - r-rematch2=2.1.0=r36h6115d3f_0
-  - r-rlang=0.4.4=r36hcdcec82_0
+  - r-rlang=0.4.5=r36hcdcec82_0
   - r-rprojroot=1.3_2=r36h6115d3f_1002
   - r-styler=1.3.2=r36h6115d3f_0
   - r-tibble=2.1.3=r36hcdcec82_1
@@ -146,7 +147,7 @@ dependencies:
   - testpath=0.4.4=py_0
   - tk=8.6.10=hed695b0_0
   - tktable=2.10=h555a92e_3
-  - tornado=6.0.3=py38h516909a_4
+  - tornado=6.0.4=py38h516909a_0
   - traitlets=4.3.3=py38_0
   - tzlocal=2.0.0=py_0
   - wcwidth=0.1.8=py_0
@@ -165,7 +166,7 @@ dependencies:
   - xorg-xproto=7.0.31=h14c3975_1007
   - xz=5.2.4=h14c3975_1001
   - zeromq=4.3.2=he1b5a44_2
-  - zipp=3.0.0=py_0
+  - zipp=3.1.0=py_0
   - zlib=1.2.11=h516909a_1006
   - zstd=1.4.4=h3b9ef0a_1
   - pip:
@@ -181,10 +182,10 @@ dependencies:
     - idna==2.9
     - imagesize==1.2.0
     - isort==4.3.21
-    - jeepney==0.4.2
-    - keyring==21.1.0
+    - jeepney==0.4.3
+    - keyring==21.1.1
     - more-itertools==8.2.0
-    - packaging==20.1
+    - packaging==20.3
     - pathspec==0.7.0
     - pkginfo==1.5.0.1
     - pluggy==0.13.1
@@ -198,7 +199,7 @@ dependencies:
     - requests-toolbelt==0.9.1
     - secretstorage==3.1.2
     - snowballstemmer==2.0.0
-    - sphinx==2.4.3
+    - sphinx==2.4.4
     - sphinx-rtd-theme==0.4.3
     - sphinxcontrib-applehelp==1.0.2
     - sphinxcontrib-devhelp==1.0.2
