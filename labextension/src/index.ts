@@ -151,7 +151,9 @@ class JupyterLabCodeFormatter
         settings.changed.connect(onSettingsUpdated);
         onSettingsUpdated(settings);
       })
-      .catch((reason: Error) => console.error(reason.message));
+      .catch((error: Error) => {
+        void showErrorMessage('Jupyterlab Code Formatter Error', error);
+      });
   }
 
   private setupCommand(name: string, label: string, command: string) {

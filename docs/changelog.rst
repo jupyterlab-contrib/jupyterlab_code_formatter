@@ -13,6 +13,7 @@ Jupyterlab extension
 --------------------
 
 * Fully prohibit mismatched lab and server extension usage (accounting for either stale lab or server extension);
+* Use Jupyterlab dialogs for error reporting instead of console for clarity;
 
 1.2.0 2020-03-04
 ================
