@@ -9,4 +9,6 @@ export namespace Constants {
   export const LONG_PLUGIN_NAME = `@ryantam626/${SHORT_PLUGIN_NAME}`;
   export const SETTINGS_SECTION = `${LONG_PLUGIN_NAME}:settings`;
   export const COMMAND_SECTION_NAME = 'Jupyterlab Code Formatter';
+  // TODO: Use package.json info
+  export const PLUGIN_VERSION = '1.2.0';
 }

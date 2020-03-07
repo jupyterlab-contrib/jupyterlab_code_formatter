@@ -4,7 +4,7 @@ SERVEREXTENSION_VERSION=$(grep "^version" -- ${SERVEREXTENSION_PATH}/setup.py | 
 LABEXTENSION_VERSION=$(cat ${LABEXTENSION_PATH}/package.json | jq -r '.version')
 LABEXTENSION_LOCKED_VERSION=$(cat ${LABEXTENSION_PATH}/package-lock.json | jq -r '.version')
 CHANGELOG_VERSION=$(awk 'match($0, /(.*) [0-9]{4}-[0-9]{2}-[0-9]{2}/, a) {print a[1]}' docs/changelog.rst | head -n 1)
-HARDCODED_LABEXTENSION_CLIENT_VERSION=$(awk 'match($0, /\047Plugin-Version\047: \047(.*)\047/, a) {print a[1]}' ${LABEXTENSION_PATH}/src/client.ts)
+HARDCODED_LABEXTENSION_CLIENT_VERSION=$(grep "PLUGIN_VERSION" -- ${LABEXTENSION_PATH}/src/constants.ts | awk -F"'" '{ print $2 }')
 
 versions=( $SERVEREXTENSION_VERSION $LABEXTENSION_VERSION $LABEXTENSION_LOCKED_VERSION $CHANGELOG_VERSION $HARDCODED_LABEXTENSION_CLIENT_VERSION )
 unique_versions_count=$(echo ${versions[@]} | tr ' ' '\n' | uniq | wc -l)
