@@ -34,6 +34,10 @@ jobs:
       run: |
         make conda-install-frozen
 
+    - name: Version Check
+      shell: bash -l {0}
+      run: source ./start_env.sh && ./bin/pre-publish-check.sh
+
     - name: Install plugin
       shell: bash -l {0}
       run: |
