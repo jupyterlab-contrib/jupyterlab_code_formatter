@@ -81,7 +81,22 @@ To change the default formatter used the format action in context menu/toolbar, 
         }
     }
 
+Chaining Default Formatters
+```````````````````````````
 
+To invoke more than one formatters with invoking the commands :code:`jupyterlab_code_formatter:format` and
+:code:`jupyterlab_code_formatter:format_all`, one could configure the default formatter to be an array of strings like so:
+
+.. code-block:: json
+
+    {
+        "preferences": {
+            "default_formatter": {
+                "python": ["isort", "black"],
+                "R": ["styler", "formatR"],
+            }
+        }
+    }
 
 Changing Formatter Parameter
 ----------------------------
