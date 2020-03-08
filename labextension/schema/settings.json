@@ -9,10 +9,16 @@
                 "default_formatter": {
                     "properties": {
                         "python": {
-                            "type": "string"
+                            "anyOf": [
+                                {"type": "string"},
+                                {"type": "array", "element":  "string"}
+                            ]
                         },
                         "R": {
-                            "type": "string"
+                            "anyOf": [
+                                {"type": "string"},
+                                {"type": "array", "element":  "string"}
+                            ]
                         }
                     },
                     "additionalProperties": true,

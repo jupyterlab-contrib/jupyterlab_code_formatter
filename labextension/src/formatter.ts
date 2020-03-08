@@ -87,10 +87,15 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return null;
   }
 
-  private getDefaultFormatter(config: any): string {
+  private getDefaultFormatters(config: any): Array<string> {
     const notebookType = this.getNotebookType();
     if (notebookType) {
-      return config.preferences.default_formatter[notebookType];
+      let defaultFormatter = config.preferences.default_formatter[notebookType];
+      if (defaultFormatter instanceof Array) {
+        return defaultFormatter;
+      } else {
+        return [defaultFormatter];
+      }
     }
     return null;
   }
@@ -111,34 +116,37 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         this.working = false;
         return;
       }
-      const currentTexts = selectedCells.map(cell => cell.model.value.text);
-      const defaultFormatter = this.getDefaultFormatter(config);
-      const formatterToUse = formatter || defaultFormatter;
-      const formattedTexts = await this.formatCode(
-        currentTexts,
-        formatterToUse,
-        config[formatterToUse]
-      );
-      for (let i = 0; i < selectedCells.length; ++i) {
-        const cell = selectedCells[i];
-        const currentText = currentTexts[i];
-        const formattedText = formattedTexts.code[i];
-        if (cell.model.value.text === currentText) {
-          if (formattedText.code) {
-            cell.model.value.text = formattedText.code.endsWith('\n')
-              ? formattedText.code.slice(0, -1)
-              : formattedText.code;
+      const defaultFormatters = this.getDefaultFormatters(config);
+      const formattersToUse =
+        formatter !== undefined ? [formatter] : defaultFormatters;
+      for (let formatterToUse of formattersToUse) {
+        const currentTexts = selectedCells.map(cell => cell.model.value.text);
+        const formattedTexts = await this.formatCode(
+          currentTexts,
+          formatterToUse,
+          config[formatterToUse]
+        );
+        for (let i = 0; i < selectedCells.length; ++i) {
+          const cell = selectedCells[i];
+          const currentText = currentTexts[i];
+          const formattedText = formattedTexts.code[i];
+          if (cell.model.value.text === currentText) {
+            if (formattedText.code) {
+              cell.model.value.text = formattedText.code.endsWith('\n')
+                ? formattedText.code.slice(0, -1)
+                : formattedText.code;
+            } else {
+              await showErrorMessage(
+                'Jupyterlab Code Formatter Error',
+                formattedText.error
+              );
+            }
           } else {
             await showErrorMessage(
               'Jupyterlab Code Formatter Error',
-              formattedText.error
+              `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
             );
           }
-        } else {
-          await showErrorMessage(
-            'Jupyterlab Code Formatter Error',
-            `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
-          );
         }
       }
     } catch (error) {

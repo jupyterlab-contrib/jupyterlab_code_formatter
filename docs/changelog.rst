@@ -14,6 +14,7 @@ Jupyterlab extension
 
 * Fully prohibit mismatched lab and server extension usage (accounting for either stale lab or server extension);
 * Use Jupyterlab dialogs for error reporting instead of console for clarity;
+* Support multiple default formatters to be ran in sequence;
 
 1.2.0 2020-03-04
 ================
