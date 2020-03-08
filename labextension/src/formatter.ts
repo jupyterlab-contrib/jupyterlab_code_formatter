@@ -184,7 +184,12 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     this.formatCode([code], formatter, config[formatter])
       .then(data => {
         if (data.code[0].error) {
-          throw data.code[0].error;
+          void showErrorMessage(
+            'Jupyterlab Code Formatter Error',
+            data.code[0].error
+          );
+          this.working = false;
+          return;
         }
         this.editorTracker.currentWidget.content.editor.model.value.text =
           data.code[0].code;

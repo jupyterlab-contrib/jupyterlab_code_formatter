@@ -26,8 +26,11 @@ class JupyterlabCodeFormatterClient {
       settings
     ).then(response => {
       if (response.status !== 200) {
-        return response.text().then(data => {
-          throw new ServerConnection.ResponseError(response, data);
+        return response.text().then(() => {
+          throw new ServerConnection.ResponseError(
+            response,
+            response.statusText
+          );
         });
       }
       return response.text();
