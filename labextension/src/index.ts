@@ -62,11 +62,13 @@ class JupyterLabCodeFormatter
       this.editorTracker
     );
 
-    this.checkVersion().then(() => {
-      this.setupSettings();
-      this.setupAllCommands();
-      this.setupContextMenu();
-      this.setupWidgetExtension();
+    this.checkVersion().then(versionMatches => {
+      if (versionMatches) {
+        this.setupSettings();
+        this.setupAllCommands();
+        this.setupContextMenu();
+        this.setupWidgetExtension();
+      }
     });
   }
 
@@ -185,7 +187,7 @@ class JupyterLabCodeFormatter
   }
 
   private async checkVersion() {
-    this.client
+    return this.client
       .getVersion()
       .then(data => {
         let serverPluginVersion = JSON.parse(data).version;
