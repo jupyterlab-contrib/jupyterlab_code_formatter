@@ -4,6 +4,9 @@ Changelog
 Unreleased
 ==========
 
+1.2.2 2020-03-14
+================
+
 Server extension
 ----------------
 
