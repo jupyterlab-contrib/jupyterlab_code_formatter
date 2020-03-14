@@ -4,6 +4,17 @@ Changelog
 Unreleased
 ==========
 
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
+* Fix error reporting when blank code cell(s) exists;
+
+
 1.2.1 2020-03-12
 ================
 

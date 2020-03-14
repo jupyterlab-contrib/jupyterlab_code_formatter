@@ -131,15 +131,15 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
           const currentText = currentTexts[i];
           const formattedText = formattedTexts.code[i];
           if (cell.model.value.text === currentText) {
-            if (formattedText.code) {
-              cell.model.value.text = formattedText.code.endsWith('\n')
-                ? formattedText.code.slice(0, -1)
-                : formattedText.code;
-            } else {
+            if (formattedText.error) {
               await showErrorMessage(
                 'Jupyterlab Code Formatter Error',
                 formattedText.error
               );
+            } else {
+              cell.model.value.text = formattedText.code.endsWith('\n')
+                ? formattedText.code.slice(0, -1)
+                : formattedText.code;
             }
           } else {
             await showErrorMessage(
