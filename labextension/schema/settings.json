@@ -231,7 +231,7 @@
             "$ref": "#/definitions/preferences",
             "default" : {
                 "default_formatter": {
-                    "python": "black",
+                    "python": ["isort", "black"],
                     "r": "formatR"
                 }
             }
