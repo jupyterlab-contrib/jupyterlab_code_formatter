@@ -263,7 +263,13 @@
             "title": "Isort Config",
             "description": "Config to be passed into isort's SortImports function call.",
             "$ref": "#/definitions/isort",
-            "default": {}
+            "default": {
+                "multi_line_output": 3,
+                "include_trailing_comma": true,
+                "force_grid_wrap": 0,
+                "use_parentheses": true,
+                "line_length": 88
+            }
         },
         "formatR": {
             "title": "FormatR Config",
