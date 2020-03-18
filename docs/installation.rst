@@ -31,7 +31,7 @@ With Conda
 
 .. code-block:: bash
 
-    conda install -c conda-forge black
+    conda install black nodejs
     jupyter labextension install @ryantam626/jupyterlab_code_formatter
     conda install -c conda-forge jupyterlab_code_formatter
     jupyter serverextension enable --py jupyterlab_code_formatter
