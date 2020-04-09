@@ -13,6 +13,7 @@ Jupyterlab extension
 --------------------
 
 * Add detect notebook type fallback;
+* Make failure to determin default formatters more prominent;
 
 1.2.2 2020-03-14
 ================

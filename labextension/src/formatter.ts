@@ -101,7 +101,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         return [defaultFormatter];
       }
     }
-    return null;
+    return [];
   }
 
   private async formatCells(
@@ -123,6 +123,14 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
       const defaultFormatters = this.getDefaultFormatters(config);
       const formattersToUse =
         formatter !== undefined ? [formatter] : defaultFormatters;
+
+      if (formattersToUse.length === 0) {
+        await showErrorMessage(
+          'Jupyterlab Code Formatter Error',
+          `Unable to find default formatters to use, please file an issue on GitHub.`
+        );
+      }
+
       for (let formatterToUse of formattersToUse) {
         const currentTexts = selectedCells.map(cell => cell.model.value.text);
         const formattedTexts = await this.formatCode(
