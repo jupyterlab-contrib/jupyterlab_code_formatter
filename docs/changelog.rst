@@ -12,6 +12,19 @@ No changes.
 Jupyterlab extension
 --------------------
 
+No changes.
+
+1.2.3 2020-04-09
+================
+
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
 * Add detect notebook type fallback;
 * Make failure to determin default formatters more prominent;
 
