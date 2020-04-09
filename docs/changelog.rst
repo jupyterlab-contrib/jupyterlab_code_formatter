@@ -4,6 +4,16 @@ Changelog
 Unreleased
 ==========
 
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
+* Add detect notebook type fallback;
+
 1.2.2 2020-03-14
 ================
 

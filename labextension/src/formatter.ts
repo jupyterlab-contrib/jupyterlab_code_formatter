@@ -83,6 +83,10 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         // @ts-ignore
         return metadata.kernelspec.language;
       }
+      if (metadata && metadata.language_info) {
+        // @ts-ignore
+        return metadata.language_info.codemirror_mode.name;
+      }
     }
     return null;
   }
