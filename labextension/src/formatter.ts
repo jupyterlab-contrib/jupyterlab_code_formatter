@@ -77,11 +77,15 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   }
 
   private getNotebookType() {
-    if (!this.notebookTracker.currentWidget) return null;
+    if (!this.notebookTracker.currentWidget) {
+      return null;
+    }
 
     const metadata = this.notebookTracker.currentWidget.content.model.metadata.toJSON();
 
-    if (!metadata) return null;
+    if (!metadata) {
+      return null;
+    }
 
     // prefer kernelspec language
     // @ts-ignore
