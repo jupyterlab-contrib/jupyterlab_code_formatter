@@ -77,17 +77,24 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   }
 
   private getNotebookType() {
-    if (this.notebookTracker.currentWidget) {
-      const metadata = this.notebookTracker.currentWidget.content.model.metadata.toJSON();
-      if (metadata && metadata.kernelspec) {
-        // @ts-ignore
-        return metadata.kernelspec.language;
-      }
-      if (metadata && metadata.language_info) {
-        // @ts-ignore
-        return metadata.language_info.codemirror_mode.name;
-      }
+    if (!this.notebookTracker.currentWidget) return null;
+
+    const metadata = this.notebookTracker.currentWidget.content.model.metadata.toJSON();
+
+    if (!metadata) return null;
+
+    // prefer kernelspec language
+    if (metadata.kernelspec && metadata.kernelspec.language) {
+      // @ts-ignore
+      return metadata.kernelspec.language;
     }
+
+    // otherwise, check language info code mirror mode
+    if (metadata.language_info && metadata.language_info.codemirror_mode) {
+      // @ts-ignore
+      return metadata.language_info.codemirror_mode.name;
+    }
+
     return null;
   }
 
