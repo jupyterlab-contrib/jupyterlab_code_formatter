@@ -14,6 +14,19 @@ Jupyterlab extension
 
 No changes.
 
+1.2.4 2019-04-18
+================
+
+Server extension
+----------------
+
+* Fix detect notebook type fallback - courtesy of devstein;
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
 1.2.3 2020-04-09
 ================
 
