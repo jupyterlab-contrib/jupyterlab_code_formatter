@@ -155,6 +155,7 @@ class FormatRFormatter(BaseFormatter):
         except Exception:
             return False
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
@@ -181,6 +182,7 @@ class StylerFormatter(BaseFormatter):
         except Exception:
             return False
 
+    @respect_semicolon_and_magic
     def format_code(self, code: str, **options) -> str:
         import rpy2.robjects.packages as rpackages
 

@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No changes.
+* Ignore magic and trailing semicolon for R formatters;
 
 Jupyterlab extension
 --------------------
