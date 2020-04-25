@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No changes.
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
+1.2.5 2020-04-25
+================
+
+Server extension
+----------------
+
 * Ignore magic and trailing semicolon for R formatters;
 
 Jupyterlab extension
@@ -14,7 +27,7 @@ Jupyterlab extension
 
 No changes.
 
-1.2.4 2019-04-18
+1.2.4 2020-04-18
 ================
 
 Server extension
