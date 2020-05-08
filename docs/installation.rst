@@ -14,8 +14,8 @@ Prerequisites
 Installation Step 1 (Installing the plugin itself)
 --------------------------------------------------
 
-With Pip
-~~~~~~~~
+Option 1) With Pip
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -23,22 +23,18 @@ With Pip
     pip install jupyterlab_code_formatter
     jupyter serverextension enable --py jupyterlab_code_formatter
 
-.. important::
-    You will also need to install a code formatter for this plugin to work.
-
-With Conda
-~~~~~~~~~~
+Option 2) With Conda
+~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    conda install black nodejs
+    conda install nodejs
     jupyter labextension install @ryantam626/jupyterlab_code_formatter
     conda install -c conda-forge jupyterlab_code_formatter
     jupyter serverextension enable --py jupyterlab_code_formatter
 
 .. important::
-    You will also need to install a code formatter for this plugin to work.
-
+    You will also need to install a code formatter for this plugin to work. The default formatter for Python are :code:`isort` and :code:`black`, and :code:`formatR` for R. Installing these would be a good place to start.
 
 Installation Step 2 (Installing a supported code formatter)
 -----------------------------------------------------------
@@ -73,7 +69,7 @@ Supported formatters are:
 Install one of them via your favourite package management tool again. For example, via conda or via R directly.
 
 .. danger::
-    **You will also need to install the :code:`rpy2` Python package for this plugin to work!**
+    You will also need to install the :code:`rpy2` Python package for this plugin to work!
 
 
 Installation Step 3 (Restarting Jupyterlab)
