@@ -29,6 +29,9 @@ jobs:
         path: labextension/node_modules
         key: ${{ runner.OS }}-node
 
+    - name: Install libgbm1  # https://github.com/puppeteer/puppeteer/issues/5674
+      run: sudo apt-get install libgbm1
+
     - name: Install conda environment
       shell: bash -l {0}
       run: |
