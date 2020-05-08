@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No changes.
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
+1.3.0 2020-05-08
+================
+
+Server extension
+----------------
+
 * Move cell/file ending handling back to server extension;
 * Fix semicolon handling;
 
