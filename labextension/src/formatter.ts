@@ -91,14 +91,14 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     // @ts-ignore
     if (metadata.kernelspec && metadata.kernelspec.language) {
       // @ts-ignore
-      return metadata.kernelspec.language;
+      return metadata.kernelspec.language.toLowerCase();
     }
 
     // otherwise, check language info code mirror mode
     // @ts-ignore
     if (metadata.language_info && metadata.language_info.codemirror_mode) {
       // @ts-ignore
-      return metadata.language_info.codemirror_mode.name;
+      return metadata.language_info.codemirror_mode.name.toLowerCase();
     }
 
     return null;
