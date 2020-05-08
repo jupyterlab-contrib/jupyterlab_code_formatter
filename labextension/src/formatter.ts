@@ -13,13 +13,19 @@ class JupyterlabCodeFormatter {
     this.client = client;
   }
 
-  protected formatCode(code: string[], formatter: string, options: any) {
+  protected formatCode(
+    code: string[],
+    formatter: string,
+    options: any,
+    notebook: boolean
+  ) {
     return this.client
       .request(
         'format',
         'POST',
         JSON.stringify({
           code,
+          notebook,
           formatter,
           options
         }),
@@ -150,7 +156,8 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         const formattedTexts = await this.formatCode(
           currentTexts,
           formatterToUse,
-          config[formatterToUse]
+          config[formatterToUse],
+          true
         );
         for (let i = 0; i < selectedCells.length; ++i) {
           const cell = selectedCells[i];
@@ -163,9 +170,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
                 formattedText.error
               );
             } else {
-              cell.model.value.text = formattedText.code.endsWith('\n')
-                ? formattedText.code.slice(0, -1)
-                : formattedText.code;
+              cell.model.value.text = formattedText.code;
             }
           } else {
             await showErrorMessage(
@@ -207,7 +212,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     this.working = true;
     const editor = editorWidget.content.editor;
     const code = editor.model.value.text;
-    this.formatCode([code], formatter, config[formatter])
+    this.formatCode([code], formatter, config[formatter], false)
       .then(data => {
         if (data.code[0].error) {
           void showErrorMessage(

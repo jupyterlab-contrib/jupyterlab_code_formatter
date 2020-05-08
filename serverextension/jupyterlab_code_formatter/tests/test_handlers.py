@@ -82,7 +82,12 @@ class TestHandlers(NotebookTestBase):
             verb="POST",
             path="/jupyterlab_code_formatter/format",
             data=json.dumps(
-                {"code": code, "options": options, "formatter": formatter,}
+                {
+                    "code": code,
+                    "options": options,
+                    "notebook": True,
+                    "formatter": formatter,
+                }
             ),
             headers=self._create_headers(plugin_version),
         )
@@ -118,12 +123,12 @@ class TestHandlers(NotebookTestBase):
             options={"line_length": 88},
         )
         json_result = self._check_http_200_and_schema(response)
-        assert json_result["code"][0]["code"] == "x = 22\ne = 1\n"
+        assert json_result["code"][0]["code"] == "x = 22\ne = 1"
 
     def test_can_use_black_config(self):
         """Check that it can apply black with advanced config."""
         given = "some_string='abc'"
-        expected = "some_string = 'abc'\n"
+        expected = "some_string = 'abc'"
 
         response = self._format_code_request(
             formatter="black",
@@ -149,7 +154,7 @@ class TestHandlers(NotebookTestBase):
     def test_can_handle_magic(self):
         """Check that it's fine to run formatters for code with magic."""
         given = '%%timeit\nsome_string = "abc"'
-        expected = '%%timeit\nsome_string = "abc"\n'
+        expected = '%%timeit\nsome_string = "abc"'
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
                 formatter=formatter, code=[given], options={},

@@ -27,20 +27,23 @@ class BaseFormatter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def format_code(self, code: str, **options) -> str:
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         pass
 
 
-def respect_semicolon_and_magic(func):
+def handle_line_ending_and_magic(func):
     @wraps(func)
-    def wrapped(self, code: str, **options) -> str:
+    def wrapped(self, code: str, notebook: bool, **options) -> str:
         has_semicolon = code.strip().endswith(";")
 
         code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
-        code = func(self, code, **options)
+        code = func(self, code, notebook, **options)
         code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
 
-        if has_semicolon:
+        if notebook:
+            code = code.rstrip()
+
+        if has_semicolon and notebook:
             code += ";"
         return code
 
@@ -71,8 +74,8 @@ class BlackFormatter(BaseFormatter):
         else:
             return options
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         import black
 
         code = black.format_str(code, **self.handle_options(**options))
@@ -92,8 +95,8 @@ class Autopep8Formatter(BaseFormatter):
         except ImportError:
             return False
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         from autopep8 import fix_code
 
         return fix_code(code, options=options)
@@ -112,8 +115,8 @@ class YapfFormatter(BaseFormatter):
         except ImportError:
             return False
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         from yapf.yapflib.yapf_api import FormatCode
 
         return FormatCode(code, **options)[0]
@@ -132,8 +135,8 @@ class IsortFormatter(BaseFormatter):
         except ImportError:
             return False
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         from isort import SortImports
 
         return SortImports(file_contents=code, **options).output
@@ -155,8 +158,8 @@ class FormatRFormatter(BaseFormatter):
         except Exception:
             return False
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
         format_r = rpackages.importr(
@@ -182,8 +185,8 @@ class StylerFormatter(BaseFormatter):
         except Exception:
             return False
 
-    @respect_semicolon_and_magic
-    def format_code(self, code: str, **options) -> str:
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
         styler_r = rpackages.importr(self.package_name)
