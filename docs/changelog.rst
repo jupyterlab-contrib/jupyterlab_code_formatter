@@ -7,12 +7,14 @@ Unreleased
 Server extension
 ----------------
 
-No changes.
+* Move cell/file ending handling back to server extension;
+* Fix semicolon handling;
 
 Jupyterlab extension
 --------------------
 
-No changes.
+* Move cell/file ending handling back to server extension;
+* Fix erroneous detection of R default formatters;
 
 1.2.5 2020-04-25
 ================
