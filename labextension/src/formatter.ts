@@ -107,10 +107,11 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   private getDefaultFormatters(config: any): Array<string> {
     const notebookType = this.getNotebookType();
     if (notebookType) {
-      let defaultFormatter = config.preferences.default_formatter[notebookType];
+      const defaultFormatter =
+        config.preferences.default_formatter[notebookType];
       if (defaultFormatter instanceof Array) {
         return defaultFormatter;
-      } else {
+      } else if (defaultFormatter !== undefined) {
         return [defaultFormatter];
       }
     }
