@@ -259,4 +259,5 @@ SERVER_FORMATTERS = {
     "isort": IsortFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
+    "JuliaFormatter": JuliaFormatter(),
 }
