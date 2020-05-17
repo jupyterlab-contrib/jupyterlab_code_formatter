@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No changes.
+* Improve error message when formatter is not found;
 
 Jupyterlab extension
 --------------------

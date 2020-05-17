@@ -90,7 +90,7 @@ class FormatAPIHandler(APIHandler):
             formatter_instance = SERVER_FORMATTERS.get(data["formatter"])
 
             if formatter_instance is None or not formatter_instance.importable:
-                self.set_status(404, "Formatter not found!")
+                self.set_status(404, f"Formatter {data['formatter']} not found!")
                 self.finish()
             else:
                 notebook = data["notebook"]
