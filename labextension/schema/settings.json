@@ -14,7 +14,7 @@
                                 {"type": "array", "element":  "string"}
                             ]
                         },
-                        "R": {
+                        "r": {
                             "anyOf": [
                                 {"type": "string"},
                                 {"type": "array", "element":  "string"}
