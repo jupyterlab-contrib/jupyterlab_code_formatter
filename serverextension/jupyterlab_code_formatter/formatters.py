@@ -8,6 +8,12 @@ try:
     import rpy2.robjects
 except ImportError:
     pass
+try:
+    from julia.api import JuliaError
+except ImportError:
+    class JuliaError(Exception):
+        pass
+
 from packaging import version
 
 
@@ -140,6 +146,31 @@ class IsortFormatter(BaseFormatter):
         from isort import SortImports
 
         return SortImports(file_contents=code, **options).output
+
+
+class JuliaFormatter(BaseFormatter):
+
+    label = "Apply Julia Formatter"
+
+    @staticmethod
+    def get_julia_instance():
+        from julia.api import Julia
+        julia = Julia(compiled_modules=False)
+        julia.eval("using JuliaFormatter")
+        return julia
+
+    @property
+    def importable(self) -> bool:
+        try:
+            self.get_julia_instance()
+            return True
+        except (ImportError, JuliaError):
+            return False
+
+    def format_code(self, code: str, notebook: bool, **options) -> str:
+        julia = self.get_julia_instance()
+        code_str_literal = '"{}"'.format(code.replace('\"', '\\"'))
+        return julia.eval(f"format_text({code_str_literal})")
 
 
 class FormatRFormatter(BaseFormatter):
