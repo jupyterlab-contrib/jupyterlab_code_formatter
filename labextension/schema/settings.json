@@ -19,6 +19,12 @@
                                 {"type": "string"},
                                 {"type": "array", "element":  "string"}
                             ]
+                        },
+                        "julia": {
+                            "anyOf": [
+                                {"type": "string"},
+                                {"type": "array", "element":  "string"}
+                            ]
                         }
                     },
                     "additionalProperties": true,
@@ -232,7 +238,8 @@
             "default" : {
                 "default_formatter": {
                     "python": ["isort", "black"],
-                    "r": "formatR"
+                    "r": "formatR",
+                    "julia": "JuliaFormatter"
                 }
             }
         },
