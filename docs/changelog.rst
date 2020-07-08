@@ -7,6 +7,7 @@ Unreleased
 Server extension
 ----------------
 
+* Fix semicolon handling again;
 * Improve error message when formatter is not found;
 
 Jupyterlab extension
