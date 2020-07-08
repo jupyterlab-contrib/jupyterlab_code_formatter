@@ -7,13 +7,26 @@ Unreleased
 Server extension
 ----------------
 
-* Improve error message when formatter is not found;
+No changes.
 
 Jupyterlab extension
 --------------------
 
 No changes.
 
+1.3.2 2020-07-08
+================
+
+Server extension
+----------------
+
+* Fix semicolon handling again;
+* Improve error message when formatter is not found;
+
+Jupyterlab extension
+--------------------
+
+No changes.
 
 1.3.1 2020-05-08
 ================
