@@ -43,7 +43,7 @@ def handle_line_ending_and_magic(func):
         if notebook:
             code = code.rstrip()
 
-        if has_semicolon and notebook:
+        if has_semicolon and notebook and not code.endswith(";"):
             code += ";"
         return code
 
