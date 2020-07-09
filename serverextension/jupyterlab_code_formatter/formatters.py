@@ -137,9 +137,14 @@ class IsortFormatter(BaseFormatter):
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
-        from isort import SortImports
+        try:
+            from isort import SortImports
 
-        return SortImports(file_contents=code, **options).output
+            return SortImports(file_contents=code, **options).output
+        except ImportError:
+            import isort
+
+            return isort.code(code=code, **options)
 
 
 class FormatRFormatter(BaseFormatter):
