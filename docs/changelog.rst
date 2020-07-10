@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No changes.
+* Support isort 5 and also isort 4 at the same time, courtesy of dialvarezs;
 
 Jupyterlab extension
 --------------------
