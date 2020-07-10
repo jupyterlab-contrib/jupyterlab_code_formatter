@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No changes.
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
+1.3.3 2020-07-10
+================
+
+Server extension
+----------------
+
 * Support isort 5 and also isort 4 at the same time, courtesy of dialvarezs;
 
 Jupyterlab extension
