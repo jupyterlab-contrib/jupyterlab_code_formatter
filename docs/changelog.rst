@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No changes.
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
+1.3.4 2020-07-11
+================
+
+Server extension
+----------------
+
 * Fix semicolon handling again;
 
 Jupyterlab extension
