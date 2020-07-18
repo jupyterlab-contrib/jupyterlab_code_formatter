@@ -1,6 +1,5 @@
 import { Cell, CodeCell } from '@jupyterlab/cells';
 import { INotebookTracker, Notebook } from '@jupyterlab/notebook';
-import { ServerConnection } from '@jupyterlab/services';
 import JupyterlabCodeFormatterClient from './client';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { Widget } from '@lumino/widgets';
@@ -28,8 +27,7 @@ class JupyterlabCodeFormatter {
           notebook,
           formatter,
           options
-        }),
-        ServerConnection.defaultSettings
+        })
       )
       .then(resp => JSON.parse(resp));
   }
