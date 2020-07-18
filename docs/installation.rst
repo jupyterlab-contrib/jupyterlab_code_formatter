@@ -53,10 +53,10 @@ Install one of them via your favourite package management tool. For example, one
 
 .. code-block:: bash
 
+    # Installing black and isort, the default python formatters of choice in this plugin
     # ONLY ONE OF THESE WILL DO!!!!!!!!
-    pip install black
-    conda install black
-    poetry add black
+    pip install black isort
+    conda install black isort
 
 R Code Formatters
 ~~~~~~~~~~~~~~~~~
