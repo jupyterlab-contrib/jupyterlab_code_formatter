@@ -12,6 +12,19 @@ No changes.
 Jupyterlab extension
 --------------------
 
+No changes.
+
+1.3.5 2020-07-18
+================
+
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
 * Fix server URL lookup for JupyterLab 2.2.0+;
 
 1.3.4 2020-07-11
