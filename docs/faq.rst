@@ -20,7 +20,7 @@ Recently, there is another common mode of failure. This usually manifest itself 
 
 Symptoms of such failure is the presence of such message:
 
-.. code-block::
+.. code-block:: console
 
     $ jupyter labextension list
 
