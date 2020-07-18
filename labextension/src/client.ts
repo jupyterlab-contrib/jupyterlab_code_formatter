@@ -3,12 +3,8 @@ import { ServerConnection } from '@jupyterlab/services';
 import { Constants } from './constants';
 
 class JupyterlabCodeFormatterClient {
-  public request(
-    path: string,
-    method: string,
-    body: any,
-    settings: ServerConnection.ISettings
-  ): Promise<any> {
+  public request(path: string, method: string, body: any): Promise<any> {
+    const settings = ServerConnection.makeSettings();
     const fullUrl = URLExt.join(
       settings.baseUrl,
       Constants.SHORT_PLUGIN_NAME,
@@ -38,21 +34,11 @@ class JupyterlabCodeFormatterClient {
   }
 
   public getAvailableFormatters() {
-    return this.request(
-      'formatters',
-      'GET',
-      null,
-      ServerConnection.defaultSettings
-    );
+    return this.request('formatters', 'GET', null);
   }
 
   public getVersion() {
-    return this.request(
-      'version',
-      'GET',
-      null,
-      ServerConnection.defaultSettings
-    );
+    return this.request('version', 'GET', null);
   }
 }
 
