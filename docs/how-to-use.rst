@@ -68,7 +68,7 @@ To bind the format selected cells/format all cells command, the command to use w
 Changing Default Formatter
 --------------------------
 
-To change the default formatter used the format action in context menu/toolbar, you will need to change settings via Jupyter Lab Advanced Settings Editor, for example:
+To change the default formatter used the format action in context menu/toolbar, go to "Settings" > "Advanced Settings Editor" > "Jupyterlab Code Formatter", then in the "User Preferences" panel, enter, for example:
 
 .. code-block:: json
 
