@@ -6,12 +6,37 @@ Error when writing grammar tables?
 
 You might see some errors about writing grammar tables when using the black formatter, simply manually create the directory by running: `python -c "import black; black.CACHE_DIR.mkdir(parents=True, exist_ok=True)"`. For more information see `here`_.
 
-Why are the commands not showing up in the command pallete?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Why are the commands not showing up in the command pallete? (I)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Make sure you really have one of the formatters properly installed.
 
 And also make sure you have a suitable notebook/script opened for the formatters to work on when checking if the commands are there.
+
+Why are the commands not showing up in the command pallete? (II)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Recently, there is another common mode of failure. This usually manifest itself after an attempt to upgrade the plugin.
+
+Symptoms of such failure is the presence of such message:
+
+.. code-block::
+
+    $ jupyter labextension list
+
+    JupyterLab v2.1.5
+    Known labextensions:
+    app dir: env/share/jupyter/lab
+    @ryantam626/jupyterlab_code_formatter v1.3.4 enabled OK
+
+    Uninstalled core extensions:
+    @ryantam626/jupyterlab_code_formatter
+
+Note the confusing enabled and yet uninstalled core extension.
+
+To fix this, follow `this comment <https://github.com/jupyterlab/jupyterlab/issues/8122#issuecomment-617209892>`_.
+
+
 
 404 POST on Jupyterhub
 ~~~~~~~~~~~~~~~~~~~~~~
