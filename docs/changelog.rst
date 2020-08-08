@@ -12,6 +12,19 @@ No changes.
 Jupyterlab extension
 --------------------
 
+No changes.
+
+1.3.6 2020-08-08
+================
+
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
 * Fix isort schema spec for the following settings:
     + known_future_library
     + known_standard_library
