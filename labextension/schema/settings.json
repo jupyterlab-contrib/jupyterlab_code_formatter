@@ -52,16 +52,20 @@
                     "type": "number"
                 },
                 "known_future_library": {
-                    "type": "string"
+                    "type": "array",
+                    "element": "string"
                 },
                 "known_standard_library": {
-                    "type": "string"
+                    "type": "array",
+                    "element": "string"
                 },
                 "known_third_party": {
-                    "type": "string"
+                    "type": "array",
+                    "element": "string"
                 },
                 "known_first_party": {
-                    "type": "string"
+                    "type": "array",
+                    "element": "string"
                 },
                 "multi_line_output": {
                     "type": "number"

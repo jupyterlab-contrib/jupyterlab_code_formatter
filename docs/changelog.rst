@@ -12,7 +12,11 @@ No changes.
 Jupyterlab extension
 --------------------
 
-No changes.
+* Fix isort schema spec for the following settings:
+    + known_future_library
+    + known_standard_library
+    + known_third_party
+    + known_first_party
 
 1.3.5 2020-07-18
 ================
