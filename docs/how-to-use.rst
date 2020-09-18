@@ -81,7 +81,7 @@ To change the default formatter used the format action in context menu/toolbar, 
         }
     }
 
-Chaining Default Formatters
+Changing Default Formatters
 ```````````````````````````
 
 To invoke more than one formatters with invoking the commands :code:`jupyterlab_code_formatter:format` and
