@@ -38,6 +38,12 @@ To fix this, follow `this comment <https://github.com/jupyterlab/jupyterlab/issu
 
 
 
+404 POST
+~~~~~~~~
+
+You might not have formatters installed, the default formatters are ``black`` and ``isort`` for Python and ``formatR`` for R. (You might also need to restart Jupyter Lab after you install them)
+
+
 404 POST on Jupyterhub
 ~~~~~~~~~~~~~~~~~~~~~~
 
