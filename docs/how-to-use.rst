@@ -68,7 +68,8 @@ To bind the format selected cells/format all cells command, the command to use w
 Changing Default Formatter
 --------------------------
 
-To change the default formatter used the format action in context menu/toolbar, go to "Settings" > "Advanced Settings Editor" > "Jupyterlab Code Formatter", then in the "User Preferences" panel, enter, for example:
+To change the default formatter used the format action in context menu/toolbar (also :code:`jupyterlab_code_formatter:format` and
+:code:`jupyterlab_code_formatter:format_all`), go to "Settings" > "Advanced Settings Editor" > "Jupyterlab Code Formatter", then in the "User Preferences" panel, enter, for example:
 
 .. code-block:: json
 
@@ -81,8 +82,8 @@ To change the default formatter used the format action in context menu/toolbar, 
         }
     }
 
-Chaining Default Formatters
-```````````````````````````
+Chaining Default Formatters One After The Other
+```````````````````````````````````````````````
 
 To invoke more than one formatters with invoking the commands :code:`jupyterlab_code_formatter:format` and
 :code:`jupyterlab_code_formatter:format_all`, one could configure the default formatter to be an array of strings like so:
