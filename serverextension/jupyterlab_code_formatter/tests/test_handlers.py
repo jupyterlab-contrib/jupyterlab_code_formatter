@@ -162,6 +162,17 @@ class TestHandlers(NotebookTestBase):
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
 
+    def test_can_handle_shell_cmd(self):
+        """Check that it's fine to run formatters for code with shell cmd."""
+        given = '%%timeit\nsome_string = "abc"\n!pwd'
+        expected = '%%timeit\nsome_string = "abc"\n!pwd'
+        for formatter in ["black", "yapf", "isort"]:
+            response = self._format_code_request(
+                formatter=formatter, code=[given], options={},
+            )
+            json_result = self._check_http_200_and_schema(response)
+            assert json_result["code"][0]["code"] == expected
+
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
