@@ -14,6 +14,20 @@ Jupyterlab extension
 
 No changes.
 
+
+1.3.7 2020-11-15
+================
+
+Server extension
+----------------
+
+* Handle shell commands in code cells;
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
 1.3.6 2020-08-08
 ================
 
