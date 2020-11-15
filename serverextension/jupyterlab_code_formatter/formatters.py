@@ -11,6 +11,8 @@ except ImportError:
 from packaging import version
 
 
+SHELL_COMMAND_RE = re.compile(r"^!", flags=re.M)
+COMMENTED_SHELL_COMMAND_RE = re.compile(r"^# !#", flags=re.M)
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
 
@@ -37,8 +39,10 @@ def handle_line_ending_and_magic(func):
         has_semicolon = code.strip().endswith(";")
 
         code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
+        code = re.sub(SHELL_COMMAND_RE, "# !#", code)
         code = func(self, code, notebook, **options)
         code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
+        code = re.sub(COMMENTED_SHELL_COMMAND_RE, "!", code)
 
         if notebook:
             code = code.rstrip()
