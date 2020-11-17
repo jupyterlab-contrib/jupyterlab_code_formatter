@@ -14,6 +14,18 @@ Jupyterlab extension
 
 No changes.
 
+1.3.8 2020-11-17
+================
+
+Server extension
+----------------
+
+No change.
+
+Jupyterlab extension
+--------------------
+
+* Fix icon color in dark theme, courtesy of AllanChain;
 
 1.3.7 2020-11-15
 ================
