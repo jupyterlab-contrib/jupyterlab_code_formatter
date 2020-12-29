@@ -19,7 +19,6 @@ Option 1) With Pip
 
 .. code-block:: bash
 
-    jupyter labextension install @ryantam626/jupyterlab_code_formatter
     pip install jupyterlab_code_formatter
     jupyter serverextension enable --py jupyterlab_code_formatter
 
@@ -28,8 +27,6 @@ Option 2) With Conda
 
 .. code-block:: bash
 
-    conda install nodejs
-    jupyter labextension install @ryantam626/jupyterlab_code_formatter
     conda install -c conda-forge jupyterlab_code_formatter
     jupyter serverextension enable --py jupyterlab_code_formatter
 
