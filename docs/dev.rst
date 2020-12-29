@@ -35,17 +35,18 @@ To recompile the lab extension under watch mode,
 
 .. code-block:: bash
 
-    make dev-watch-labextension
+    make dev-watch
 
 
 Running Jupyterlab
 ~~~~~~~~~~~~~~~~~~
 
-To run Jupyterlab under watch mode,
+With JupyterLab 3 and onwards if you are watching the extension source
+then you can start JupyterLab normally and on refresh your changes will be available.
 
 .. code-block:: bash
 
-    make dev-watch-jupyterlab
+    jupyter lab
 
 Start Hacking
 ~~~~~~~~~~~~~
