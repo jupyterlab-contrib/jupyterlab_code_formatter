@@ -3,6 +3,7 @@ lib/
 node_modules/
 *.egg-info/
 .ipynb_checkpoints
+jupyterlab_code_formatter/labextension
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -21,3 +22,24 @@ venv/
 build/
 
 **/dist/
+
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+*.egg
+MANIFEST

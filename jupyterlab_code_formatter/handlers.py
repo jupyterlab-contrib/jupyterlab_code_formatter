@@ -1,11 +1,13 @@
 import json
+
+from jupyter_server.base.handlers import APIHandler
+from jupyter_server.utils import url_path_join
+
 import pkg_resources
 
 from notebook.notebookapp import NotebookWebApplication
-from notebook.utils import url_path_join
-from notebook.base.handlers import APIHandler
 
-from jupyterlab_code_formatter.formatters import SERVER_FORMATTERS
+from .formatters import SERVER_FORMATTERS
 
 
 def setup_handlers(web_app: NotebookWebApplication) -> None:
