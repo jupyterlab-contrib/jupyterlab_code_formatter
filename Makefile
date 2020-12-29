@@ -19,34 +19,20 @@ conda-freeze:  ## Use conda to freeze the current env available
 conda-install-frozen:  ## Use conda to install dev dependencies using pinned env specification - subject to repodata.json changes
 	conda env create -f environment-frozen.yml --force --name jupyterlab-code-formatter
 
-dev-install-serverextension:  ## Use pip to install the server extension in dev mode
-	pip install -e serverextension
-	jupyter serverextension enable --py jupyterlab_code_formatter
-
-dev-install-labextension:  ## Use npm to install the lab extension in dev mode
-	cd $(LABEXTENSION_PATH)
-	npm install
-	npm run build
-	jupyter labextension link .
-	cd -
-
-dev-install: dev-install-serverextension dev-install-labextension  ## Install both lab and server extension in dev mode
+dev-install:
+	pip install -e .
+	jupyter labextension develop . --overwrite
+	jlpm run build
 
 dev-watch-labextension:  ## Recompile labextension on changes
-	cd $(LABEXTENSION_PATH)
 	npm run watch
 
-dev-watch-jupyterlab:  ## Start jupyterlab under watch mode
-	jupyter lab --watch
-
 lint:  # Run linters
-	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black --check
-	cd $(LABEXTENSION_PATH)
+	find jupyterlab_code_formatter -name '*.py' | xargs black --check
 	npm run lint
 
 format:  # Run formatters
-	find serverextension/jupyterlab_code_formatter -name '*.py' | xargs black
-	cd $(LABEXTENSION_PATH)
+	find jupyterlab_code_formatter -name '*.py' | xargs black
 	npm run format
 
 test:  # Run test

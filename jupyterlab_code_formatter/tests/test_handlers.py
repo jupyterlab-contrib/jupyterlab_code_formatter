@@ -29,7 +29,11 @@ def _generate_list_formaters_entry_json_schema(
 
 EXPECTED_VERSION_SCHEMA = {
     "type": "object",
-    "properties": {"version": {"type": "string",}},
+    "properties": {
+        "version": {
+            "type": "string",
+        }
+    },
 }
 
 EXPECTED_LIST_FORMATTERS_SCHEMA = {
@@ -157,7 +161,9 @@ class TestHandlers(NotebookTestBase):
         expected = '%%timeit\nsome_string = "abc"'
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
-                formatter=formatter, code=[given], options={},
+                formatter=formatter,
+                code=[given],
+                options={},
             )
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
@@ -168,7 +174,9 @@ class TestHandlers(NotebookTestBase):
         expected = '%%timeit\nsome_string = "abc"\n!pwd'
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
-                formatter=formatter, code=[given], options={},
+                formatter=formatter,
+                code=[given],
+                options={},
             )
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
@@ -177,7 +185,9 @@ class TestHandlers(NotebookTestBase):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
         response = self._format_code_request(
-            formatter="styler", code=[given], options={"scope": "tokens"},
+            formatter="styler",
+            code=[given],
+            options={"scope": "tokens"},
         )
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
@@ -194,7 +204,9 @@ class TestHandlers(NotebookTestBase):
   large  = 6
 )"""
         response = self._format_code_request(
-            code=[given], options={"strict": False}, formatter="styler",
+            code=[given],
+            options={"strict": False},
+            formatter="styler",
         )
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
@@ -278,7 +290,10 @@ class TestHandlers(NotebookTestBase):
         assert response.status_code == 422
 
     def test_200_on_version_without_header(self):
-        response = self.request(verb="GET", path="/jupyterlab_code_formatter/version",)
+        response = self.request(
+            verb="GET",
+            path="/jupyterlab_code_formatter/version",
+        )
         assert response.status_code == 200
         validate(instance=response.json(), schema=EXPECTED_VERSION_SCHEMA)
 
