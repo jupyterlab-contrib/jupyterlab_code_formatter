@@ -12,5 +12,7 @@ npm publish ryantam626-jupyterlab_code_formatter-"${PUBLISH_VERSION/v/}".tgz --a
 popd
 python setup.py sdist
 twine upload dist/jupyterlab_code_formatter-"${PUBLISH_VERSION/v/}".tar.gz
+python setup.py bdist_wheel
+twine upload dist/jupyterlab_code_formatter-"${PUBLISH_VERSION/v/}"-py3-none-any.whl
 git tag -a "${PUBLISH_VERSION}" -m "${PUBLISH_VERSION}"
 git push origin --tags
