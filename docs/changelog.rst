@@ -14,6 +14,24 @@ Jupyterlab extension
 
 No changes.
 
+1.4.0 2021-01-01
+================
+
+Server extension
+----------------
+
+No change.
+
+Jupyterlab extension
+--------------------
+
+* Minor fix for error messages;
+
+General
+-------
+
+* Project reorganisation, improve plugin packaging, massive thanks to ianhi for laying the groundwork;
+
 1.3.8 2020-11-17
 ================
 
