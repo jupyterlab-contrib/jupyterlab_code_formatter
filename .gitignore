@@ -3,6 +3,7 @@ lib/
 node_modules/
 *.egg-info/
 .ipynb_checkpoints
+*.tsbuildinfo
 jupyterlab_code_formatter/labextension
 
 # Byte-compiled / optimized / DLL files
@@ -43,3 +44,4 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+tsconfig.tsbuildinfo
