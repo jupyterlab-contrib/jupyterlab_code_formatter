@@ -14,13 +14,31 @@ Jupyterlab extension
 
 No changes.
 
+1.4.1 2021-01-01
+================
+
+Server extension
+----------------
+
+No changes.
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
+General
+-------
+
+* Fix package publish procedure;
+
 1.4.0 2021-01-01
 ================
 
 Server extension
 ----------------
 
-No change.
+No changes.
 
 Jupyterlab extension
 --------------------
@@ -38,7 +56,7 @@ General
 Server extension
 ----------------
 
-No change.
+No changes.
 
 Jupyterlab extension
 --------------------
@@ -277,7 +295,7 @@ Server extension
 Jupyterlab extension
 --------------------
 
-No change.
+No changes.
 
 1.0.1 2019-12-01
 ================
@@ -369,7 +387,7 @@ Server extension
 Jupyterlab extension
 --------------------
 
-No change.
+No changes.
 
 
 0.5.1 2019-09-09
@@ -384,7 +402,7 @@ Server extension
 Jupyterlab extension
 --------------------
 
-No change.
+No changes.
 
 0.5.0 2019-08-21
 ================
