@@ -196,7 +196,8 @@ class JupyterLabCodeFormatter
           void showErrorMessage(
             'Jupyterlab Code Formatter Version Mismatch',
             `Lab plugin version: ${Constants.PLUGIN_VERSION}. ` +
-              `Server plugin version: ${serverPluginVersion}.`
+              `Server plugin version: ${serverPluginVersion}. ` +
+              `Please re-install the plugin with the latest instruction.`
           );
         }
         return versionMatches;
@@ -204,7 +205,8 @@ class JupyterLabCodeFormatter
       .catch(error => {
         void showErrorMessage(
           'Jupyterlab Code Formatter Error',
-          'Unable to find server plugin version, consider upgrading.'
+          'Unable to find server plugin version, this should be impossible,' +
+            'open a GitHub issue if you cannot figure this issue out yourself.'
         );
         return false;
       });
