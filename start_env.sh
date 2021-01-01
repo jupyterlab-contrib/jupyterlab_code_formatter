@@ -1,4 +1,4 @@
-conda activate jupyterlab-code-formatter
+conda activate jupyterlab_code_formatter
 export SERVEREXTENSION_PATH=$PWD
 export PATH=$SERVEREXTENSION_PATH/.venv/bin:$PATH
 export LABEXTENSION_PATH=$PWD/src
