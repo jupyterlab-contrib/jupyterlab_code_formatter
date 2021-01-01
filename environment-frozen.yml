@@ -216,6 +216,7 @@ dependencies:
     - iniconfig==1.1.1
     - isort==5.7.0
     - jeepney==0.6.0
+    - jupyter-packaging==0.7.9
     - keyring==21.8.0
     - mypy-extensions==0.4.3
     - pathspec==0.8.1
