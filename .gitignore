@@ -45,3 +45,4 @@ share/python-wheels/
 *.egg
 MANIFEST
 tsconfig.tsbuildinfo
+npm-tmp/
