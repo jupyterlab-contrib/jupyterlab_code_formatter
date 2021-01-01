@@ -33,6 +33,10 @@ Option 2) With Conda
 .. important::
     You will also need to install a code formatter for this plugin to work. The default formatter for Python are :code:`isort` and :code:`black`, and :code:`formatR` for R. Installing these would be a good place to start.
 
+There is a chance you will observe a warning message when running :code:`jupyter serverextension enable --py jupyterlab_code_formatter`, this should be safe to ignore for now (see this `issue`_).
+
+Also for users that haven't upgraded JupyterLab to version 3.0.0+, you will also need to run :code:`jupyter labextension install @ryantam626/jupyterlab_code_formatter`.
+
 Installation Step 2 (Installing a supported code formatter)
 -----------------------------------------------------------
 
@@ -87,3 +91,4 @@ You might need to change the default formatter selection via configuration as sh
 .. _YAPF: https://github.com/google/yapf
 .. _formatR: https://github.com/yihui/formatR/
 .. _styler: https://github.com/r-lib/styler
+.. _issue: https://github.com/ryantam626/jupyterlab_code_formatter/issues/182
