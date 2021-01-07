@@ -10,9 +10,6 @@ dependencies:
   - nodejs >=14,<15
   - pip
   - wheel
-  # Fix binder
-  - parso >=0.8.0,<0.9.0
-  - jupyter_telemetry >=0.1.0
   # Additional dependencies
   - autopep8
   - black
@@ -21,3 +18,7 @@ dependencies:
   - rpy2
   - r-formatr
   - r-styler
+  # pip check fixes
+  - pytest
+  - parso >=0.8.0,<0.9.0
+  - jupyter_telemetry >=0.1.0
