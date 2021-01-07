@@ -35,9 +35,13 @@ format:  # Run formatters
 	find jupyterlab_code_formatter -name '*.py' | xargs black
 	npm run format
 
+install:
+	python -m pip install .
+
 test:  # Run test
-	cd $(SERVEREXTENSION_PATH)
-	pytest
+	pytest $(SERVEREXTENSION_PATH)
+        jupyter server extension list 2>&1 | grep -ie "jupyterlab_code_formatter.*OK"
+        jupyter labextension list 2>&1 | grep -ie "@ryantam626/jupyterlab_code_formatter.*OK"
 	python -m jupyterlab.browser_check
 
 publish:  # Publish
