@@ -36,6 +36,7 @@ format:  # Run formatters
 	npm run format
 
 install:
+	jlpm install
 	python -m pip install .
 
 test:  # Run test
