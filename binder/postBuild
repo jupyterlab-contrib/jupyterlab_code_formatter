@@ -40,6 +40,3 @@ _("jupyter", "labextension", "list")
 
 print("JupyterLab with jupyter-archive is ready to run with:\n")
 print("\tjupyter lab\n")
-
-# FIXME need for the hub to not use notebook but nbclassic
-_("jupyter", "serverextension", "enable", "--py", "jupyterlab_code_formatter")
