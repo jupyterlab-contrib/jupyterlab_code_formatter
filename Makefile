@@ -41,6 +41,8 @@ install:
 
 test:  # Run test
 	pytest $(SERVEREXTENSION_PATH)
+	jupyter server extension list
+	jupyter labextension list
 	jupyter server extension list 2>&1 | grep -ie "jupyterlab_code_formatter.*OK"
 	jupyter labextension list 2>&1 | grep -ie "@ryantam626/jupyterlab_code_formatter.*OK"
 	python -m jupyterlab.browser_check
