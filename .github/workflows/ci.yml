@@ -44,7 +44,7 @@ jobs:
     - name: Install plugin
       shell: bash -l {0}
       run: |
-        source ./start_env.sh && make dev-install
+        source ./start_env.sh && make install
 
     - name: Run linters
       shell: bash -l {0}
