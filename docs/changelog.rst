@@ -14,6 +14,19 @@ Jupyterlab extension
 
 No changes.
 
+1.4.2 2021-01-01
+================
+
+Server extension
+----------------
+
+* Attempt to auto enable server extension;
+
+Jupyterlab extension
+--------------------
+
+No changes.
+
 1.4.1 2021-01-01
 ================
 
