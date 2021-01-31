@@ -38,7 +38,12 @@ data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),
     (
         "etc/jupyter/jupyter_server_config.d",
-        "jupyter-config",
+        "jupyter-config/jupyter_server_config.d",
+        "jupyterlab_code_formatter.json",
+    ),
+    (
+        "etc/jupyter/jupyter_notebook_config.d",
+        "jupyter-config/jupyter_notebook_config.d",
         "jupyterlab_code_formatter.json",
     ),
 ]
