@@ -20,7 +20,7 @@ No changes.
 Server extension
 ----------------
 
-* Attempt to auto enable server extension;
+* Attempt to auto enable server extension - courtesy of fcollonval;
 
 Jupyterlab extension
 --------------------
