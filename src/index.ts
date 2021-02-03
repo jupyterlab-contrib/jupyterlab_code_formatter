@@ -105,8 +105,7 @@ class JupyterLabCodeFormatter
   }
 
   private async onSave(context: DocumentRegistry.IContext<INotebookModel>, state: DocumentRegistry.SaveState) {
-    // Before save
-    if (state == 'started') {
+    if (state == 'started' && this.config.formatOnSave) {
       await this.notebookCodeFormatter.formatAllCodeCells(this.config);
     }
   }

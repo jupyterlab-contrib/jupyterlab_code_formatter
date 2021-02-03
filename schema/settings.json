@@ -226,6 +226,10 @@
             },
             "additionalProperties": false,
             "type": "object"
+        },
+        "formatOnSave": {
+            "additionalProperties": false,
+            "type": "boolean"
         }
     },
     "properties": {
@@ -291,6 +295,12 @@
             "description": "Config to be passed into styler's style_text function call.",
             "$ref": "#/definitions/styler",
             "default": {}
+        },
+        "formatOnSave": {
+            "title": "Auto format config",
+            "description": "Auto format code when save the notebook.",
+            "$ref": "#/definitions/formatOnSave",
+            "default": false
         }
     },
     "additionalProperties": false,
