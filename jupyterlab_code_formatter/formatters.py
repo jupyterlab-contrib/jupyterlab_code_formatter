@@ -1,6 +1,7 @@
 import abc
 import copy
 import re
+import logging
 from functools import wraps
 
 try:
@@ -11,10 +12,26 @@ except ImportError:
 from packaging import version
 
 
+logger = logging.getLogger(__name__)
 SHELL_COMMAND_RE = re.compile(r"^!", flags=re.M)
 COMMENTED_SHELL_COMMAND_RE = re.compile(r"^# !#", flags=re.M)
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
+
+INCOMPATIBLE_MAGIC_LANGUAGES = [
+    'html',
+    'js',
+    'javascript',
+    'latex',
+    'perl',
+    'markdown',
+    'ruby',
+    'script',
+    'sh',
+    'svg',
+    'bash',
+]
+
 
 
 class BaseFormatter(abc.ABC):
@@ -36,6 +53,16 @@ class BaseFormatter(abc.ABC):
 def handle_line_ending_and_magic(func):
     @wraps(func)
     def wrapped(self, code: str, notebook: bool, **options) -> str:
+        if any(
+            code.startswith(f'%{lang}')
+            for lang in INCOMPATIBLE_MAGIC_LANGUAGES
+        ) or any(
+            code.startswith(f'%%{lang}')
+            for lang in INCOMPATIBLE_MAGIC_LANGUAGES
+        ):
+            logger.info("Non compatible magic language cell block detected, ignoring.")
+            return code
+
         has_semicolon = code.strip().endswith(";")
 
         code = re.sub(MAGIC_COMMAND_RE, "# %#", code)

@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No changes.
+* Handle incompatible magic language cellblock better;
 
 Jupyterlab extension
 --------------------

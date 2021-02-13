@@ -181,6 +181,32 @@ class TestHandlers(NotebookTestBase):
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
 
+    def test_can_handle_incompatible_magic_language(self):
+        """Check that it will ignore incompatible magic language cellblock."""
+        given = '%%html\n<h1>Hi</h1>'
+        expected = '%%html\n<h1>Hi</h1>'
+        for formatter in ["black", "yapf", "isort"]:
+            response = self._format_code_request(
+                formatter=formatter,
+                code=[given],
+                options={},
+            )
+            json_result = self._check_http_200_and_schema(response)
+            assert json_result["code"][0]["code"] == expected
+
+    def test_can_handle_incompatible_magic_language_single(self):
+        """Check that it will ignore incompatible magic language cellblock with single %."""
+        given = '%html <h1>Hi</h1>'
+        expected = '%html <h1>Hi</h1>'
+        for formatter in ["black", "yapf", "isort"]:
+            response = self._format_code_request(
+                formatter=formatter,
+                code=[given],
+                options={},
+            )
+            json_result = self._check_http_200_and_schema(response)
+            assert json_result["code"][0]["code"] == expected
+
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
