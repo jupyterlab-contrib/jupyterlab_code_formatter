@@ -136,3 +136,15 @@ The :code:`list` construct is actually a JSON dictionary, to use :code:`math_tok
                 "comments_only" : true}
         }
     }
+
+
+Auto Format On Save
+```````````````````
+
+Go to Jupyter Lab Advanced Settings Editor, under :code:`Jupyterlab Code Formatter` section, include the following key value pair.
+
+.. code-block:: json
+
+    {
+        "formatOnSave": true
+    }
