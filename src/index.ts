@@ -96,9 +96,18 @@ class JupyterLabCodeFormatter
       this.app.commands.label(Constants.FORMAT_ALL_COMMAND),
       button
     );
+
+    context.saveState.connect(this.onSave, this);
+
     return new DisposableDelegate(() => {
       button.dispose();
     });
+  }
+
+  private async onSave(context: DocumentRegistry.IContext<INotebookModel>, state: DocumentRegistry.SaveState) {
+    if (state == 'started' && this.config.formatOnSave) {
+      await this.notebookCodeFormatter.formatAllCodeCells(this.config);
+    }
   }
 
   private setupWidgetExtension() {
