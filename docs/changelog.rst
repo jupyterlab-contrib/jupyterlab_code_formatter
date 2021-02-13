@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No change.
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+1.4.4 2021-02-13
+==========
+
+Server extension
+----------------
+
 * Handle incompatible magic language cellblock better;
 
 Jupyterlab extension
