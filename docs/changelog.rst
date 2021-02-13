@@ -12,7 +12,7 @@ No changes.
 Jupyterlab extension
 --------------------
 
-No changes.
+* Auto format on save as an option - courtesy of simamumu;
 
 1.4.3 2021-01-01
 ==========
