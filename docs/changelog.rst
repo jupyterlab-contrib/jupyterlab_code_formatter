@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No change.
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+1.4.5 2021-03-14
+==========
+
+Server extension
+----------------
+
 * Ignore interactive help lines while formatting;
 
 Jupyterlab extension
