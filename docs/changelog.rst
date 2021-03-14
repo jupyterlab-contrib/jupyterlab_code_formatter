@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No change.
+* Ignore interactive help lines while formatting;
 
 Jupyterlab extension
 --------------------

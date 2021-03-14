@@ -207,6 +207,30 @@ class TestHandlers(NotebookTestBase):
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
 
+    def test_can_ipython_help_signle(self) -> None:
+        """Check that it will ignore single question mark interactive help lines on the fly."""
+        given = "    bruh?\nprint('test')\n#test?"
+        expected = "    bruh?\nprint(\"test\")\n# test?"
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
+    def test_can_ipython_help_double(self) -> None:
+        """Check that it will ignore double question mark interactive help lines on the fly."""
+        given = "    bruh??\nprint('test')\n#test?"
+        expected = "    bruh??\nprint(\"test\")\n# test?"
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"

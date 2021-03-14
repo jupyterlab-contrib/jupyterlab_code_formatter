@@ -17,6 +17,9 @@ SHELL_COMMAND_RE = re.compile(r"^!", flags=re.M)
 COMMENTED_SHELL_COMMAND_RE = re.compile(r"^# !#", flags=re.M)
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
+IPYTHON_HELP_RE = re.compile(r"(^\s*(?!#)(.*)\?\??)", flags=re.M)
+COMMENTED_IPYTHON_HELP_RE = re.compile(r"# \?#", flags=re.M)
+
 
 INCOMPATIBLE_MAGIC_LANGUAGES = [
     'html',
@@ -67,9 +70,11 @@ def handle_line_ending_and_magic(func):
 
         code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
         code = re.sub(SHELL_COMMAND_RE, "# !#", code)
+        code = re.sub(IPYTHON_HELP_RE, r"# ?#\1", code)
         code = func(self, code, notebook, **options)
         code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
         code = re.sub(COMMENTED_SHELL_COMMAND_RE, "!", code)
+        code = re.sub(COMMENTED_IPYTHON_HELP_RE, "", code)
 
         if notebook:
             code = code.rstrip()
