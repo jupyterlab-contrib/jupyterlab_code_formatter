@@ -183,8 +183,8 @@ class TestHandlers(NotebookTestBase):
 
     def test_can_handle_incompatible_magic_language(self):
         """Check that it will ignore incompatible magic language cellblock."""
-        given = '%%html\n<h1>Hi</h1>'
-        expected = '%%html\n<h1>Hi</h1>'
+        given = "%%html\n<h1>Hi</h1>"
+        expected = "%%html\n<h1>Hi</h1>"
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
                 formatter=formatter,
@@ -196,8 +196,8 @@ class TestHandlers(NotebookTestBase):
 
     def test_can_handle_incompatible_magic_language_single(self):
         """Check that it will ignore incompatible magic language cellblock with single %."""
-        given = '%html <h1>Hi</h1>'
-        expected = '%html <h1>Hi</h1>'
+        given = "%html <h1>Hi</h1>"
+        expected = "%html <h1>Hi</h1>"
         for formatter in ["black", "yapf", "isort"]:
             response = self._format_code_request(
                 formatter=formatter,
@@ -210,7 +210,7 @@ class TestHandlers(NotebookTestBase):
     def test_can_ipython_help_signle(self) -> None:
         """Check that it will ignore single question mark interactive help lines on the fly."""
         given = "    bruh?\nprint('test')\n#test?"
-        expected = "    bruh?\nprint(\"test\")\n# test?"
+        expected = '    bruh?\nprint("test")\n# test?'
         response = self._format_code_request(
             formatter="black",
             code=[given],
@@ -222,7 +222,7 @@ class TestHandlers(NotebookTestBase):
     def test_can_ipython_help_double(self) -> None:
         """Check that it will ignore double question mark interactive help lines on the fly."""
         given = "    bruh??\nprint('test')\n#test?"
-        expected = "    bruh??\nprint(\"test\")\n# test?"
+        expected = '    bruh??\nprint("test")\n# test?'
         response = self._format_code_request(
             formatter="black",
             code=[given],

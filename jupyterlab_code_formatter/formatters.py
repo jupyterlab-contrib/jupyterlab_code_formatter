@@ -22,19 +22,18 @@ COMMENTED_IPYTHON_HELP_RE = re.compile(r"# \?#", flags=re.M)
 
 
 INCOMPATIBLE_MAGIC_LANGUAGES = [
-    'html',
-    'js',
-    'javascript',
-    'latex',
-    'perl',
-    'markdown',
-    'ruby',
-    'script',
-    'sh',
-    'svg',
-    'bash',
+    "html",
+    "js",
+    "javascript",
+    "latex",
+    "perl",
+    "markdown",
+    "ruby",
+    "script",
+    "sh",
+    "svg",
+    "bash",
 ]
-
 
 
 class BaseFormatter(abc.ABC):
@@ -57,12 +56,8 @@ def handle_line_ending_and_magic(func):
     @wraps(func)
     def wrapped(self, code: str, notebook: bool, **options) -> str:
         if any(
-            code.startswith(f'%{lang}')
-            for lang in INCOMPATIBLE_MAGIC_LANGUAGES
-        ) or any(
-            code.startswith(f'%%{lang}')
-            for lang in INCOMPATIBLE_MAGIC_LANGUAGES
-        ):
+            code.startswith(f"%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES
+        ) or any(code.startswith(f"%%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES):
             logger.info("Non compatible magic language cell block detected, ignoring.")
             return code
 
