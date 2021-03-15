@@ -28,9 +28,19 @@ With Conda:
 
 For users still using JupyterLab < 3.0.0, you will also need to run:
 
+First enable server extension:
+
 .. code-block:: bash
     
+    # JupyterLab >= 3.0.0
+    jupyter server extension enable --py jupyterlab_code_formatter
+    # JupyterLab < 3.0.0
     jupyter serverextension enable --py jupyterlab_code_formatter
+
+Then enable lab extension:
+
+.. code-block:: bash
+
     jupyter labextension install @ryantam626/jupyterlab_code_formatter
 
 
