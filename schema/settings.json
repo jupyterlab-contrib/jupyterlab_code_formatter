@@ -30,6 +30,9 @@
         },
         "black": {
             "properties": {
+                "include_trailing_comma": {
+                    "type": "boolean"
+                },
                 "line_length": {
                     "type": "number"
                 },
