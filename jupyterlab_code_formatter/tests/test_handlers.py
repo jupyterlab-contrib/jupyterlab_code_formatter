@@ -237,12 +237,14 @@ class TestHandlers(NotebookTestBase):
     # bruh what?
     # again bruh? really
     # a ? b
-    print('hi')"""
+    print('hi')
+    x = '?'"""
         expected = """def f():
     # bruh what?
     # again bruh? really
     # a ? b
-    print("hi")"""
+    print("hi")
+    x = "?\""""
         response = self._format_code_request(
             formatter="black",
             code=[given],

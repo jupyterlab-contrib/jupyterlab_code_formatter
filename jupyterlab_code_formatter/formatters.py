@@ -17,7 +17,7 @@ SHELL_COMMAND_RE = re.compile(r"^!", flags=re.M)
 COMMENTED_SHELL_COMMAND_RE = re.compile(r"^# !#", flags=re.M)
 MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
 COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
-IPYTHON_HELP_RE = re.compile(r"(^\s*[^#]*\?\??)", flags=re.M)
+IPYTHON_HELP_RE = re.compile(r"(^\s*[^#]*\?\??)$", flags=re.M)
 COMMENTED_IPYTHON_HELP_RE = re.compile(r"# \?#", flags=re.M)
 
 
