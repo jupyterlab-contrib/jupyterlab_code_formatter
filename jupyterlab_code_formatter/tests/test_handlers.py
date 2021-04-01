@@ -231,6 +231,46 @@ class TestHandlers(NotebookTestBase):
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
 
+    def test_will_ignore_question_mark(self) -> None:
+        """Check that it will ignore single question mark in comments."""
+        given = """def f():
+    # bruh what?
+    # again bruh? really
+    # a ? b
+    print('hi')"""
+        expected = """def f():
+    # bruh what?
+    # again bruh? really
+    # a ? b
+    print("hi")"""
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
+    def test_will_ignore_question_mark2(self) -> None:
+        """Check that it will ignore single question mark in comments."""
+        given = """def f():
+    # bruh what??
+    # again bruh?? really
+    # a ? b ? c
+    print('hi')"""
+        expected = """def f():
+    # bruh what??
+    # again bruh?? really
+    # a ? b ? c
+    print("hi")"""
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
