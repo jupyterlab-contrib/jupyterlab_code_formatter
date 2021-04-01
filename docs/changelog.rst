@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No change.
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+1.4.6 2021-04-01
+================
+
+Server extension
+----------------
+
 * Improve interactive help regex;
 
 Jupyterlab extension
@@ -15,7 +28,7 @@ Jupyterlab extension
 * Support `noop`/`skip` in default formatters setting;
 
 1.4.5 2021-03-14
-==========
+================
 
 Server extension
 ----------------
@@ -28,7 +41,7 @@ Jupyterlab extension
 No change.
 
 1.4.4 2021-02-13
-==========
+================
 
 Server extension
 ----------------
