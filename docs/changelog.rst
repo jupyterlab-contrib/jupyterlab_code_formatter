@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No change.
+* Improve interactive help regex;
 
 Jupyterlab extension
 --------------------
