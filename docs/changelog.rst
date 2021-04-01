@@ -12,7 +12,7 @@ Server extension
 Jupyterlab extension
 --------------------
 
-No change.
+* Support `noop`/`skip` in default formatters setting;
 
 1.4.5 2021-03-14
 ==========

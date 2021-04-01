@@ -150,6 +150,9 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
       }
 
       for (let formatterToUse of formattersToUse) {
+        if (formatterToUse === 'noop' || formatterToUse === 'skip') {
+          continue;
+        }
         const currentTexts = selectedCells.map(cell => cell.model.value.text);
         const formattedTexts = await this.formatCode(
           currentTexts,
