@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No change.
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+1.4.7 2021-04-01
+================
+
+Server extension
+----------------
+
 * Improve interactive help regex;
 
 Jupyterlab extension
