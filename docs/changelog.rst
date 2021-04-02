@@ -7,6 +7,19 @@ Unreleased
 Server extension
 ----------------
 
+No change.
+
+Jupyterlab extension
+--------------------
+
+No change.
+
+1.4.9 2021-04-02
+================
+
+Server extension
+----------------
+
 * Don't expect options to be always passed;
 
 Jupyterlab extension
