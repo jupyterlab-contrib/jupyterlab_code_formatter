@@ -273,6 +273,19 @@ class TestHandlers(NotebookTestBase):
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
 
+    def test_will_ignore_question_weird(self) -> None:
+        given = """wat
+wat??"""
+        expected = """wat
+wat??"""
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == expected
+
     def test_can_use_styler(self):
         given = "a = 3; 2"
         expected = "a <- 3\n2"
