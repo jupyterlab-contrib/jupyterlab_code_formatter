@@ -33,6 +33,13 @@ INCOMPATIBLE_MAGIC_LANGUAGES = [
     "sh",
     "svg",
     "bash",
+    "info",
+    "cleanup",
+    "delete",
+    "configure",
+    "logs",
+    "sql",
+    "local"
 ]
 
 

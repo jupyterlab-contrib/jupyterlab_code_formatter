@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No change.
+* Ignore more magic;
 
 Jupyterlab extension
 --------------------
