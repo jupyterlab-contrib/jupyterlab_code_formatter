@@ -39,7 +39,7 @@ INCOMPATIBLE_MAGIC_LANGUAGES = [
     "configure",
     "logs",
     "sql",
-    "local"
+    "local",
 ]
 
 
