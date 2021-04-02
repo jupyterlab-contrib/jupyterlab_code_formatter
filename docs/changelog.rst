@@ -14,6 +14,19 @@ Jupyterlab extension
 
 No change.
 
+1.4.8 2021-04-02
+================
+
+Server extension
+----------------
+
+* Improve interactive help regex - again;
+
+Jupyterlab extension
+--------------------
+
+* Remove `include_trailing_comma` option for black, it's not an option to begin with.
+
 1.4.7 2021-04-01
 ================
 
