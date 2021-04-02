@@ -139,7 +139,7 @@ The :code:`list` construct is actually a JSON dictionary, to use :code:`math_tok
 
 
 Auto Format On Save
-```````````````````
+-------------------
 
 Go to Jupyter Lab Advanced Settings Editor, under :code:`Jupyterlab Code Formatter` section, include the following key value pair.
 
@@ -151,7 +151,7 @@ Go to Jupyter Lab Advanced Settings Editor, under :code:`Jupyterlab Code Formatt
 
 
 Custom Formatter
-````````````````
+----------------
 
 To define a custom formatter, you can do so in the Jupyter notebook configuration (usually found :code:`~/.jupyter/jupyter_notebook_config.py` or something along those lines), the following example adds a rather useless formatter as a example.
 
