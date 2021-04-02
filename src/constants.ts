@@ -10,5 +10,5 @@ export namespace Constants {
   export const SETTINGS_SECTION = `${LONG_PLUGIN_NAME}:settings`;
   export const COMMAND_SECTION_NAME = 'Jupyterlab Code Formatter';
   // TODO: Use package.json info
-  export const PLUGIN_VERSION = '1.4.9';
+  export const PLUGIN_VERSION = '1.4.10';
 }
