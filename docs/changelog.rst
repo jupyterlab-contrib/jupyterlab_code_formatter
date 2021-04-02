@@ -7,7 +7,7 @@ Unreleased
 Server extension
 ----------------
 
-No change.
+* Don't expect options to be always passed;
 
 Jupyterlab extension
 --------------------

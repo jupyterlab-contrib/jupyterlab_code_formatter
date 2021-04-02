@@ -96,7 +96,7 @@ class FormatAPIHandler(APIHandler):
                 self.finish()
             else:
                 notebook = data["notebook"]
-                options = data["options"] or {}
+                options = data.get("options", {})
                 formatted_code = []
                 for code in data["code"]:
                     try:
