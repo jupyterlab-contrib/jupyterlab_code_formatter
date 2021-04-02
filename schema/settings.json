@@ -30,9 +30,6 @@
         },
         "black": {
             "properties": {
-                "include_trailing_comma": {
-                    "type": "boolean"
-                },
                 "line_length": {
                     "type": "number"
                 },
@@ -252,7 +249,6 @@
             "description": "Config to be passed into black's format_str function call.",
             "$ref": "#/definitions/black",
             "default": {
-                "include_trailing_comma": true,
                 "line_length": 88,
                 "string_normalization": true
             }
