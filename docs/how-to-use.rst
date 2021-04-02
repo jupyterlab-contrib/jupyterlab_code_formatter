@@ -148,3 +148,39 @@ Go to Jupyter Lab Advanced Settings Editor, under :code:`Jupyterlab Code Formatt
     {
         "formatOnSave": true
     }
+
+
+Custom Formatter
+````````````````
+
+To define a custom formatter, you can do so in the Jupyter notebook configuration (usually found :code:`~/.jupyter/jupyter_notebook_config.py` or something along those lines), the following example adds a rather useless formatter as a example.
+
+.. code-block:: python
+
+
+    from jupyterlab_code_formatter.formatters import BaseFormatter, handle_line_ending_and_magic, SERVER_FORMATTERS
+
+    class BruhFormatter(BaseFormatter):
+
+        label = "Apply Bruh Formatter"
+
+        @property
+        def importable(self) -> bool:
+            return True
+
+        @handle_line_ending_and_magic
+        def format_code(self, code: str, notebook: bool, **options) -> str:
+            return (
+                "# i am a notebook  # bruh\n"
+                if (not code.startswith("# i am a notebook  # bruh") and notebook) else ""
+            ) + "\n".join(
+                [
+                    line if line.endswith("# bruh") else f"{line}  # bruh"
+                    for line in code.splitlines()
+                ]
+            )
+
+    SERVER_FORMATTERS['bruh'] = BruhFormatter()
+
+
+When implementing your customer formatter using third party library, you will likely use :code:`try... except` in the :code:`importable` block instead of always returning True.
