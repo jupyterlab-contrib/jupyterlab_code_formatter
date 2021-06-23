@@ -42,6 +42,12 @@
         },
         "isort": {
             "properties": {
+                "profile": {
+                    "type": "string"
+                },
+                "ensure_newline_before_comments": {
+                    "type": "boolean"
+                },
                 "force_to_top": {
                     "type": "string"
                 },
