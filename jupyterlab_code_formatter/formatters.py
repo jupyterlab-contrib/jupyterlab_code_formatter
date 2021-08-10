@@ -282,7 +282,7 @@ SERVER_FORMATTERS = {
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
-    "group_imports": CollectImportsFormatter(),
+    "collect_imports": CollectImportsFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
 }
