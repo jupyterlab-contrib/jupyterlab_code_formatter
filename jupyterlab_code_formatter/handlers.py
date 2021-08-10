@@ -159,11 +159,15 @@ class FormatAPIHandler(APIHandler):
                 if group_imports:
                     flattened_imports = "\n".join(["\n".join(imps) for imps in nb_imports])
 
-                    grouped_imports_cell = {"code": formatter_instance.format_code(
+                    grouped_imports_cell_code = formatter_instance.format_code(
                         flattened_imports, notebook, **options
-                    )}
+                    )
 
-                    formatted_code[first_import_cell] = grouped_imports_cell
+                    existing_first_cell_code = formatted_code[first_import_cell]["code"]
+                    formatted_code[first_import_cell]["code"] = (
+                        grouped_imports_cell_code
+                        + ("\n\n" + existing_first_cell_code if existing_first_cell_code else "")
+                    )
 
                 self.finish(json.dumps({"code": formatted_code}))
 
