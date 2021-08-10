@@ -185,6 +185,19 @@ class IsortFormatter(BaseFormatter):
             return isort.code(code=code, **options)
 
 
+class CollectImportsFormatter(BaseFormatter):
+
+    label = "Collect Imports Formatter"
+
+    @property
+    def importable(self) -> bool:
+        return True
+
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
+        return code
+
+
 class FormatRFormatter(BaseFormatter):
 
     label = "Apply FormatR Formatter"
@@ -269,6 +282,7 @@ SERVER_FORMATTERS = {
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
+    "group_imports": CollectImportsFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
 }

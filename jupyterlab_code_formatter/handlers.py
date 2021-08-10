@@ -91,17 +91,17 @@ class FormatAPIHandler(APIHandler):
         """Split a cell into import lines and non-import lines"""
         imports = []
         non_imports = []
-        in_multiline_import = False
+        in_import_block = False
 
         for line in code.splitlines():
             if re.match(r"^(#\s*)?((import .+)|from .+ import [^\(]+)$", line):
                 imports.append(line)
             elif re.match(r"^(#\s*)?from .+? import \(", line):
-                in_multiline_import = True
+                in_import_block = True
             else:
-                imports.append(line) if in_multiline_import else non_imports.append(line)
+                imports.append(line) if in_import_block else non_imports.append(line)
                 if ")" in line:
-                    in_multiline_import = False
+                    in_import_block = False
 
         # if this cell contained only imports
         if imports and not "".join(non_imports).strip():
@@ -127,15 +127,15 @@ class FormatAPIHandler(APIHandler):
                 options = data.get("options", {})
                 formatted_code = []
 
-                group_imports = True
+                collect_imports = data["formatter"] == "collect_imports"
 
-                if group_imports:
+                if collect_imports:
                     first_import_cell = None
                     nb_imports = []
 
                 for cellno, code in enumerate(data["code"]):
                     try:
-                        if group_imports:
+                        if collect_imports:
                             imports, non_imports = self._split_imports_nonimports(code)
                             code = "\n".join(non_imports)
                             if imports:
@@ -156,16 +156,16 @@ class FormatAPIHandler(APIHandler):
                     except Exception as e:
                         formatted_code.append({"error": str(e)})
 
-                if group_imports:
+                if collect_imports:
                     flattened_imports = "\n".join(["\n".join(imps) for imps in nb_imports])
 
-                    grouped_imports_cell_code = formatter_instance.format_code(
+                    collected_imports_cell_code = formatter_instance.format_code(
                         flattened_imports, notebook, **options
                     )
 
                     existing_first_cell_code = formatted_code[first_import_cell]["code"]
                     formatted_code[first_import_cell]["code"] = (
-                        grouped_imports_cell_code
+                        collected_imports_cell_code
                         + ("\n\n" + existing_first_cell_code if existing_first_cell_code else "")
                     )
 
