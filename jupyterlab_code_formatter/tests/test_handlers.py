@@ -45,7 +45,7 @@ EXPECTED_LIST_FORMATTERS_SCHEMA = {
         }
     },
 }
-EXPECTED_FROMAT_SCHEMA = {
+EXPECTED_FORMAT_SCHEMA = {
     "type": "object",
     "properties": {
         "code": {
@@ -100,7 +100,7 @@ class TestHandlers(NotebookTestBase):
     def _check_http_200_and_schema(response):
         assert response.status_code == 200
         json_result = response.json()
-        validate(instance=json_result, schema=EXPECTED_FROMAT_SCHEMA)
+        validate(instance=json_result, schema=EXPECTED_FORMAT_SCHEMA)
         return json_result
 
     def test_list_formatters(self):
@@ -207,7 +207,7 @@ class TestHandlers(NotebookTestBase):
             json_result = self._check_http_200_and_schema(response)
             assert json_result["code"][0]["code"] == expected
 
-    def test_can_ipython_help_signle(self) -> None:
+    def test_can_ipython_help_single(self) -> None:
         """Check that it will ignore single question mark interactive help lines on the fly."""
         given = "    bruh?\nprint('test')\n#test?"
         expected = '    bruh?\nprint("test")\n# test?'
