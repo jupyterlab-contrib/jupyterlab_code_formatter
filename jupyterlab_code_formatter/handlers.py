@@ -1,4 +1,5 @@
 import json
+import re
 
 from jupyter_server.base.handlers import APIHandler
 from jupyter_server.utils import url_path_join
@@ -86,6 +87,33 @@ class FormattersAPIHandler(APIHandler):
 
 
 class FormatAPIHandler(APIHandler):
+    def _split_imports_nonimports(self, code):
+        """Split a cell into import lines and non-import lines"""
+        imports = []
+        non_imports = []
+        in_multiline_import = False
+
+        for line in code.splitlines():
+            if re.match(r"^(#\s*)?((import .+)|from .+ import [^\(]+)$", line):
+                imports.append(line)
+            elif re.match(r"^(#\s*)?from .+? import \(", line):
+                in_multiline_import = True
+            else:
+                imports.append(line) if in_multiline_import else non_imports.append(line)
+                if ")" in line:
+                    in_multiline_import = False
+
+        # if this cell contained only imports
+        if imports and not "".join(non_imports).strip():
+            # keep original content untouched (so we don't destroy isorting)
+            imports = code.splitlines()
+
+            # we have to keep this b/c we can't change the number of cells
+            # otherwise the extension throws an error
+            non_imports = []
+
+        return imports, non_imports
+
     def post(self) -> None:
         if check_plugin_version(self):
             data = json.loads(self.request.body.decode("utf-8"))
@@ -98,8 +126,26 @@ class FormatAPIHandler(APIHandler):
                 notebook = data["notebook"]
                 options = data.get("options", {})
                 formatted_code = []
-                for code in data["code"]:
+
+                group_imports = True
+
+                if group_imports:
+                    first_import_cell = None
+                    nb_imports = []
+
+                for cellno, code in enumerate(data["code"]):
                     try:
+                        if group_imports:
+                            imports, non_imports = self._split_imports_nonimports(code)
+                            code = "\n".join(non_imports)
+                            if imports:
+                                nb_imports.append(imports)
+
+                                # save cell number of first import cell,
+                                # that's where we'll put all imports into
+                                if first_import_cell is None:
+                                    first_import_cell = cellno
+
                         formatted_code.append(
                             {
                                 "code": formatter_instance.format_code(
@@ -109,6 +155,16 @@ class FormatAPIHandler(APIHandler):
                         )
                     except Exception as e:
                         formatted_code.append({"error": str(e)})
+
+                if group_imports:
+                    flattened_imports = "\n".join(["\n".join(imps) for imps in nb_imports])
+
+                    grouped_imports_cell = {"code": formatter_instance.format_code(
+                        flattened_imports, notebook, **options
+                    )}
+
+                    formatted_code[first_import_cell] = grouped_imports_cell
+
                 self.finish(json.dumps({"code": formatted_code}))
 
 
