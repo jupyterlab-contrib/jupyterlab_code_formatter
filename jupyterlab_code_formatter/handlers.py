@@ -114,7 +114,7 @@ class FormatAPIHandler(APIHandler):
 
 class VersionAPIHandler(APIHandler):
     def get(self) -> None:
-        """Show what version is this server plguin on."""
+        """Show what version this server plugin is on."""
         self.finish(
             json.dumps(
                 {
