@@ -1,7 +1,7 @@
-Developement
-============
+Development
+===========
 
-For developement, I am using a conda environment, follow the installation guide in the official site, it doesn't matter what flavor it is really.
+For development, I am using a conda environment, follow the installation guide in the official site, it doesn't matter what flavor it is really.
 
 Initial Setup
 ~~~~~~~~~~~~~
