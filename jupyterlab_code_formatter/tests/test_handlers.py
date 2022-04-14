@@ -231,6 +231,18 @@ class TestHandlers(NotebookTestBase):
         json_result = self._check_http_200_and_schema(response)
         assert json_result["code"][0]["code"] == expected
 
+    def test_will_ignore_quarto_comments(self) -> None:
+        """Check that it will ignore Quarto's comments at the top of a block."""
+        given = """#| eval: false
+1 + 1"""
+        response = self._format_code_request(
+            formatter="black",
+            code=[given],
+            options={},
+        )
+        json_result = self._check_http_200_and_schema(response)
+        assert json_result["code"][0]["code"] == given
+
     def test_will_ignore_question_mark(self) -> None:
         """Check that it will ignore single question mark in comments."""
         given = """def f():
