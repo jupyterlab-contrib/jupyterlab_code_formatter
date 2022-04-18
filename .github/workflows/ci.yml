@@ -17,41 +17,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        auto-update-conda: true
-        python-version: 3.8
+    - name: Install Task
+      uses: arduino/setup-task@v1
 
-    - name: Cache node modules
-      id: cache-node-modules
-      uses: actions/cache@v1
-      with:
-        path: labextension/node_modules
-        key: ${{ runner.OS }}-node
-
-    - name: Install libgbm1  # https://github.com/puppeteer/puppeteer/issues/5674
-      run: sudo apt-get install libgbm1
-
-    - name: Install conda environment
+    - name: Build dev Docker image
       shell: bash -l {0}
       run: |
-        make conda-install-frozen
-
-    - name: Version Check
-      shell: bash -l {0}
-      run: source ./start_env.sh && ./bin/pre-publish-check.sh
-
-    - name: Install plugin
-      shell: bash -l {0}
-      run: |
-        source ./start_env.sh && make install
+        task dev:build
 
     - name: Run linters
       shell: bash -l {0}
       run: |
-        source ./start_env.sh && make lint
+        docker run --rm jupyterlab-code-formatter-dev /scripts/lint.sh
 
     - name: Run tests
       shell: bash -l {0}
       run: |
-        source ./start_env.sh && make test
+        docker run --rm jupyterlab-code-formatter-dev /scripts/test.sh

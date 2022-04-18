@@ -12,7 +12,7 @@ tasks:
   dev:shell:
     desc: Run dev docker image and obtain shell
     cmds:
-      - /{{.BASE_DIR}}/dev/scripts/docker-run.sh
+      - /{{.BASE_DIR}}/dev/scripts/docker-run.sh {{.CLI_ARGS}}
   dev:shell-reuse:
     desc: Obtain new shell in a currently running docker container
     cmds:

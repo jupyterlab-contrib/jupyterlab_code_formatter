@@ -2,3 +2,4 @@ node_modules/
 .dockerignore
 dev/Dockerfile
 dev/scripts
+.github/
