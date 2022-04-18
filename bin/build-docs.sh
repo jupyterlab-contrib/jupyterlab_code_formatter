@@ -2,15 +2,18 @@
 
 case "$1" in
   watch)
-    rm -rf build/ &&
-    python3 -m sphinx -a -b html docs build &&
+    rm -rf docs/ &&
+    python3 -m sphinx -a -b html docs_src docs &&
+    touch docs/.nojekyll &&
     inotifywait -m docs -e modify docs |
     while read path action file; do
-      python3 -m sphinx -W --keep-going -a -b html docs build
+      python3 -m sphinx -W --keep-going -a -b html docs_src docs
+      touch docs/.nojekyll
     done
     ;;
 
   *)
-    python3 -m sphinx -W --keep-going -a -b html docs build
+    python3 -m sphinx -W --keep-going -a -b html docs_src docs
+    touch docs/.nojekyll
     ;;
 esac

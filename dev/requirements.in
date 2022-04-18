@@ -1,0 +1,13 @@
+autopep8
+black
+isort
+pytest
+sphinx
+furo
+twine
+yapf
+jupyter_packaging
+myst-parser
+sphinx_copybutton
+sphinx-inline-tabs
+rpy2
