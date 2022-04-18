@@ -1,8 +1,8 @@
 import abc
 import copy
-import re
 import logging
 from functools import wraps
+from typing import List, Type
 
 try:
     import rpy2
@@ -13,12 +13,6 @@ from packaging import version
 
 
 logger = logging.getLogger(__name__)
-SHELL_COMMAND_RE = re.compile(r"^!", flags=re.M)
-COMMENTED_SHELL_COMMAND_RE = re.compile(r"^# !#", flags=re.M)
-MAGIC_COMMAND_RE = re.compile(r"^%", flags=re.M)
-COMMENTED_MAGIC_COMMAND_RE = re.compile(r"^# %#", flags=re.M)
-IPYTHON_HELP_RE = re.compile(r"(^(?!\s*#)(.*)\?\??)$", flags=re.M)
-COMMENTED_IPYTHON_HELP_RE = re.compile(r"# \?#", flags=re.M)
 
 
 INCOMPATIBLE_MAGIC_LANGUAGES = [
@@ -59,6 +53,101 @@ class BaseFormatter(abc.ABC):
         pass
 
 
+class BaseLineEscaper(abc.ABC):
+    """A base class for defining how to escape certain sequence of text to avoid formatting."""
+
+    def __init__(self, code: str) -> None:
+        self.code = code
+
+    @property
+    @abc.abstractmethod
+    def langs(self) -> List[str]:
+        return
+
+    @abc.abstractmethod
+    def escape(self, line: str) -> str:
+        pass
+
+    @abc.abstractmethod
+    def unescape(self, line: str) -> str:
+        pass
+
+
+class MagicCommandEscaper(BaseLineEscaper):
+    langs = ["python"]
+    escaped_line_start = "#% "
+    unesacpe_start = len(escaped_line_start)
+
+    def escape(self, line: str) -> str:
+        if line.lstrip().startswith("%"):
+            line = f"{self.escaped_line_start}{line}"
+        return line
+
+    def unescape(self, line: str) -> str:
+        if line.lstrip().startswith(self.escaped_line_start):
+            line = line[self.unesacpe_start :]
+        return line
+
+
+class HelpEscaper(BaseLineEscaper):
+
+    langs = ["python"]
+    escaped_line_start = "# \x01 "
+    unesacpe_start = len(escaped_line_start)
+
+    def escape(self, line: str) -> str:
+        if (line.endswith("??") or line.endswith("?")) and "#" not in line:
+            line = f"{self.escaped_line_start}{line}"
+        return line
+
+    def unescape(self, line: str) -> str:
+        if line.lstrip().startswith(self.escaped_line_start):
+            line = line[self.unesacpe_start :]
+        return line
+
+
+class CommandEscaper(BaseLineEscaper):
+
+    langs = ["python"]
+    escaped_line_start = "# \x01 "
+    unesacpe_start = len(escaped_line_start)
+
+    def escape(self, line: str) -> str:
+        if line.lstrip().startswith("!"):
+            line = f"{self.escaped_line_start}{line}"
+        return line
+
+    def unescape(self, line: str) -> str:
+        if line.lstrip().startswith(self.escaped_line_start):
+            line = line[self.unesacpe_start :]
+        return line
+
+
+class QuartoCommentEscaper(BaseLineEscaper):
+
+    langs = ["python"]
+    escaped_line_start = "# \x01 "
+    unesacpe_start = len(escaped_line_start)
+
+    def escape(self, line: str) -> str:
+        if line.lstrip().startswith("#| "):
+            line = f"{self.escaped_line_start}{line}"
+        return line
+
+    def unescape(self, line: str) -> str:
+        if line.lstrip().startswith(self.escaped_line_start):
+            line = line[self.unesacpe_start :]
+        return line
+
+
+ESCAPER_CLASSES: List[Type[BaseLineEscaper]] = [
+    MagicCommandEscaper,
+    HelpEscaper,
+    CommandEscaper,
+    QuartoCommentEscaper,
+]
+
+
 def handle_line_ending_and_magic(func):
     @wraps(func)
     def wrapped(self, code: str, notebook: bool, **options) -> str:
@@ -70,13 +159,19 @@ def handle_line_ending_and_magic(func):
 
         has_semicolon = code.strip().endswith(";")
 
-        code = re.sub(MAGIC_COMMAND_RE, "# %#", code)
-        code = re.sub(SHELL_COMMAND_RE, "# !#", code)
-        code = re.sub(IPYTHON_HELP_RE, r"# ?#\1", code)
+        escapers = [escaper_cls(code) for escaper_cls in ESCAPER_CLASSES]
+
+        lines = code.splitlines()
+        for escaper in escapers:
+            lines = map(escaper.escape, lines)
+        code = "\n".join(lines)
+
         code = func(self, code, notebook, **options)
-        code = re.sub(COMMENTED_MAGIC_COMMAND_RE, "%", code)
-        code = re.sub(COMMENTED_SHELL_COMMAND_RE, "!", code)
-        code = re.sub(COMMENTED_IPYTHON_HELP_RE, "", code)
+
+        lines = code.splitlines()
+        for escaper in escapers:
+            lines = map(escaper.unescape, lines)
+        code = "\n".join(lines)
 
         if notebook:
             code = code.rstrip()
