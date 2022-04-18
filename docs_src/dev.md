@@ -1,4 +1,4 @@
-# Developement
+# Development
 
 1. Get Task - A Go task runner
 
