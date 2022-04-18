@@ -35,7 +35,15 @@ Do this in another terminal.
 
 Assume you have a shell in dev container, do
 
+````{tab} Watch mode
 ```bash
 # NOTE: This might take a little while...
+./dev/start-jupyterlab.sh --watch
+```
+````
+
+````{tab} Non-watch mode
+```bash
 ./dev/start-jupyterlab.sh
 ```
+````
