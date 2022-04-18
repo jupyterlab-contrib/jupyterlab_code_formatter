@@ -3,7 +3,7 @@ FROM python:3.9.12-bullseye
 
 # Install common stuff and R
 RUN apt update && \
-    apt install -y r-base curl jq gawk inotify-tools && \
+    apt install -y r-base curl jq gawk inotify-tools libgbm-dev libnss3 libasound2 && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 # Install NodeJS
