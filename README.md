@@ -57,6 +57,14 @@ I could really use your support in giving me a star on GitHub, recommending feat
 
 ----
 
+## Contributors
+
+Massive thanks to the below list of people who made past contributions to the project!
+
+<a href="https://github.com/ryantam626/jupyterlab_code_formatter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ryantam626/jupyterlab_code_formatter" />
+</a>
+
 ## License
 
 This project is licensed under the terms of the MIT license.
