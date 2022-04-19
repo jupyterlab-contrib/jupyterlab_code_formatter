@@ -235,9 +235,18 @@ jlpm run watch
 </ol>
 <p>Do this in another terminal.</p>
 <p>Assume you have a shell in dev container, do</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--1">Watch mode</label><div class="tab-content docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># NOTE: This might take a little while...</span>
-./dev/start-jupyterlab.sh
+./dev/start-jupyterlab.sh --watch
 </pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--2">Non-watch mode</label><div class="tab-content docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./dev/start-jupyterlab.sh
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 

@@ -1,5 +1,9 @@
 # Configuration
 
+For configuring this plugin, I highly recommend you turn use the JSON Settings Editor instead of the weird graphical settings editor. 
+
+![settings](_static/settings.gif)
+
 ## Format On Save
 
 In the settings page, include the following key value pair:-
