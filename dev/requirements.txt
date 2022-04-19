@@ -32,8 +32,10 @@ cffi==1.15.0
     #   rpy2
 charset-normalizer==2.0.12
     # via requests
-click==8.1.2
-    # via black
+click==8.0.2
+    # via
+    #   -r /app/requirements.in
+    #   black
 commonmark==0.9.1
     # via rich
 cryptography==36.0.2
