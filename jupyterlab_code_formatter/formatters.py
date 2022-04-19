@@ -1,6 +1,8 @@
 import abc
 import copy
 import logging
+import sys
+import importlib
 from functools import wraps
 from typing import List, Type
 
@@ -183,14 +185,46 @@ def handle_line_ending_and_magic(func):
     return wrapped
 
 
-class BlackFormatter(BaseFormatter):
+BLUE_MONKEY_PATCHED = False
 
-    label = "Apply Black Formatter"
+
+def import_black():
+    global BLUE_MONKEY_PATCHED
+    if BLUE_MONKEY_PATCHED:
+        for module in list(sys.modules):
+            if module.startswith("black."):
+                importlib.reload(sys.modules[module])
+
+        import black
+
+        black = importlib.reload(black)
+        BLUE_MONKEY_PATCHED = False
+    else:
+        import black
+
+    return black
+
+
+def import_blue():
+    """Import blue and perform monkey patch."""
+    global BLUE_MONKEY_PATCHED
+    import blue
+
+    if not BLUE_MONKEY_PATCHED:
+        blue.monkey_patch_black(blue.Mode.synchronous)
+        BLUE_MONKEY_PATCHED = True
+
+    return blue
+
+
+class BlueFormatter(BaseFormatter):
+
+    label = "Apply Blue Formatter"
 
     @property
     def importable(self) -> bool:
         try:
-            import black
+            import_blue()
 
             return True
         except ImportError:
@@ -198,7 +232,34 @@ class BlackFormatter(BaseFormatter):
 
     @staticmethod
     def handle_options(**options):
-        import black
+        blue = import_blue()
+
+        return {"mode": blue.black.FileMode(**options)}
+
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
+        blue = import_blue()
+
+        code = blue.black.format_str(code, **self.handle_options(**options))
+        return code
+
+
+class BlackFormatter(BaseFormatter):
+
+    label = "Apply Black Formatter"
+
+    @property
+    def importable(self) -> bool:
+        try:
+            import_black()
+
+            return True
+        except ImportError:
+            return False
+
+    @staticmethod
+    def handle_options(**options):
+        black = import_black()
 
         file_mode_change_version = version.parse("19.3b0")
         current_black_version = version.parse(black.__version__)
@@ -209,7 +270,7 @@ class BlackFormatter(BaseFormatter):
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
-        import black
+        black = import_black()
 
         code = black.format_str(code, **self.handle_options(**options))
         return code
@@ -361,6 +422,7 @@ class StylerFormatter(BaseFormatter):
 
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
+    "blue": BlueFormatter(),
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
