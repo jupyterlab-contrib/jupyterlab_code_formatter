@@ -1,6 +1,7 @@
 import abc
 import copy
 import logging
+import re
 import sys
 import importlib
 from functools import wraps
@@ -91,6 +92,22 @@ class MagicCommandEscaper(BaseLineEscaper):
         return line
 
 
+class RunScriptEscaper(BaseLineEscaper):
+    langs = ["python"]
+    escaped_line_start = "# \x01 "
+    unesacpe_start = len(escaped_line_start)
+
+    def escape(self, line: str) -> str:
+        if re.match(pattern="run\s+\w+", string=line.lstrip()):
+            line = f"{self.escaped_line_start}{line}"
+        return line
+
+    def unescape(self, line: str) -> str:
+        if line.lstrip().startswith(self.escaped_line_start):
+            line = line[self.unesacpe_start :]
+        return line
+
+
 class HelpEscaper(BaseLineEscaper):
 
     langs = ["python"]
@@ -147,6 +164,7 @@ ESCAPER_CLASSES: List[Type[BaseLineEscaper]] = [
     HelpEscaper,
     CommandEscaper,
     QuartoCommentEscaper,
+    RunScriptEscaper,
 ]
 
 
