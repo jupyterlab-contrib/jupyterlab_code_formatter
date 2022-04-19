@@ -12,3 +12,4 @@ myst-parser
 sphinx_copybutton
 sphinx-inline-tabs
 rpy2
+click==8.0.2
