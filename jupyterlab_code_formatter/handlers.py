@@ -69,7 +69,9 @@ def check_plugin_version(handler: APIHandler):
 class FormattersAPIHandler(APIHandler):
     def get(self) -> None:
         """Show what formatters are installed and avaliable."""
-        if self.get_query_argument('bypassVersionCheck') is not None or check_plugin_version(self):
+        if self.get_query_argument(
+            "bypassVersionCheck"
+        ) is not None or check_plugin_version(self):
             self.finish(
                 json.dumps(
                     {
@@ -87,7 +89,9 @@ class FormattersAPIHandler(APIHandler):
 
 class FormatAPIHandler(APIHandler):
     def post(self) -> None:
-        if self.get_query_argument('bypassVersionCheck') is not None or check_plugin_version(self):
+        if self.get_query_argument(
+            "bypassVersionCheck"
+        ) is not None or check_plugin_version(self):
             data = json.loads(self.request.body.decode("utf-8"))
             formatter_instance = SERVER_FORMATTERS.get(data["formatter"])
 
