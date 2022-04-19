@@ -77,7 +77,7 @@ class BaseLineEscaper(abc.ABC):
 
 class MagicCommandEscaper(BaseLineEscaper):
     langs = ["python"]
-    escaped_line_start = "#% "
+    escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
 
     def escape(self, line: str) -> str:
