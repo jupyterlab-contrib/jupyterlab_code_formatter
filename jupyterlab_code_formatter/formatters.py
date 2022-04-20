@@ -37,6 +37,7 @@ INCOMPATIBLE_MAGIC_LANGUAGES = [
     "logs",
     "sql",
     "local",
+    "sparksql",
 ]
 
 
