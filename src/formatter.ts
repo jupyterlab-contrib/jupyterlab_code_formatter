@@ -166,10 +166,12 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
           const formattedText = formattedTexts.code[i];
           if (cell.model.value.text === currentText) {
             if (formattedText.error) {
-              await showErrorMessage(
-                'Jupyterlab Code Formatter Error',
-                formattedText.error
-              );
+              if (!(config.suppressFormatterErrors ?? false)) {
+                await showErrorMessage(
+                  'Jupyterlab Code Formatter Error',
+                  formattedText.error
+                );
+              }
             } else {
               cell.model.value.text = formattedText.code;
             }
