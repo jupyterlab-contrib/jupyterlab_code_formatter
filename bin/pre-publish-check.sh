@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 LABEXTENSION_VERSION=$(cat package.json | jq -r '.version')
-CHANGELOG_VERSION=$(awk 'match($0, /(.*) [0-9]{4}-[0-9]{2}-[0-9]{2}/, a) {print a[1]}' docs/changelog.rst | head -n 1)
-HARDCODED_LABEXTENSION_CLIENT_VERSION=$(grep "PLUGIN_VERSION" -- ${LABEXTENSION_PATH}/constants.ts | awk -F"'" '{ print $2 }')
+CHANGELOG_VERSION=$(awk 'match($0, /## (.*) [0-9]{4}-[0-9]{2}-[0-9]{2}/, a) {print a[1]}' docs_src/changelog.md | head -n 1)
+HARDCODED_LABEXTENSION_CLIENT_VERSION=$(grep "PLUGIN_VERSION" -- src/constants.ts | awk -F"'" '{ print $2 }')
 
 versions=( $LABEXTENSION_VERSION $CHANGELOG_VERSION $HARDCODED_LABEXTENSION_CLIENT_VERSION )
 unique_versions_count=$(echo ${versions[@]} | tr ' ' '\n' | uniq | wc -l)
