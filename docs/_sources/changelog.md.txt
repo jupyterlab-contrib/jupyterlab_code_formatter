@@ -4,6 +4,20 @@
 
 **General**
 
+No change.
+
+**Server extension**
+
+No change.
+
+**Jupyterlab extension**
+
+No change.
+
+## 1.4.11 2022-05-01
+
+**General**
+
 - Revamp documentation site;
 - Revamp development environment;
 
