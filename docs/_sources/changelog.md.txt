@@ -9,11 +9,14 @@
 
 **Server extension**
 
-No change.
+- Escape Quarto's comment to exmept it from formatting;
+- Add support for `blue` formatter;
+- Restore easily accessible formatter list API;
+- Escape run script command in JupyterLab;
 
 **Jupyterlab extension**
 
-No change.
+- Add suppress formatter errors setting;
 
 ## 1.4.10 2021-04-02
 
