@@ -8,6 +8,7 @@ docker run --entrypoint bash \
   -it \
   -p 8011:8011 \
   -v ${BASE_DIR}:/host \
+  -v ~/.gitconfig:/root/.gitconfig \
   --rm \
   jupyterlab-code-formatter-dev \
   $@
