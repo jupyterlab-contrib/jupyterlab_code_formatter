@@ -35,6 +35,15 @@
                 },
                 "string_normalization": {
                     "type": "boolean"
+                },
+                "magic_trailing_comma": {
+                    "type": "boolean"
+                },
+                "experimental_string_processing": {
+                    "type": "boolean"
+                },
+                "preview": {
+                    "type": "boolean"
                 }
             },
             "additionalProperties": false,
