@@ -217,9 +217,9 @@ class JupyterLabCodeFormatter
       .catch(error => {
         void showErrorMessage(
           'Jupyterlab Code Formatter Error',
-          'Unable to find server plugin version. You may need to restart your JupyterLab server, '+
-          'If that does not fix the issue please open an issue at: ' +
-          'https://github.com/ryantam626/jupyterlab_code_formatter/issues/new/choose'
+          'Unable to find server plugin version. You may need to restart your JupyterLab server, ' +
+            'If that does not fix the issue please open an issue at: ' +
+            'https://github.com/ryantam626/jupyterlab_code_formatter/issues/new/choose'
         );
         return false;
       });
