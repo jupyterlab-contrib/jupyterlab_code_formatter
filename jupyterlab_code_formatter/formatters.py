@@ -439,6 +439,39 @@ class StylerFormatter(BaseFormatter):
         return transformed_options
 
 
+class ScalafmtFormatter(BaseFormatter):
+
+    label = "Apply scalafmt Formatter"
+
+    @property
+    def importable(self) -> bool:
+        try:
+            import subprocess
+
+            return True
+        except ImportError:
+            return False
+
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
+        import subprocess
+
+        process = subprocess.run(
+            ["scalafmt", "--stdin"],
+            input=code,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+
+        if process.stderr:
+            logger.info("An error with scalafmt has ocurred:")
+            logger.info(process.stderr)
+            return code
+        else:
+            return process.stdout
+
+        
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "blue": BlueFormatter(),
@@ -447,4 +480,5 @@ SERVER_FORMATTERS = {
     "isort": IsortFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
+    "scalafmt": ScalafmtFormatter(),
 }
