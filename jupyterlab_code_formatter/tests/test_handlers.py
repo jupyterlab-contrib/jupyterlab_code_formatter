@@ -15,9 +15,11 @@ def _generate_list_formaters_entry_json_schema(
 ) -> t.Dict[str, t.Any]:
     return {
         "type": "object",
+        "required": [formatter_name],
         "properties": {
             formatter_name: {
                 "type": "object",
+                "required": ["enabled", "label"],
                 "properties": {
                     "enabled": {"type": "boolean"},
                     "label": {"type": "string"},
@@ -29,6 +31,7 @@ def _generate_list_formaters_entry_json_schema(
 
 EXPECTED_VERSION_SCHEMA = {
     "type": "object",
+    "required": ["version"],
     "properties": {
         "version": {
             "type": "string",
@@ -38,6 +41,7 @@ EXPECTED_VERSION_SCHEMA = {
 
 EXPECTED_LIST_FORMATTERS_SCHEMA = {
     "type": "object",
+    "required": ["formatters"],
     "properties": {
         "formatters": {
             formatter_name: _generate_list_formaters_entry_json_schema(formatter_name)
@@ -47,11 +51,13 @@ EXPECTED_LIST_FORMATTERS_SCHEMA = {
 }
 EXPECTED_FROMAT_SCHEMA = {
     "type": "object",
+    "required": ["code"],
     "properties": {
         "code": {
             "type": "array",
             "items": {
                 "type": "object",
+                "required": ["code"],
                 "properties": {"code": {"type": "string"}, "error": {"type": "string"}},
             },
         }
