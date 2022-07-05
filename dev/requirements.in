@@ -3,6 +3,7 @@ black
 blue
 isort
 pytest
+pytest-tornasync
 sphinx
 furo
 twine
