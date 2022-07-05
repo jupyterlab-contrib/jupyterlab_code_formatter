@@ -57,8 +57,16 @@ EXPECTED_FROMAT_SCHEMA = {
             "type": "array",
             "items": {
                 "type": "object",
-                "required": ["code"],
-                "properties": {"code": {"type": "string"}, "error": {"type": "string"}},
+                "oneOf": [
+                    {
+                        "additionalProperties": False,
+                        "properties": {"code": {"type": "string"}},
+                    },
+                    {
+                        "additionalProperties": False,
+                        "properties": {"error": {"type": "string"}},
+                    },
+                ],
             },
         }
     },
