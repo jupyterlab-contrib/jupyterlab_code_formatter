@@ -1,11 +1,13 @@
 import abc
 import copy
+import importlib
 import logging
 import re
 import sys
-import importlib
 from functools import wraps
 from typing import List, Type
+
+import pkg_resources
 
 try:
     import rpy2
@@ -13,7 +15,6 @@ try:
 except ImportError:
     pass
 from packaging import version
-
 
 logger = logging.getLogger(__name__)
 
@@ -207,6 +208,13 @@ def handle_line_ending_and_magic(func):
 BLUE_MONKEY_PATCHED = False
 
 
+def is_importable(pkg_name: str) -> bool:
+    # Need to reload for packages are installed/uninstalled after JupyterLab started
+    importlib.reload(pkg_resources)
+
+    return pkg_name in {pkg.key for pkg in pkg_resources.working_set}
+
+
 def import_black():
     global BLUE_MONKEY_PATCHED
     if BLUE_MONKEY_PATCHED:
@@ -242,12 +250,7 @@ class BlueFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        try:
-            import_blue()
-
-            return True
-        except ImportError:
-            return False
+        return is_importable('blue')
 
     @staticmethod
     def handle_options(**options):
@@ -269,12 +272,7 @@ class BlackFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        try:
-            import_black()
-
-            return True
-        except ImportError:
-            return False
+        return is_importable('black')
 
     @staticmethod
     def handle_options(**options):
@@ -301,12 +299,7 @@ class Autopep8Formatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        try:
-            import autopep8
-
-            return True
-        except ImportError:
-            return False
+        return is_importable('autopep8')
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
@@ -321,12 +314,7 @@ class YapfFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        try:
-            import yapf
-
-            return True
-        except ImportError:
-            return False
+        return is_importable('yapf')
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
@@ -341,12 +329,7 @@ class IsortFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        try:
-            import isort
-
-            return True
-        except ImportError:
-            return False
+        return is_importable('isort')
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
