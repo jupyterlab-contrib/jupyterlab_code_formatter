@@ -3,6 +3,7 @@ import copy
 import importlib
 import logging
 import re
+import subprocess
 import sys
 from functools import wraps
 from typing import List, Type
@@ -455,6 +456,38 @@ class ScalafmtFormatter(BaseFormatter):
             return process.stdout
 
 
+class RustfmtFormatter(BaseFormatter):
+
+    label = "Apply rustfmt Formatter"
+
+    @property
+    def importable(self) -> bool:
+        # TODO: What happens on windows??
+        proc = subprocess.run(["which", "rustfmt"], stdout=subprocess.PIPE)
+        return proc.returncode == 0
+
+    @handle_line_ending_and_magic
+    def format_code(self, code: str, notebook: bool, **options) -> str:
+        import subprocess
+
+        process = subprocess.run(
+            [
+                "rustfmt",
+            ],
+            input=code,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+
+        if process.stderr:
+            logger.info("An error with rustfmt has ocurred:")
+            logger.info(process.stderr)
+            return code
+        else:
+            return process.stdout
+
+
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "blue": BlueFormatter(),
@@ -464,4 +497,5 @@ SERVER_FORMATTERS = {
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
     "scalafmt": ScalafmtFormatter(),
+    "rustfmt": RustfmtFormatter(),
 }
