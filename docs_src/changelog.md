@@ -4,6 +4,20 @@
 
 **General**
 
+None
+
+**Server extension**
+
+None
+
+**Jupyterlab extension**
+
+None
+
+## 1.5.0 2022-07-16
+
+**General**
+
 - Add `scalafmt` support using `subprocess` - courtesy of andrelfpinto;
 - Add Py10 to supported list - courtesy of haoxins;
 - Better error message - courtesy of ianhi;
