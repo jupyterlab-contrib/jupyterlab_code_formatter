@@ -250,7 +250,7 @@ class BlueFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        return is_importable('blue')
+        return is_importable("blue")
 
     @staticmethod
     def handle_options(**options):
@@ -272,7 +272,7 @@ class BlackFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        return is_importable('black')
+        return is_importable("black")
 
     @staticmethod
     def handle_options(**options):
@@ -299,7 +299,7 @@ class Autopep8Formatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        return is_importable('autopep8')
+        return is_importable("autopep8")
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
@@ -314,7 +314,7 @@ class YapfFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        return is_importable('yapf')
+        return is_importable("yapf")
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
@@ -329,7 +329,7 @@ class IsortFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        return is_importable('isort')
+        return is_importable("isort")
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
@@ -454,7 +454,7 @@ class ScalafmtFormatter(BaseFormatter):
         else:
             return process.stdout
 
-        
+
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "blue": BlueFormatter(),
