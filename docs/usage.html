@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Configuration" href="configuration.html" /><link rel="prev" title="Detailed Installation Guide" href="installation.html" />
 
-    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>Usage - JupyterLab Code Formatter</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -186,7 +186,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -201,9 +202,9 @@
         </div>
         <article role="main">
           <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">#</a></h1>
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
 <section id="preface">
-<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">#</a></h2>
+<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this heading">#</a></h2>
 <p>This plugin registers JupyterLab commands when supported formatters are detected.</p>
 <p>Here is a non-exhaustive list of possibilities:</p>
 <ul class="simple">
@@ -215,7 +216,7 @@
 </ul>
 <p>These commands invoke the specified code formatter in the current focused cell.</p>
 <p>To find out what formatters are available, you can query http://localhost:8888/jupyterlab_code_formatter/formatters?bypassVersionCheck=1 (you might need to replace the port and address), the keys of formatter are shown there.</p>
-<hr class="docutils"/>
+<hr class="docutils" />
 <p>In addition to the above commands, this plugin also adds two non-formatter-specific commands:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format</span></code></p></li>
@@ -224,25 +225,25 @@
 <p>These commands invoke the configured default code formatters,  to configure the default code formatters see <a class="reference internal" href="configuration.html#changing-default-formatter-s"><span class="std std-doc">here</span></a>.</p>
 </section>
 <section id="invoke-default-code-formatter-s">
-<h2>Invoke Default Code Formatter(s)<a class="headerlink" href="#invoke-default-code-formatter-s" title="Permalink to this headline">#</a></h2>
+<h2>Invoke Default Code Formatter(s)<a class="headerlink" href="#invoke-default-code-formatter-s" title="Permalink to this heading">#</a></h2>
 <p>Here are some examples showing how to invoke the default code formatter(s) via comand palette.</p>
 <section id="for-focused-cell-s">
-<h3>For Focused Cell(s)<a class="headerlink" href="#for-focused-cell-s" title="Permalink to this headline">#</a></h3>
+<h3>For Focused Cell(s)<a class="headerlink" href="#for-focused-cell-s" title="Permalink to this heading">#</a></h3>
 <p>Example using the context menu:</p>
-<p><img alt="format-selected" src="_images/format-selected.gif"/></p>
+<p><img alt="format-selected" src="_images/format-selected.gif" /></p>
 <p>You can also achieve this by invoking <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format</span></code>.</p>
 </section>
 <section id="for-the-entire-document">
-<h3>For The Entire Document<a class="headerlink" href="#for-the-entire-document" title="Permalink to this headline">#</a></h3>
+<h3>For The Entire Document<a class="headerlink" href="#for-the-entire-document" title="Permalink to this heading">#</a></h3>
 <p>Example using the button on the toolbar:</p>
-<p><img alt="format-all" src="_images/format-all.gif"/></p>
+<p><img alt="format-all" src="_images/format-all.gif" /></p>
 <p>You can also achieve this by invoking <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format_all</span></code>.</p>
 </section>
 </section>
 <section id="invoke-specific-code-formatter">
-<h2>Invoke Specific Code Formatter<a class="headerlink" href="#invoke-specific-code-formatter" title="Permalink to this headline">#</a></h2>
+<h2>Invoke Specific Code Formatter<a class="headerlink" href="#invoke-specific-code-formatter" title="Permalink to this heading">#</a></h2>
 <p>Example using the command palette or menu bar:</p>
-<p><img alt="format-specific" src="_images/format-specific.gif"/></p>
+<p><img alt="format-specific" src="_images/format-specific.gif" /></p>
 <p>You can also achieve this by invoking <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:black</span></code> for example, see possiblities in the <a class="reference internal" href="#preface"><span class="std std-doc">preface</span></a>.</p>
 </section>
 </section>
@@ -326,6 +327,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="JupyterHub" href="jupyterhub.html" /><link rel="prev" title="Adding Custom Formatters" href="custom-formatter.html" />
 
-    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>Frequently Asked Questions - JupyterLab Code Formatter</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -186,7 +186,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -201,22 +202,22 @@
         </div>
         <article role="main">
           <section id="frequently-asked-questions">
-<h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">#</a></h1>
+<h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this heading">#</a></h1>
 <section id="error-when-writing-grammar-tables">
-<h2>Error When Writing Grammar Tables<a class="headerlink" href="#error-when-writing-grammar-tables" title="Permalink to this headline">#</a></h2>
+<h2>Error When Writing Grammar Tables<a class="headerlink" href="#error-when-writing-grammar-tables" title="Permalink to this heading">#</a></h2>
 <p>It is possible that black will fail when trying to create local cache directory, you can resovle this by creating the directory yourself (elevated permissions might be required):-</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -c <span class="s2">"import black; black.CACHE_DIR.mkdir(parents=True, exist_ok=True)"</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -c <span class="s2">&quot;import black; black.CACHE_DIR.mkdir(parents=True, exist_ok=True)&quot;</span>
 </pre></div>
 </div>
 <p>For more information, see <a class="reference external" href="https://github.com/ryantam626/jupyterlab_code_formatter/issues/10">issue #10</a>.</p>
 </section>
 <section id="jupyterlab-commands-not-showing-up">
-<h2>JupyterLab Commands Not Showing Up<a class="headerlink" href="#jupyterlab-commands-not-showing-up" title="Permalink to this headline">#</a></h2>
+<h2>JupyterLab Commands Not Showing Up<a class="headerlink" href="#jupyterlab-commands-not-showing-up" title="Permalink to this heading">#</a></h2>
 <p>Make sure you really have one of the formatters properly installed in the Jupyter Server’s environment.</p>
 <p>The plugin is also configured to only show commands when a suitable notebook/script is opened, it’s worth checking if you have opened one such notebook/script.</p>
 </section>
 <section id="id1">
-<h2><a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<h2><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -295,6 +296,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Detailed Installation Guide" href="installation.html" />
 
-    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>JupyterLab Code Formatter</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -136,7 +136,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -186,7 +186,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -194,7 +195,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -203,20 +204,20 @@
           <div class="toctree-wrapper compound">
 </div>
 <section id="jupyterlab-code-formatter">
-<h1>JupyterLab Code Formatter<a class="headerlink" href="#jupyterlab-code-formatter" title="Permalink to this headline">#</a></h1>
-<p><a class="reference external" href="https://mybinder.org/v2/gh/ryantam626/jupyterlab_code_formatter/master?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"/></a>
-<a class="reference external" href="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter"><img alt="npm version" src="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter.svg"/></a>
-<a class="reference external" href="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter"><img alt="npm downloads" src="https://img.shields.io/npm/dw/%40ryantam626%2Fjupyterlab_code_formatter.svg"/></a>
-<a class="reference external" href="https://github.com/ambv/black"><img alt="code style" src="https://img.shields.io/badge/code%20style-black-000000.svg"/></a>
-<a class="reference external" href="https://github.com/ryantam626/jupyterlab_code_formatter/actions"><img alt="Github Actions Status" src="https://github.com/ryantam626/jupyterlab_code_formatter/workflows/CI/badge.svg"/></a></p>
+<h1>JupyterLab Code Formatter<a class="headerlink" href="#jupyterlab-code-formatter" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/ryantam626/jupyterlab_code_formatter/master?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a>
+<a class="reference external" href="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter"><img alt="npm version" src="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter.svg" /></a>
+<a class="reference external" href="https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter"><img alt="npm downloads" src="https://img.shields.io/npm/dw/%40ryantam626%2Fjupyterlab_code_formatter.svg" /></a>
+<a class="reference external" href="https://github.com/ambv/black"><img alt="code style" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
+<a class="reference external" href="https://github.com/ryantam626/jupyterlab_code_formatter/actions"><img alt="Github Actions Status" src="https://github.com/ryantam626/jupyterlab_code_formatter/workflows/CI/badge.svg" /></a></p>
 <p><em>A JupyterLab plugin to facilitate invocation of code formatters.</em></p>
 <p><strong>Source Code</strong>: <a class="reference external" href="https://github.com/ryantam626/jupyterlab_code_formatter/">GitHub</a>.</p>
 <section id="demo">
-<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">#</a></h2>
-<p><img alt="format-all" src="_images/format-all.gif"/></p>
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this heading">#</a></h2>
+<p><img alt="format-all" src="_images/format-all.gif" /></p>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">#</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Python 3.6+</p></li>
 <li><p>JupyterLab &gt;= 3.0.0</p></li>
@@ -228,27 +229,27 @@
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">#</a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><strong>Install the package</strong></p></li>
 </ol>
 <div class="tab-set docutils container">
-<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--1">Pip</label><div class="tab-content docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Pip</label><div class="tab-content docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install jupyterlab-code-formatter
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--2">Conda</label><div class="tab-content docutils container">
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Conda</label><div class="tab-content docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge jupyterlab_code_formatter
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--3">Poetry</label><div class="tab-content docutils container">
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Poetry</label><div class="tab-content docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry add jupyterlab-code-formatter
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--0-input--4" name="tab-set--0" type="radio"/><label class="tab-label" for="tab-set--0-input--4">Pipenv</label><div class="tab-content docutils container">
+<input class="tab-input" id="tab-set--0-input--4" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--4">Pipenv</label><div class="tab-content docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv install jupyterlab-code-formatter
 </pre></div>
 </div>
@@ -308,29 +309,8 @@ pip install black isort
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            Contents
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">JupyterLab Code Formatter</a><ul>
-<li><a class="reference internal" href="#demo">Demo</a></li>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
@@ -338,6 +318,7 @@ pip install black isort
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>

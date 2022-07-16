@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Adding Custom Formatters" href="custom-formatter.html" /><link rel="prev" title="Usage" href="usage.html" />
 
-    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>Configuration - JupyterLab Code Formatter</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -186,7 +186,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -201,14 +202,14 @@
         </div>
         <article role="main">
           <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">#</a></h1>
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h1>
 <p>For configuring this plugin, I highly recommend you turn use the JSON Settings Editor instead of the weird graphical settings editor.</p>
-<p><img alt="settings" src="_images/settings.gif"/></p>
+<p><img alt="settings" src="_images/settings.gif" /></p>
 <section id="format-on-save">
-<h2>Format On Save<a class="headerlink" href="#format-on-save" title="Permalink to this headline">#</a></h2>
+<h2>Format On Save<a class="headerlink" href="#format-on-save" title="Permalink to this heading">#</a></h2>
 <p>In the settings page, include the following key value pair:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nt">"formatOnSave"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;formatOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -219,17 +220,17 @@
 <p>This invokes <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format_all</span></code> every time you save, which uses the <a class="reference internal" href="#changing-default-formatter-s"><span class="std std-doc">default formatters specified in settings</span></a>.</p>
 </section>
 <section id="keyboard-shortcuts">
-<h2>Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permalink to this headline">#</a></h2>
+<h2>Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permalink to this heading">#</a></h2>
 <p>To add a keyboard shortcut calling the JupyterLab commands registered by this plugin (documented <a class="reference internal" href="usage.html#preface"><span class="std std-doc">here</span></a>), add an entry in the Advanced Setting Edtior of JupyterLab (TDOO: How to get there.) like so:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nt">"shortcuts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;shortcuts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jupyterlab_code_formatter:format"</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="s2">"Ctrl K"</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="s2">"Ctrl M"</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jupyterlab_code_formatter:format&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Ctrl K&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Ctrl M&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
-<span class="w">      </span><span class="nt">"selector"</span><span class="p">:</span><span class="w"> </span><span class="s2">".jp-Notebook.jp-mod-editMode"</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;selector&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.jp-Notebook.jp-mod-editMode&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -243,7 +244,7 @@
 </ul>
 </section>
 <section id="changing-default-formatter-s">
-<h2>Changing Default Formatter(s)<a class="headerlink" href="#changing-default-formatter-s" title="Permalink to this headline">#</a></h2>
+<h2>Changing Default Formatter(s)<a class="headerlink" href="#changing-default-formatter-s" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format</span></code> and <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format_all</span></code> JupyterLab commands will always invoke the formatter(s) specified in the settings.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -251,10 +252,10 @@
 </div>
 <p>To override the default settings, enter something like so in the “User Preferences” panel of the settings:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"preferences"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">"default_formatter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"python"</span><span class="p">:</span><span class="w"> </span><span class="s2">"autopep8"</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"R"</span><span class="p">:</span><span class="w"> </span><span class="s2">"styler"</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;preferences&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;default_formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;python&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;autopep8&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;R&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;styler&quot;</span><span class="w"></span>
 <span class="w">        </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -262,7 +263,7 @@
 </div>
 </section>
 <section id="changing-formatter-parameters">
-<h2>Changing Formatter Parameters<a class="headerlink" href="#changing-formatter-parameters" title="Permalink to this headline">#</a></h2>
+<h2>Changing Formatter Parameters<a class="headerlink" href="#changing-formatter-parameters" title="Permalink to this heading">#</a></h2>
 <p>Sometimes the stock default config of a code formatter doesn’t suit your need, you can override the code formatter in the settings.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -270,12 +271,12 @@
 </div>
 <p>For example to override settings for the <code class="docutils literal notranslate"><span class="pre">autopep8</span></code> formatter, enter something like so in the “User Preferences” pnael of the settings:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nt">"autopep8"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"max_line_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">      </span><span class="s2">"E226"</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="s2">"E302"</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="s2">"E41"</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;autopep8&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;max_line_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;ignore&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;E226&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;E302&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;E41&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -287,7 +288,7 @@
 </div>
 </section>
 <section id="chaining-formatters-invocation">
-<h2>Chaining Formatters Invocation<a class="headerlink" href="#chaining-formatters-invocation" title="Permalink to this headline">#</a></h2>
+<h2>Chaining Formatters Invocation<a class="headerlink" href="#chaining-formatters-invocation" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format</span></code> and <code class="docutils literal notranslate"><span class="pre">jupyterlab_code_formatter:format_all</span></code> JupyterLab commands support invocation of multiple formatters one after the other via settings.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -295,10 +296,10 @@
 </div>
 <p>To do so, configure the default formatter to be an array of strings:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"preferences"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">"default_formatter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"python"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"isort"</span><span class="p">,</span><span class="w"> </span><span class="s2">"black"</span><span class="p">],</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"R"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"styler"</span><span class="p">,</span><span class="w"> </span><span class="s2">"formatR"</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;preferences&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;default_formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;python&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;isort&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;black&quot;</span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;R&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;styler&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;formatR&quot;</span><span class="p">]</span><span class="w"></span>
 <span class="w">        </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -306,18 +307,18 @@
 </div>
 </section>
 <section id="r-formatter-configuration-example">
-<h2>R Formatter Configuration Example<a class="headerlink" href="#r-formatter-configuration-example" title="Permalink to this headline">#</a></h2>
+<h2>R Formatter Configuration Example<a class="headerlink" href="#r-formatter-configuration-example" title="Permalink to this heading">#</a></h2>
 <p>R formatters are a little finicky to configure, the <code class="docutils literal notranslate"><span class="pre">list</span></code> construct in R is actually a JSON dictionary, to configure value of <code class="docutils literal notranslate"><span class="pre">math_token_spacing</span></code> and <code class="docutils literal notranslate"><span class="pre">reindention</span></code> of <code class="docutils literal notranslate"><span class="pre">styler</span></code>, do something like so:-</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"styler"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">"math_token_spacing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"zero"</span><span class="p">:[</span><span class="s2">"'^'"</span><span class="p">],</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"one"</span><span class="p">:[</span><span class="s2">"'+'"</span><span class="p">,</span><span class="w"> </span><span class="s2">"'-'"</span><span class="p">,</span><span class="w"> </span><span class="s2">"'*'"</span><span class="p">,</span><span class="s2">"'/'"</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;styler&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;math_token_spacing&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;zero&quot;</span><span class="p">:[</span><span class="s2">&quot;&#39;^&#39;&quot;</span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;one&quot;</span><span class="p">:[</span><span class="s2">&quot;&#39;+&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;-&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;*&#39;&quot;</span><span class="p">,</span><span class="s2">&quot;&#39;/&#39;&quot;</span><span class="p">]</span><span class="w"></span>
 <span class="w">        </span><span class="p">},</span><span class="w"></span>
-<span class="w">        </span><span class="nt">"reindention"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"regex_pattern"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"^###"</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"indention"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nt">"comments_only"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;reindention&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;regex_pattern&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^###&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;indention&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;comments_only&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
@@ -408,6 +409,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>
