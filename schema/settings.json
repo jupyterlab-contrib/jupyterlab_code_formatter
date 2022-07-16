@@ -11,13 +11,13 @@
                         "python": {
                             "anyOf": [
                                 {"type": "string"},
-                                {"type": "array", "element":  "string"}
+                                {"type": "array", "items": {"type": "string"}}
                             ]
                         },
                         "R": {
                             "anyOf": [
                                 {"type": "string"},
-                                {"type": "array", "element":  "string"}
+                                {"type": "array", "items": {"type": "string"}}
                             ]
                         }
                     },
@@ -68,19 +68,19 @@
                 },
                 "known_future_library": {
                     "type": "array",
-                    "element": "string"
+                    "items": {"type": "string"}
                 },
                 "known_standard_library": {
                     "type": "array",
-                    "element": "string"
+                    "items": {"type": "string"}
                 },
                 "known_third_party": {
                     "type": "array",
-                    "element": "string"
+                    "items": {"type": "string"}
                 },
                 "known_first_party": {
                     "type": "array",
-                    "element": "string"
+                    "items": {"type": "string"}
                 },
                 "multi_line_output": {
                     "type": "number"
@@ -233,10 +233,47 @@
                     "type": "boolean"
                 },
                 "math_token_spacing": {
-                    "type": ["object", "string"]
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "zero": {
+                                    "oneOf": [
+                                        {"type": "string"},
+                                        {"type": "array", "items": {"type": "string"}}
+                                    ]
+                                },
+                                "one": {
+                                    "oneOf": [
+                                        {"type": "string"},
+                                        {"type": "array", "items": {"type": "string"}}
+                                    ]
+                                }
+                            },
+                            "additionalProperties": false,
+                            "type": "object"
+                        },
+                        {"type": "string"}
+                    ]
                 },
                 "reindention": {
-                    "type": ["object", "string"]
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "regex_pattern": {
+                                    "type": "string"
+                                },
+                                "indention": {
+                                    "type": "number"
+                                },
+                                "comments_only": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "additionalProperties": false,
+                            "type": "object"
+                        },
+                        {"type": "string"}
+                    ]
                 }
             },
             "additionalProperties": false,
@@ -259,7 +296,7 @@
             "default" : {
                 "default_formatter": {
                     "python": ["isort", "black"],
-                    "r": "formatR"
+                    "R": "formatR"
                 }
             }
         },
