@@ -6,31 +6,29 @@
 #
 alabaster==0.7.12
     # via sphinx
-appdirs==1.4.4
-    # via black
 attrs==21.4.0
     # via pytest
 autopep8==1.6.0
     # via -r /app/requirements.in
-babel==2.9.1
+babel==2.10.3
     # via sphinx
 beautifulsoup4==4.11.1
     # via furo
-black==21.7b0
+black==22.1.0
     # via
     #   -r /app/requirements.in
     #   blue
-bleach==5.0.0
+bleach==5.0.1
     # via readme-renderer
-blue==0.8.0
+blue==0.9.0
     # via -r /app/requirements.in
-certifi==2021.10.8
+certifi==2022.6.15
     # via requests
-cffi==1.15.0
+cffi==1.15.1
     # via
     #   cryptography
     #   rpy2
-charset-normalizer==2.0.12
+charset-normalizer==2.1.0
     # via requests
 click==8.0.2
     # via
@@ -38,24 +36,24 @@ click==8.0.2
     #   black
 commonmark==0.9.1
     # via rich
-cryptography==36.0.2
+cryptography==37.0.2
     # via secretstorage
 deprecation==2.1.0
     # via jupyter-packaging
-docutils==0.17.1
+docutils==0.18.1
     # via
     #   myst-parser
     #   readme-renderer
     #   sphinx
 flake8==4.0.1
     # via blue
-furo==2022.4.7
+furo==2022.6.21
     # via -r /app/requirements.in
 idna==3.3
     # via requests
-imagesize==1.3.0
+imagesize==1.4.1
     # via sphinx
-importlib-metadata==4.11.3
+importlib-metadata==4.12.0
     # via
     #   keyring
     #   sphinx
@@ -68,14 +66,14 @@ jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-jinja2==3.1.1
+jinja2==3.1.2
     # via
     #   myst-parser
     #   rpy2
     #   sphinx
-jupyter-packaging==0.12.0
+jupyter-packaging==0.12.2
     # via -r /app/requirements.in
-keyring==23.5.0
+keyring==23.6.0
     # via twine
 markdown-it-py==2.1.0
     # via
@@ -91,7 +89,7 @@ mdurl==0.1.1
     # via markdown-it-py
 mypy-extensions==0.4.3
     # via black
-myst-parser==0.17.2
+myst-parser==0.18.0
     # via -r /app/requirements.in
 packaging==21.3
     # via
@@ -101,8 +99,10 @@ packaging==21.3
     #   sphinx
 pathspec==0.9.0
     # via black
-pkginfo==1.8.2
+pkginfo==1.8.3
     # via twine
+platformdirs==2.5.2
+    # via black
 pluggy==1.0.0
     # via pytest
 py==1.11.0
@@ -115,15 +115,19 @@ pycparser==2.21
     # via cffi
 pyflakes==2.4.0
     # via flake8
-pygments==2.11.2
+pygments==2.12.0
     # via
     #   furo
     #   readme-renderer
     #   rich
     #   sphinx
-pyparsing==3.0.8
+pyparsing==3.0.9
     # via packaging
-pytest==7.1.1
+pytest==7.1.2
+    # via
+    #   -r /app/requirements.in
+    #   pytest-tornasync
+pytest-tornasync==0.6.0.post2
     # via -r /app/requirements.in
 pytz==2022.1
     # via
@@ -135,9 +139,7 @@ pyyaml==6.0
     # via myst-parser
 readme-renderer==35.0
     # via twine
-regex==2022.3.15
-    # via black
-requests==2.27.1
+requests==2.28.1
     # via
     #   requests-toolbelt
     #   sphinx
@@ -146,9 +148,9 @@ requests-toolbelt==0.9.1
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==12.2.0
+rich==12.4.4
     # via twine
-rpy2==3.5.1
+rpy2==3.5.2
     # via -r /app/requirements.in
 secretstorage==3.3.2
     # via keyring
@@ -158,13 +160,16 @@ snowballstemmer==2.2.0
     # via sphinx
 soupsieve==2.3.2.post1
     # via beautifulsoup4
-sphinx==4.5.0
+sphinx==5.0.2
     # via
     #   -r /app/requirements.in
     #   furo
     #   myst-parser
+    #   sphinx-basic-ng
     #   sphinx-copybutton
     #   sphinx-inline-tabs
+sphinx-basic-ng==0.0.1a12
+    # via furo
 sphinx-copybutton==0.5.0
     # via -r /app/requirements.in
 sphinx-inline-tabs==2022.1.2b11
@@ -183,16 +188,20 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
 toml==0.10.2
     # via autopep8
-tomli==1.2.3
+tomli==2.0.1
     # via
     #   black
     #   pytest
-tomlkit==0.10.1
+tomlkit==0.11.0
     # via jupyter-packaging
-twine==4.0.0
+tornado==6.2
+    # via pytest-tornasync
+twine==4.0.1
     # via -r /app/requirements.in
-typing-extensions==4.2.0
-    # via myst-parser
+typing-extensions==4.3.0
+    # via
+    #   black
+    #   myst-parser
 tzdata==2022.1
     # via pytz-deprecation-shim
 tzlocal==4.2
