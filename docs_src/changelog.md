@@ -4,15 +4,19 @@
 
 **General**
 
-No change.
+- Add `scalafmt` support using `subprocess` - courtesy of andrelfpinto;
+- Add Py10 to supported list - courtesy of haoxins;
+- Better error message - courtesy of ianhi;
+- Support more black configuration - courtesy of utkarshgupta137;
 
 **Server extension**
 
-No change.
+- Make server extension work without `notebook` package, courtesy of KanchiShimono;
 
 **Jupyterlab extension**
 
-No change.
+- Fix JSON schemas - courtesy of KanchiShimono;
+- Fix UI errors in configuration screen - courtesy of KanchiShimono;
 
 ## 1.4.11 2022-05-01
 
@@ -23,7 +27,7 @@ No change.
 
 **Server extension**
 
-- Escape Quarto's comment to exmept it from formatting;
+- Escape Quarto's comment to exmept it from formatting - thanks rgaiacs for providing test case;
 - Add support for `blue` formatter;
 - Restore easily accessible formatter list API;
 - Escape run script command in JupyterLab;
