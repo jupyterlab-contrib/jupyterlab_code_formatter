@@ -9,7 +9,7 @@
 
 **Server extension**
 
-None
+- Handle single/double leading question mark properly;
 
 **Jupyterlab extension**
 

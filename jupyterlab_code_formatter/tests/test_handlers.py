@@ -285,6 +285,44 @@ async def test_can_ipython_help_double(request_format):  # type: ignore[no-untyp
     assert json_result["code"][0]["code"] == expected
 
 
+async def test_can_ipython_help_signle_leading(request_format):  # type: ignore[no-untyped-def]
+    """Check that it will ignore leading single question mark interactive help lines on the fly."""
+    given = "    ?bruh\nprint('test')\n#test?"
+    expected = '    ?bruh\nprint("test")\n# test?'
+
+    response: HTTPResponse = await request_format(
+        formatter="black",
+        code=[given],
+        options={},
+        headers=_create_headers(),
+    )
+    json_result = _check_http_code_and_schema(
+        response=response,
+        expected_code=200,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
+    )
+    assert json_result["code"][0]["code"] == expected
+
+
+async def test_can_ipython_help_double_leading(request_format):  # type: ignore[no-untyped-def]
+    """Check that it will ignore leading double question mark interactive help lines on the fly."""
+    given = "    ??bruh\nprint('test')\n#test?"
+    expected = '    ??bruh\nprint("test")\n# test?'
+
+    response: HTTPResponse = await request_format(
+        formatter="black",
+        code=[given],
+        options={},
+        headers=_create_headers(),
+    )
+    json_result = _check_http_code_and_schema(
+        response=response,
+        expected_code=200,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
+    )
+    assert json_result["code"][0]["code"] == expected
+
+
 async def test_will_ignore_quarto_comments(request_format):  # type: ignore[no-untyped-def]
     """Check that it will ignore Quarto's comments at the top of a block."""
     given = """#| eval: false

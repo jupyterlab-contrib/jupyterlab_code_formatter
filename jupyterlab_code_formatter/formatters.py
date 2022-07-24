@@ -117,7 +117,13 @@ class HelpEscaper(BaseLineEscaper):
     unesacpe_start = len(escaped_line_start)
 
     def escape(self, line: str) -> str:
-        if (line.endswith("??") or line.endswith("?")) and "#" not in line:
+        lstripped = line.lstrip()
+        if (
+            line.endswith("??")
+            or line.endswith("?")
+            or lstripped.startswith("?")
+            or lstripped.startswith("??")
+        ) and "#" not in line:
             line = f"{self.escaped_line_start}{line}"
         return line
 
