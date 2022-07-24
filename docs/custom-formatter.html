@@ -203,7 +203,27 @@
         <article role="main">
           <section id="adding-custom-formatters">
 <h1>Adding Custom Formatters<a class="headerlink" href="#adding-custom-formatters" title="Permalink to this heading">#</a></h1>
-<p>To be documented.</p>
+<p>To define a custom formatter, you can do so in the Jupyter notebook configuration (usually found <code class="docutils literal notranslate"><span class="pre">~/.jupyter/jupyter_notebook_config.py</span></code> or something along those lines), the following example adds a rather useless formatter as a example.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">jupyterlab_code_formatter.formatters</span> <span class="kn">import</span> <span class="n">BaseFormatter</span><span class="p">,</span> <span class="n">handle_line_ending_and_magic</span><span class="p">,</span> <span class="n">SERVER_FORMATTERS</span>
+
+<span class="k">class</span> <span class="nc">ExampleCustomFormatter</span><span class="p">(</span><span class="n">BaseFormatter</span><span class="p">):</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Apply Example Custom Formatter&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">importable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@handle_line_ending_and_magic</span>
+    <span class="k">def</span> <span class="nf">format_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">notebook</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;42&quot;</span>
+        
+<span class="n">SERVER_FORMATTERS</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ExampleCustomFormatter</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p>When implementing your customer formatter using third party library, you will likely use <code class="docutils literal notranslate"><span class="pre">try...</span> <span class="pre">except</span></code> in the <code class="docutils literal notranslate"><span class="pre">importable</span></code> block instead of always returning <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 </section>
 
         </article>
