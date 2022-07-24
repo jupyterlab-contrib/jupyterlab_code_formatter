@@ -4,6 +4,20 @@
 
 **General**
 
+None
+
+**Server extension**
+
+None
+
+**Jupyterlab extension**
+
+None
+
+## 1.5.1 2022-07-24
+
+**General**
+
 - Add `rustfmt` support using `subprocess` - courtesy of andrelfpinto;
 - Add docs for adding a custom formatter;
 
