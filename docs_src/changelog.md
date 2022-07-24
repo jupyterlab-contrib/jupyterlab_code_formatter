@@ -10,6 +10,7 @@
 **Server extension**
 
 - Handle single/double leading question mark properly;
+- Re-add trailing new line if not in notebook;
 
 **Jupyterlab extension**
 

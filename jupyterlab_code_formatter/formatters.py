@@ -198,6 +198,8 @@ def handle_line_ending_and_magic(func):
         code = func(self, code, notebook, **options)
 
         lines = code.splitlines()
+        lines.append("")
+
         for escaper in escapers:
             lines = map(escaper.unescape, lines)
         code = "\n".join(lines)
