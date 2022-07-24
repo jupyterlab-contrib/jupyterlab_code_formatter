@@ -4,15 +4,16 @@
 
 **General**
 
-None
+- Add `rustfmt` support using `subprocess` - courtesy of andrelfpinto;
+- Add docs for adding a custom formatter;
 
 **Server extension**
 
-None
+- Handle single/double leading question mark properly;
 
 **Jupyterlab extension**
 
-None
+- Suppress cell skipped error properly if configured to suppress;
 
 ## 1.5.0 2022-07-16
 
