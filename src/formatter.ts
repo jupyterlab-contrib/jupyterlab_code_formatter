@@ -176,10 +176,12 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
               cell.model.value.text = formattedText.code;
             }
           } else {
-            await showErrorMessage(
-              'Jupyterlab Code Formatter Error',
-              `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
-            );
+            if (!(config.suppressFormatterErrors ?? false)) {
+              await showErrorMessage(
+                'Jupyterlab Code Formatter Error',
+                `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
+              );
+            }
           }
         }
       }
