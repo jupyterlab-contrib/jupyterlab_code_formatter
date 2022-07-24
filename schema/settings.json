@@ -296,7 +296,8 @@
             "default" : {
                 "default_formatter": {
                     "python": ["isort", "black"],
-                    "R": "formatR"
+                    "R": "formatR",
+                    "rust": "rustfmt"
                 }
             }
         },
