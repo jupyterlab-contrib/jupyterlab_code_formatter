@@ -20,7 +20,7 @@ tasks:
   dev:serve-docs:
     desc: Serve docs
     cmds:
-      - cd build && python -m http.server 1234
+      - cd docs && python -m http.server 1234
   publish:
     desc: Publish package
     cmds:
