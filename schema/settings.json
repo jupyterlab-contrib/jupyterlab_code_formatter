@@ -279,6 +279,13 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "astyle": {
+            "properties": {
+                "args": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
         "formatOnSave": {
             "additionalProperties": false,
             "type": "boolean"
@@ -297,7 +304,8 @@
                 "default_formatter": {
                     "python": ["isort", "black"],
                     "R": "formatR",
-                    "rust": "rustfmt"
+                    "rust": "rustfmt",
+		    "c++11": "astyle"
                 }
             }
         },
@@ -359,6 +367,14 @@
             "$ref": "#/definitions/formatOnSave",
             "default": false
         },
+	"astyle":  {
+	    "title": "AStyle Config",
+            "description": "Command line options to be passed to astyle.",
+            "$ref": "#/definitions/astyle",
+            "default": {
+		"args": []
+	    }
+	},
         "suppressFormatterErrors": {
             "title": "Suppress formatter errors",
             "description": "Whether to suppress all errors reported by formatter while formatting. Useful when you have format on save mode on.",
