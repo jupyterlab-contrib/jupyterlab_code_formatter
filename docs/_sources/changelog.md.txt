@@ -14,6 +14,22 @@ None
 
 None
 
+## 1.5.1 2022-07-24
+
+**General**
+
+- Add `rustfmt` support using `subprocess` - courtesy of andrelfpinto;
+- Add docs for adding a custom formatter;
+
+**Server extension**
+
+- Handle single/double leading question mark properly;
+- Re-add trailing new line if not in notebook;
+
+**Jupyterlab extension**
+
+- Suppress cell skipped error properly if configured to suppress;
+
 ## 1.5.0 2022-07-16
 
 **General**
