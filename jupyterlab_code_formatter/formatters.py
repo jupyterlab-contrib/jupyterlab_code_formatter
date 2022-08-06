@@ -431,57 +431,30 @@ class StylerFormatter(BaseFormatter):
         return transformed_options
 
 
-class ScalafmtFormatter(BaseFormatter):
+class CommandLineFormatter(BaseFormatter):
+    command: List[str]
 
-    label = "Apply scalafmt Formatter"
+    def __init__(self, command: List[str]):
+        self.command = command
 
     @property
-    def importable(self) -> bool:
-        try:
-            import subprocess
-
-            return True
-        except ImportError:
-            return False
-
-    @handle_line_ending_and_magic
-    def format_code(self, code: str, notebook: bool, **options) -> str:
-        import subprocess
-
-        process = subprocess.run(
-            ["scalafmt", "--stdin"],
-            input=code,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
-        )
-
-        if process.stderr:
-            logger.info("An error with scalafmt has ocurred:")
-            logger.info(process.stderr)
-            return code
-        else:
-            return process.stdout
-
-
-class RustfmtFormatter(BaseFormatter):
-
-    label = "Apply rustfmt Formatter"
+    def label(self) -> str:
+        return f"Apply {self.command[0]} Formatter"
 
     @property
     def importable(self) -> bool:
         # TODO: What happens on windows??
-        proc = subprocess.run(["which", "rustfmt"], stdout=subprocess.PIPE)
+        proc = subprocess.run(["which", self.command[0]], stdout=subprocess.PIPE)
         return proc.returncode == 0
 
     @handle_line_ending_and_magic
-    def format_code(self, code: str, notebook: bool, **options) -> str:
+    def format_code(self, code: str, notebook: bool,
+                    args: List[str] = [],
+                    **options) -> str:
         import subprocess
 
         process = subprocess.run(
-            [
-                "rustfmt",
-            ],
+            self.command + args,
             input=code,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -489,7 +462,7 @@ class RustfmtFormatter(BaseFormatter):
         )
 
         if process.stderr:
-            logger.info("An error with rustfmt has ocurred:")
+            logger.info(f"An error with {self.command[0]} has ocurred:")
             logger.info(process.stderr)
             return code
         else:
@@ -504,6 +477,7 @@ SERVER_FORMATTERS = {
     "isort": IsortFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
-    "scalafmt": ScalafmtFormatter(),
-    "rustfmt": RustfmtFormatter(),
+    "scalafmt": CommandLineFormatter(command=["scalafmt", "--stdin"]),
+    "rustfmt": CommandLineFormatter(command=["rustfmt"]),
+    "astyle": CommandLineFormatter(command=["astyle"]),
 }
