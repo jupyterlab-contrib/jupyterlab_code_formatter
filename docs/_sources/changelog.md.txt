@@ -14,6 +14,12 @@ None
 
 None
 
+## 1.5.2 2022-08-06
+
+**Server extension**
+
+- Add `AStyle` support using `subprocess - courtesy of nthiery;
+
 ## 1.5.1 2022-07-24
 
 **General**
