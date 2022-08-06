@@ -448,9 +448,9 @@ class CommandLineFormatter(BaseFormatter):
         return proc.returncode == 0
 
     @handle_line_ending_and_magic
-    def format_code(self, code: str, notebook: bool,
-                    args: List[str] = [],
-                    **options) -> str:
+    def format_code(
+        self, code: str, notebook: bool, args: List[str] = [], **options
+    ) -> str:
         import subprocess
 
         process = subprocess.run(
