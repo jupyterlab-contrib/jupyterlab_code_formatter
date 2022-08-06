@@ -455,8 +455,6 @@ class CommandLineFormatter(BaseFormatter):
     def format_code(
         self, code: str, notebook: bool, args: List[str] = [], **options
     ) -> str:
-        import subprocess
-
         process = subprocess.run(
             self.command + args,
             input=code,
