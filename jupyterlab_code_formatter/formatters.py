@@ -3,6 +3,7 @@ import copy
 import importlib
 import logging
 import re
+import shutil
 import subprocess
 import sys
 from functools import wraps
@@ -224,6 +225,11 @@ def is_importable(pkg_name: str) -> bool:
     return pkg_name in {pkg.key for pkg in pkg_resources.working_set}
 
 
+def command_exist(name: str) -> bool:
+    """Detect that command (executable) is installed"""
+    return shutil.which(name) is not None
+
+
 def import_black():
     global BLUE_MONKEY_PATCHED
     if BLUE_MONKEY_PATCHED:
@@ -443,16 +449,12 @@ class CommandLineFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
-        # TODO: What happens on windows??
-        proc = subprocess.run(["which", self.command[0]], stdout=subprocess.PIPE)
-        return proc.returncode == 0
+        return command_exist(self.command[0])
 
     @handle_line_ending_and_magic
     def format_code(
         self, code: str, notebook: bool, args: List[str] = [], **options
     ) -> str:
-        import subprocess
-
         process = subprocess.run(
             self.command + args,
             input=code,
