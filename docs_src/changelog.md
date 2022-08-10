@@ -14,6 +14,12 @@ None
 
 None
 
+## 1.5.3 2022-08-10
+
+**Server extension**
+
+- Remove implicit dependency of `which` binary - courtesy of KanchiShimono;
+
 ## 1.5.2 2022-08-06
 
 **Server extension**
