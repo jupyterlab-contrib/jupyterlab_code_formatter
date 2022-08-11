@@ -33,10 +33,11 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Install pip-tool
 RUN pip install pip-tools
 
-# Compile requirements
-COPY dev/requirements.in /app/requirements.in
-RUN pip-compile /app/requirements.in
+## Compile requirements
+#COPY dev/requirements.in /app/requirements.in
+#RUN pip-compile /app/requirements.in
 # Install requirements
+COPY dev/requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
 
 # Install rust notebook
