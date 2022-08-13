@@ -66,6 +66,10 @@
                 "wrap_length": {
                     "type": "number"
                 },
+                "sections": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                },
                 "known_future_library": {
                     "type": "array",
                     "items": {"type": "string"}
