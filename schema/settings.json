@@ -156,6 +156,12 @@
                     "type": "boolean"
                 }
             },
+            "patternProperties": {
+                "^known_[a-z_]+": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+            },
             "additionalProperties": false,
             "type": "object"
         },
