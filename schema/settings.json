@@ -378,14 +378,14 @@
             "$ref": "#/definitions/formatOnSave",
             "default": false
         },
-	"astyle":  {
-	    "title": "AStyle Config",
-            "description": "Command line options to be passed to astyle.",
-            "$ref": "#/definitions/astyle",
-            "default": {
-		"args": []
-	    }
-	},
+        "astyle":  {
+            "title": "AStyle Config",
+                "description": "Command line options to be passed to astyle.",
+                "$ref": "#/definitions/astyle",
+                "default": {
+            "args": []
+            }
+	    },
         "suppressFormatterErrors": {
             "title": "Suppress formatter errors",
             "description": "Whether to suppress all errors reported by formatter while formatting. Useful when you have format on save mode on.",
