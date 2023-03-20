@@ -16,11 +16,12 @@ class JupyterlabCodeFormatter {
     code: string[],
     formatter: string,
     options: any,
-    notebook: boolean
+    notebook: boolean,
+    cache: boolean
   ) {
     return this.client
       .request(
-        'format',
+        'format' + (cache ? '?cached' : ''),
         'POST',
         JSON.stringify({
           code,
@@ -158,7 +159,8 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
           currentTexts,
           formatterToUse,
           config[formatterToUse],
-          true
+          true,
+          config.cacheFormatters
         );
         for (let i = 0; i < selectedCells.length; ++i) {
           const cell = selectedCells[i];
@@ -217,7 +219,13 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     this.working = true;
     const editor = editorWidget.content.editor;
     const code = editor.model.value.text;
-    this.formatCode([code], formatter, config[formatter], false)
+    this.formatCode(
+      [code],
+      formatter,
+      config[formatter],
+      false,
+      config.cacheFormatters
+    )
       .then(data => {
         if (data.code[0].error) {
           void showErrorMessage(

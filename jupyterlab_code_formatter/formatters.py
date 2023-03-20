@@ -9,14 +9,14 @@ import sys
 from functools import wraps
 from typing import List, Type
 
-import pkg_resources
-
 try:
     import rpy2
     import rpy2.robjects
 except ImportError:
     pass
 from packaging import version
+from functools import cache
+
 
 logger = logging.getLogger(__name__)
 
@@ -58,6 +58,11 @@ class BaseFormatter(abc.ABC):
     @abc.abstractmethod
     def format_code(self, code: str, notebook: bool, **options) -> str:
         pass
+
+    @property
+    @cache
+    def cached_importable(self) -> bool:
+        return self.importable
 
 
 class BaseLineEscaper(abc.ABC):
@@ -219,10 +224,8 @@ BLUE_MONKEY_PATCHED = False
 
 
 def is_importable(pkg_name: str) -> bool:
-    # Need to reload for packages are installed/uninstalled after JupyterLab started
-    importlib.reload(pkg_resources)
-
-    return pkg_name in {pkg.key for pkg in pkg_resources.working_set}
+    # find_spec will check for packages installed/uninstalled after JupyterLab started
+    return importlib.util.find_spec(pkg_name) is not None
 
 
 def command_exist(name: str) -> bool:
