@@ -300,6 +300,9 @@
             "additionalProperties": false,
             "type": "boolean"
         },
+        "cacheFormatters": {
+            "type": "boolean"
+        },
         "suppressFormatterErrors": {
             "additionalProperties": false,
             "type":  "boolean"
@@ -376,6 +379,12 @@
             "title": "Auto format config",
             "description": "Auto format code when save the notebook.",
             "$ref": "#/definitions/formatOnSave",
+            "default": false
+        },
+        "cacheFormatters": {
+            "title": "Cache formatters",
+            "description": "Cache formatters on server for better performance (but will not detected newly installed/uninstalled formatters).",
+            "$ref": "#/definitions/cacheFormatters",
             "default": false
         },
         "astyle": {

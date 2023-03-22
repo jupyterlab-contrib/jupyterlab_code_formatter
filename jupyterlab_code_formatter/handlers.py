@@ -70,12 +70,15 @@ class FormattersAPIHandler(APIHandler):
         if self.get_query_argument(
             "bypassVersionCheck", default=None
         ) is not None or check_plugin_version(self):
+            use_cache = self.get_query_argument("cached", default=None)
             self.finish(
                 json.dumps(
                     {
                         "formatters": {
                             name: {
-                                "enabled": formatter.importable,
+                                "enabled": formatter.cached_importable
+                                if use_cache
+                                else formatter.importable,
                                 "label": formatter.label,
                             }
                             for name, formatter in SERVER_FORMATTERS.items()
@@ -92,8 +95,13 @@ class FormatAPIHandler(APIHandler):
         ) is not None or check_plugin_version(self):
             data = json.loads(self.request.body.decode("utf-8"))
             formatter_instance = SERVER_FORMATTERS.get(data["formatter"])
+            use_cache = self.get_query_argument("cached", default=None)
 
-            if formatter_instance is None or not formatter_instance.importable:
+            if formatter_instance is None or not (
+                formatter_instance.cached_importable
+                if use_cache
+                else formatter_instance.importable
+            ):
                 self.set_status(404, f"Formatter {data['formatter']} not found!")
                 self.finish()
             else:
@@ -116,7 +124,7 @@ class FormatAPIHandler(APIHandler):
 
 class VersionAPIHandler(APIHandler):
     def get(self) -> None:
-        """Show what version is this server plguin on."""
+        """Show what version is this server plugin on."""
         self.finish(
             json.dumps(
                 {

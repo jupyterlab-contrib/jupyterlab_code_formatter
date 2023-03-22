@@ -33,8 +33,8 @@ class JupyterlabCodeFormatterClient {
     });
   }
 
-  public getAvailableFormatters() {
-    return this.request('formatters', 'GET', null);
+  public getAvailableFormatters(cache: boolean) {
+    return this.request('formatters' + (cache ? '?cached' : ''), 'GET', null);
   }
 
   public getVersion() {

@@ -62,9 +62,9 @@ class JupyterLabCodeFormatter
       this.editorTracker
     );
 
-    this.checkVersion().then(versionMatches => {
+    this.checkVersion().then(async versionMatches => {
       if (versionMatches) {
-        this.setupSettings();
+        await this.setupSettings();
         this.setupAllCommands();
         this.setupContextMenu();
         this.setupWidgetExtension();
@@ -125,18 +125,20 @@ class JupyterLabCodeFormatter
   }
 
   private setupAllCommands() {
-    this.client.getAvailableFormatters().then(data => {
-      const formatters = JSON.parse(data).formatters;
-      const menuGroup: Array<{ command: string }> = [];
-      Object.keys(formatters).forEach(formatter => {
-        if (formatters[formatter].enabled) {
-          const command = `${Constants.SHORT_PLUGIN_NAME}:${formatter}`;
-          this.setupCommand(formatter, formatters[formatter].label, command);
-          menuGroup.push({ command });
-        }
+    this.client
+      .getAvailableFormatters(this.config.cacheFormatters)
+      .then(data => {
+        const formatters = JSON.parse(data).formatters;
+        const menuGroup: Array<{ command: string }> = [];
+        Object.keys(formatters).forEach(formatter => {
+          if (formatters[formatter].enabled) {
+            const command = `${Constants.SHORT_PLUGIN_NAME}:${formatter}`;
+            this.setupCommand(formatter, formatters[formatter].label, command);
+            menuGroup.push({ command });
+          }
+        });
+        this.menu.editMenu.addGroup(menuGroup);
       });
-      this.menu.editMenu.addGroup(menuGroup);
-    });
 
     this.app.commands.addCommand(Constants.FORMAT_COMMAND, {
       execute: async () => {
@@ -155,19 +157,20 @@ class JupyterLabCodeFormatter
     });
   }
 
-  private setupSettings() {
+  private async setupSettings() {
     const self = this;
-    Promise.all([this.settingRegistry.load(Constants.SETTINGS_SECTION)])
-      .then(([settings]) => {
-        function onSettingsUpdated(jsettings: ISettingRegistry.ISettings) {
-          self.config = jsettings.composite;
-        }
-        settings.changed.connect(onSettingsUpdated);
-        onSettingsUpdated(settings);
-      })
-      .catch((error: Error) => {
-        void showErrorMessage('Jupyterlab Code Formatter Error', error);
-      });
+    try {
+      const settings = await this.settingRegistry.load(
+        Constants.SETTINGS_SECTION
+      );
+      function onSettingsUpdated(jsettings: ISettingRegistry.ISettings) {
+        self.config = jsettings.composite;
+      }
+      settings.changed.connect(onSettingsUpdated);
+      onSettingsUpdated(settings);
+    } catch (error) {
+      void showErrorMessage('Jupyterlab Code Formatter Error', error);
+    }
   }
 
   private setupCommand(name: string, label: string, command: string) {
