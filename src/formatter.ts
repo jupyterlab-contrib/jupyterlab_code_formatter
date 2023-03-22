@@ -154,6 +154,10 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
           continue;
         }
         const currentTexts = selectedCells.map(cell => cell.model.value.text);
+        const currentOffset = selectedCells.map(cell =>
+          cell.editor.getOffsetAt(cell.editor.getCursorPosition())
+        );
+        console.log(currentOffset);
         const formattedTexts = await this.formatCode(
           currentTexts,
           formatterToUse,

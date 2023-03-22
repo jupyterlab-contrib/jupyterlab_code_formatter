@@ -113,7 +113,6 @@ class RunScriptEscaper(BaseLineEscaper):
 
 
 class HelpEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -136,7 +135,6 @@ class HelpEscaper(BaseLineEscaper):
 
 
 class CommandEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -153,7 +151,6 @@ class CommandEscaper(BaseLineEscaper):
 
 
 class QuartoCommentEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -260,7 +257,6 @@ def import_blue():
 
 
 class BlueFormatter(BaseFormatter):
-
     label = "Apply Blue Formatter"
 
     @property
@@ -282,7 +278,6 @@ class BlueFormatter(BaseFormatter):
 
 
 class BlackFormatter(BaseFormatter):
-
     label = "Apply Black Formatter"
 
     @property
@@ -309,7 +304,6 @@ class BlackFormatter(BaseFormatter):
 
 
 class Autopep8Formatter(BaseFormatter):
-
     label = "Apply Autopep8 Formatter"
 
     @property
@@ -324,7 +318,6 @@ class Autopep8Formatter(BaseFormatter):
 
 
 class YapfFormatter(BaseFormatter):
-
     label = "Apply YAPF Formatter"
 
     @property
@@ -339,7 +332,6 @@ class YapfFormatter(BaseFormatter):
 
 
 class IsortFormatter(BaseFormatter):
-
     label = "Apply Isort Formatter"
 
     @property
@@ -359,7 +351,6 @@ class IsortFormatter(BaseFormatter):
 
 
 class FormatRFormatter(BaseFormatter):
-
     label = "Apply FormatR Formatter"
     package_name = "formatR"
 
@@ -386,7 +377,6 @@ class FormatRFormatter(BaseFormatter):
 
 
 class StylerFormatter(BaseFormatter):
-
     label = "Apply Styler Formatter"
     package_name = "styler"
 
