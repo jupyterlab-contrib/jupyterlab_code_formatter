@@ -1,5 +1,6 @@
 # Changelog
 
+
 ## Unreleased
 
 **General**
@@ -13,6 +14,16 @@ None
 **Jupyterlab extension**
 
 None
+
+## 1.6.0 2023-03-26
+
+**Server extension**
+
+- Swap importable check to something more performant - courtesy of krassowski;
+
+**Jupyterlab extension**
+
+- Add more isort configuration settings - courtesy of dcnadler;
 
 ## 1.5.3 2022-08-10
 
