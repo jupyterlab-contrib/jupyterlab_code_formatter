@@ -15,6 +15,12 @@ None
 
 None
 
+## 1.6.1 2023-04-16
+
+**Server extension**
+
+- Use `importlib` instead of `pkg_resources` which is being deprecated;
+
 ## 1.6.0 2023-03-26
 
 **Server extension**
