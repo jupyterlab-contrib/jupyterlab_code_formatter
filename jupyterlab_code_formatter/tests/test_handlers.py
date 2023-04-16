@@ -1,8 +1,9 @@
 import json
 import typing as t
 
-import pkg_resources
+
 import pytest
+from importlib.metadata import version
 from jsonschema import validate
 from tornado.httpclient import HTTPResponse
 
@@ -79,7 +80,7 @@ def _create_headers(plugin_version: t.Optional[str] = None) -> t.Dict[str, str]:
     return {
         "Plugin-Version": plugin_version
         if plugin_version is not None
-        else pkg_resources.get_distribution("jupyterlab_code_formatter").version
+        else version("jupyterlab_code_formatter")
     }
 
 

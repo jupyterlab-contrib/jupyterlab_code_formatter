@@ -1,6 +1,6 @@
 import json
 
-import pkg_resources
+from importlib.metadata import version
 from jupyter_server.base.handlers import APIHandler
 from jupyter_server.serverapp import ServerWebApplication
 from jupyter_server.utils import url_path_join
@@ -48,9 +48,7 @@ def setup_handlers(web_app: ServerWebApplication) -> None:
 
 
 def check_plugin_version(handler: APIHandler):
-    server_extension_version = pkg_resources.get_distribution(
-        "jupyterlab_code_formatter"
-    ).version
+    server_extension_version = version("jupyterlab_code_formatter")
     lab_extension_version = handler.request.headers.get("Plugin-Version")
     version_matches = server_extension_version == lab_extension_version
     if not version_matches:
@@ -125,12 +123,4 @@ class FormatAPIHandler(APIHandler):
 class VersionAPIHandler(APIHandler):
     def get(self) -> None:
         """Show what version is this server plugin on."""
-        self.finish(
-            json.dumps(
-                {
-                    "version": pkg_resources.get_distribution(
-                        "jupyterlab_code_formatter"
-                    ).version
-                }
-            )
-        )
+        self.finish(json.dumps({"version": version("jupyterlab_code_formatter")}))
