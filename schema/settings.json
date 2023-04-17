@@ -296,6 +296,13 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "ruff": {
+            "properties":{
+                "args": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
         "formatOnSave": {
             "additionalProperties": false,
             "type": "boolean"
@@ -393,6 +400,14 @@
             "$ref": "#/definitions/astyle",
             "default": {
                 "args": []
+            }
+        },
+        "ruff": {
+            "title": "Ruff Config",
+            "description": "Command line options to be passed to ruff.",
+            "$ref": "#/definitions/ruff",
+            "default": {
+                "args": ["--select=I"]
             }
         },
         "suppressFormatterErrors": {
