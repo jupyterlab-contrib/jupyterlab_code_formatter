@@ -407,7 +407,7 @@
             "description": "Command line options to be passed to ruff.",
             "$ref": "#/definitions/ruff",
             "default": {
-                "args": ["--select=I"]
+                "args": ["--select=I001"]
             }
         },
         "suppressFormatterErrors": {
