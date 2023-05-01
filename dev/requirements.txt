@@ -71,6 +71,8 @@ jinja2==3.1.2
     #   myst-parser
     #   rpy2
     #   sphinx
+jupyter-core==5.3.0
+    # via pytest-jupyter
 jupyter-packaging==0.12.2
     # via -r /host/dev/requirements.in
 keyring==23.7.0
@@ -102,7 +104,9 @@ pathspec==0.9.0
 pkginfo==1.8.3
     # via twine
 platformdirs==2.5.2
-    # via black
+    # via
+    #   black
+    #   jupyter-core
 pluggy==1.0.0
     # via pytest
 py==1.11.0
@@ -126,7 +130,10 @@ pyparsing==3.0.9
 pytest==7.1.2
     # via
     #   -r /host/dev/requirements.in
+    #   pytest-jupyter
     #   pytest-tornasync
+pytest-jupyter==0.7.0
+    # via -r /host/dev/requirements.in
 pytest-tornasync==0.6.0.post2
     # via -r /host/dev/requirements.in
 pytz==2022.1
@@ -196,6 +203,8 @@ tomlkit==0.11.1
     # via jupyter-packaging
 tornado==6.2
     # via pytest-tornasync
+traitlets==5.9.0
+    # via jupyter-core
 twine==4.0.1
     # via -r /host/dev/requirements.in
 typing-extensions==4.3.0
