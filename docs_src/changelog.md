@@ -13,7 +13,7 @@ None
 
 **Jupyterlab extension**
 
-None
+Support for JupyterLab 3.6+/4+ and Notebook v7
 
 ## 1.6.1 2023-04-16
 
