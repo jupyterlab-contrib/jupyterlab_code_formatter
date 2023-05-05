@@ -474,6 +474,18 @@ class CommandLineFormatter(BaseFormatter):
             return process.stdout
 
 
+class RuffFixFormatter(CommandLineFormatter):
+
+    def __init__(self):
+        try:
+            from ruff.__main__ import find_ruff_bin
+
+            ruff_command = find_ruff_bin()
+        except (ImportError, FileNotFoundError):
+            ruff_command = "ruff"
+        self.command = [ruff_command, "check", "--fix-only", "-"]
+
+
 SERVER_FORMATTERS = {
     "black": BlackFormatter(),
     "blue": BlueFormatter(),
@@ -485,4 +497,5 @@ SERVER_FORMATTERS = {
     "scalafmt": CommandLineFormatter(command=["scalafmt", "--stdin"]),
     "rustfmt": CommandLineFormatter(command=["rustfmt"]),
     "astyle": CommandLineFormatter(command=["astyle"]),
+    "ruff": RuffFixFormatter(),
 }
