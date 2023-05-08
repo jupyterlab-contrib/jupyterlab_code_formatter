@@ -1,5 +1,0 @@
-{
-  "packageManager": "python",
-  "packageName": "jupyterlab-code-formatter",
-  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package jupyterlab-code-formatter"
-}
