@@ -1,0 +1,422 @@
+{
+  "jupyter.lab.setting-icon-class": "jp-EditIcon",
+  "jupyter.lab.setting-icon-label": "Jupyterlab Code Formatter",
+  "title": "Jupyterlab Code Formatter",
+  "description": "Jupyterlab Code Formatter settings.",
+  "definitions": {
+    "preferences": {
+      "properties": {
+        "default_formatter": {
+          "properties": {
+            "python": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array", "items": { "type": "string" } }
+              ]
+            },
+            "R": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array", "items": { "type": "string" } }
+              ]
+            }
+          },
+          "additionalProperties": true,
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "black": {
+      "properties": {
+        "line_length": {
+          "type": "number"
+        },
+        "string_normalization": {
+          "type": "boolean"
+        },
+        "magic_trailing_comma": {
+          "type": "boolean"
+        },
+        "experimental_string_processing": {
+          "type": "boolean"
+        },
+        "preview": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "isort": {
+      "properties": {
+        "profile": {
+          "type": "string"
+        },
+        "ensure_newline_before_comments": {
+          "type": "boolean"
+        },
+        "force_to_top": {
+          "type": "string"
+        },
+        "line_length": {
+          "type": "number"
+        },
+        "wrap_length": {
+          "type": "number"
+        },
+        "sections": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "known_future_library": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "known_standard_library": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "known_third_party": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "known_first_party": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "multi_line_output": {
+          "type": "number"
+        },
+        "forced_separate": {
+          "type": "string"
+        },
+        "indent": {
+          "type": "number"
+        },
+        "length_sort": {
+          "type": "boolean"
+        },
+        "force_single_line": {
+          "type": "boolean"
+        },
+        "force_grid_wrap": {
+          "type": "number"
+        },
+        "default_section": {
+          "type": "string"
+        },
+        "import_heading_future": {
+          "type": "string"
+        },
+        "import_heading_stdlib": {
+          "type": "string"
+        },
+        "import_heading_thirdparty": {
+          "type": "string"
+        },
+        "import_heading_firstparty": {
+          "type": "string"
+        },
+        "import_heading_localfolder": {
+          "type": "string"
+        },
+        "balanced_wrapping": {
+          "type": "boolean"
+        },
+        "order_by_type": {
+          "type": "boolean"
+        },
+        "lines_after_imports": {
+          "type": "number"
+        },
+        "lines_between_types": {
+          "type": "number"
+        },
+        "combine_as_imports": {
+          "type": "boolean"
+        },
+        "combine_star": {
+          "type": "boolean"
+        },
+        "include_trailing_comma": {
+          "type": "boolean"
+        },
+        "use_parentheses": {
+          "type": "boolean"
+        },
+        "from_first": {
+          "type": "boolean"
+        },
+        "case_sensitive": {
+          "type": "boolean"
+        },
+        "force_alphabetical_sort": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^known_[a-z_]+": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "yapf": {
+      "properties": {
+        "style_config": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "autopep8": {
+      "properties": {
+        "aggressive": {
+          "type": "number"
+        },
+        "max_line_length": {
+          "type": "number"
+        },
+        "ignore": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "experimental": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ruff": {
+      "properties": {
+        "args": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "formatR": {
+      "properties": {
+        "comment": {
+          "type": "boolean"
+        },
+        "blank": {
+          "type": "boolean"
+        },
+        "arrow": {
+          "type": "boolean"
+        },
+        "brace_newline": {
+          "type": "boolean"
+        },
+        "indent": {
+          "type": "number"
+        },
+        "wrap": {
+          "type": "boolean"
+        },
+        "width_cutoff": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "styler": {
+      "properties": {
+        "scope": {
+          "type": "string"
+        },
+        "strict": {
+          "type": "boolean"
+        },
+        "indent_by": {
+          "type": "number"
+        },
+        "start_comments_with_one_space": {
+          "type": "boolean"
+        },
+        "math_token_spacing": {
+          "oneOf": [
+            {
+              "properties": {
+                "zero": {
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "array", "items": { "type": "string" } }
+                  ]
+                },
+                "one": {
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "array", "items": { "type": "string" } }
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            { "type": "string" }
+          ]
+        },
+        "reindention": {
+          "oneOf": [
+            {
+              "properties": {
+                "regex_pattern": {
+                  "type": "string"
+                },
+                "indention": {
+                  "type": "number"
+                },
+                "comments_only": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            { "type": "string" }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "astyle": {
+      "properties": {
+        "args": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "formatOnSave": {
+      "additionalProperties": false,
+      "type": "boolean"
+    },
+    "cacheFormatters": {
+      "type": "boolean"
+    },
+    "suppressFormatterErrors": {
+      "additionalProperties": false,
+      "type": "boolean"
+    }
+  },
+  "properties": {
+    "preferences": {
+      "title": "Code Formatter Preferences",
+      "description": "Preferences for this plugin",
+      "$ref": "#/definitions/preferences",
+      "default": {
+        "default_formatter": {
+          "python": ["isort", "black"],
+          "R": "formatR",
+          "rust": "rustfmt",
+          "c++11": "astyle"
+        }
+      }
+    },
+    "black": {
+      "title": "Black Config",
+      "description": "Config to be passed into black's format_str function call.",
+      "$ref": "#/definitions/black",
+      "default": {
+        "line_length": 88,
+        "string_normalization": true
+      }
+    },
+    "yapf": {
+      "title": "YAPF Config",
+      "description": "Config to be passed into yapf's FormatCode function call.",
+      "$ref": "#/definitions/yapf",
+      "default": {
+        "style_config": "google"
+      }
+    },
+    "autopep8": {
+      "title": "Autopep8 Config",
+      "description": "Config to be passed into autopep8's fix_code function call as the options dictionary.",
+      "$ref": "#/definitions/autopep8",
+      "default": {}
+    },
+    "isort": {
+      "title": "Isort Config",
+      "description": "Config to be passed into isort's SortImports function call.",
+      "$ref": "#/definitions/isort",
+      "default": {
+        "multi_line_output": 3,
+        "include_trailing_comma": true,
+        "force_grid_wrap": 0,
+        "use_parentheses": true,
+        "ensure_newline_before_comments": true,
+        "line_length": 88
+      }
+    },
+    "formatR": {
+      "title": "FormatR Config",
+      "description": "Config to be passed into formatR's tidy_source function call.",
+      "$ref": "#/definitions/formatR",
+      "default": {
+        "indent": 2,
+        "arrow": true,
+        "wrap": true,
+        "width_cutoff": 150
+      }
+    },
+    "styler": {
+      "title": "Styler Config",
+      "description": "Config to be passed into styler's style_text function call.",
+      "$ref": "#/definitions/styler",
+      "default": {}
+    },
+    "formatOnSave": {
+      "title": "Auto format config",
+      "description": "Auto format code when save the notebook.",
+      "$ref": "#/definitions/formatOnSave",
+      "default": false
+    },
+    "cacheFormatters": {
+      "title": "Cache formatters",
+      "description": "Cache formatters on server for better performance (but will not detected newly installed/uninstalled formatters).",
+      "$ref": "#/definitions/cacheFormatters",
+      "default": false
+    },
+    "astyle": {
+      "title": "AStyle Config",
+      "description": "Command line options to be passed to astyle.",
+      "$ref": "#/definitions/astyle",
+      "default": {
+        "args": []
+      }
+    },
+    "ruff": {
+      "title": "Ruff Config",
+      "description": "Command line options to be passed to ruff.",
+      "$ref": "#/definitions/ruff",
+      "default": {
+        "args": ["--select=I"]
+      }
+    },
+    "suppressFormatterErrors": {
+      "title": "Suppress formatter errors",
+      "description": "Whether to suppress all errors reported by formatter while formatting. Useful when you have format on save mode on.",
+      "$ref": "#/definitions/suppressFormatterErrors",
+      "default": false
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  dev:
+    image: jupyterlab-code-formatter-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    network_mode: host  # Can't be bother to expose a bunch of ports.
+    volumes:
+      - ./:/plugin
+    entrypoint: sleep 99d
