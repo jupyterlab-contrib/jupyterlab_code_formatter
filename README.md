@@ -2,13 +2,11 @@
 
 *A JupyterLab plugin to facilitate invocation of code formatters.*
 
-PSA: This plugin is currently undergoing a major refactor, bear with me while I work on this.
+PSA: I can only dedicate a few hours per week for this plugin, bear with me if your request/issue is taking a while to be fixed.
 
 ----
 
-Documentation: [Hosted on GitHub Pages](https://ryantam626.github.io/jupyterlab_code_formatter/index.html)
-
-This is currently out of date. I will be updating that shortly.
+Documentation: [Hosted on ReadTheDocs](https://jupyterlab-code-formatter.readthedocs.io/)
 
 ----
 
@@ -20,7 +18,7 @@ This is currently out of date. I will be updating that shortly.
 
 ## Quick Start
 
-I recommend you going to the [documentation site](https://ryantam626.github.io/jupyterlab_code_formatter/index.html#quick-start), but this should work too.
+I recommend you going to the [documentation site](https://jupyterlab-code-formatter.readthedocs.io/#quick-start), but this should work too.
 
 1. **Install the package**
 ```bash
@@ -40,7 +38,7 @@ This plugin includes a server plugin, restart JupyterLab if you have followed th
 
 4. **Configure plugin**
 
-To configure which/how formatters are invoked, see [configuration](https://ryantam626.github.io/jupyterlab_code_formatter/configuration.html).
+To configure which/how formatters are invoked, see [configuration](https://jupyterlab-code-formatter.readthedocs.io/configuration.html).
 
 ----
 
