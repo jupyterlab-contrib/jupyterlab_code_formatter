@@ -52,13 +52,10 @@ test = [
     "isort",
     "yapf",
 ]
-readthedocs = [
-    "furo",
-]
 
 [tool.hatch.envs.default]
 type = "pip-deepfreeze"
-features = ["dev", "test", "readthedocs"]
+features = ["dev", "test"]
 
 [tool.hatch.version]
 source = "nodejs"
