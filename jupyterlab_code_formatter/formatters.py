@@ -14,9 +14,9 @@ try:
     import rpy2.robjects
 except ImportError:
     pass
-from packaging import version
 from functools import cache
 
+from packaging import version
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +74,7 @@ class BaseLineEscaper(abc.ABC):
     @property
     @abc.abstractmethod
     def langs(self) -> List[str]:
-        return
+        pass
 
     @abc.abstractmethod
     def escape(self, line: str) -> str:
@@ -118,7 +118,6 @@ class RunScriptEscaper(BaseLineEscaper):
 
 
 class HelpEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -141,7 +140,6 @@ class HelpEscaper(BaseLineEscaper):
 
 
 class CommandEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -158,7 +156,6 @@ class CommandEscaper(BaseLineEscaper):
 
 
 class QuartoCommentEscaper(BaseLineEscaper):
-
     langs = ["python"]
     escaped_line_start = "# \x01 "
     unesacpe_start = len(escaped_line_start)
@@ -186,9 +183,9 @@ ESCAPER_CLASSES: List[Type[BaseLineEscaper]] = [
 def handle_line_ending_and_magic(func):
     @wraps(func)
     def wrapped(self, code: str, notebook: bool, **options) -> str:
-        if any(
-            code.startswith(f"%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES
-        ) or any(code.startswith(f"%%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES):
+        if any(code.startswith(f"%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES) or any(
+            code.startswith(f"%%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES
+        ):
             logger.info("Non compatible magic language cell block detected, ignoring.")
             return code
 
@@ -263,7 +260,6 @@ def import_blue():
 
 
 class BlueFormatter(BaseFormatter):
-
     label = "Apply Blue Formatter"
 
     @property
@@ -285,7 +281,6 @@ class BlueFormatter(BaseFormatter):
 
 
 class BlackFormatter(BaseFormatter):
-
     label = "Apply Black Formatter"
 
     @property
@@ -312,7 +307,6 @@ class BlackFormatter(BaseFormatter):
 
 
 class Autopep8Formatter(BaseFormatter):
-
     label = "Apply Autopep8 Formatter"
 
     @property
@@ -327,7 +321,6 @@ class Autopep8Formatter(BaseFormatter):
 
 
 class YapfFormatter(BaseFormatter):
-
     label = "Apply YAPF Formatter"
 
     @property
@@ -342,7 +335,6 @@ class YapfFormatter(BaseFormatter):
 
 
 class IsortFormatter(BaseFormatter):
-
     label = "Apply Isort Formatter"
 
     @property
@@ -362,7 +354,6 @@ class IsortFormatter(BaseFormatter):
 
 
 class FormatRFormatter(BaseFormatter):
-
     label = "Apply FormatR Formatter"
     package_name = "formatR"
 
@@ -381,15 +372,12 @@ class FormatRFormatter(BaseFormatter):
     def format_code(self, code: str, notebook: bool, **options) -> str:
         import rpy2.robjects.packages as rpackages
 
-        format_r = rpackages.importr(
-            self.package_name, robject_translations={".env": "env"}
-        )
+        format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
         formatted_code = format_r.tidy_source(text=code, output=False, **options)
         return "\n".join(formatted_code[0])
 
 
 class StylerFormatter(BaseFormatter):
-
     label = "Apply Styler Formatter"
     package_name = "styler"
 
@@ -409,9 +397,7 @@ class StylerFormatter(BaseFormatter):
         import rpy2.robjects.packages as rpackages
 
         styler_r = rpackages.importr(self.package_name)
-        formatted_code = styler_r.style_text(
-            code, **self._transform_options(styler_r, options)
-        )
+        formatted_code = styler_r.style_text(code, **self._transform_options(styler_r, options))
         return "\n".join(formatted_code)
 
     @staticmethod
@@ -430,9 +416,7 @@ class StylerFormatter(BaseFormatter):
 
         if "reindention" in transformed_options:
             if isinstance(options["reindention"], dict):
-                transformed_options["reindention"] = rpy2.robjects.ListVector(
-                    options["reindention"]
-                )
+                transformed_options["reindention"] = rpy2.robjects.ListVector(options["reindention"])
             else:
                 transformed_options["reindention"] = rpy2.robjects.ListVector(
                     getattr(styler_r, options["reindention"])()
@@ -455,9 +439,7 @@ class CommandLineFormatter(BaseFormatter):
         return command_exist(self.command[0])
 
     @handle_line_ending_and_magic
-    def format_code(
-        self, code: str, notebook: bool, args: List[str] = [], **options
-    ) -> str:
+    def format_code(self, code: str, notebook: bool, args: List[str] = [], **options) -> str:
         process = subprocess.run(
             self.command + args,
             input=code,
@@ -467,7 +449,7 @@ class CommandLineFormatter(BaseFormatter):
         )
 
         if process.stderr:
-            logger.info(f"An error with {self.command[0]} has ocurred:")
+            logger.info(f"An error with {self.command[0]} has occurred:")
             logger.info(process.stderr)
             return code
         else:
@@ -475,6 +457,9 @@ class CommandLineFormatter(BaseFormatter):
 
 
 class RuffFixFormatter(CommandLineFormatter):
+    @property
+    def label(self) -> str:
+        return f"Apply ruff Formatter"
 
     def __init__(self):
         try:
@@ -492,10 +477,10 @@ SERVER_FORMATTERS = {
     "autopep8": Autopep8Formatter(),
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
+    "ruff": RuffFixFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
     "scalafmt": CommandLineFormatter(command=["scalafmt", "--stdin"]),
     "rustfmt": CommandLineFormatter(command=["rustfmt"]),
     "astyle": CommandLineFormatter(command=["astyle"]),
-    "ruff": RuffFixFormatter(),
 }

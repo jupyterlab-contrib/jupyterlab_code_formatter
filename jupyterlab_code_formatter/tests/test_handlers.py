@@ -1,9 +1,8 @@
 import json
 import typing as t
-
+from importlib.metadata import version
 
 import pytest
-from importlib.metadata import version
 from jsonschema import validate
 from tornado.httpclient import HTTPResponse
 
@@ -28,16 +27,6 @@ def _generate_list_formaters_entry_json_schema(
         },
     }
 
-
-EXPECTED_VERSION_SCHEMA = {
-    "type": "object",
-    "required": ["version"],
-    "properties": {
-        "version": {
-            "type": "string",
-        }
-    },
-}
 
 EXPECTED_LIST_FORMATTERS_SCHEMA = {
     "type": "object",
@@ -76,14 +65,6 @@ EXPECTED_FROMAT_SCHEMA = {
 SIMPLE_VALID_PYTHON_CODE = "x= 22;  e          =1"
 
 
-def _create_headers(plugin_version: t.Optional[str] = None) -> t.Dict[str, str]:
-    return {
-        "Plugin-Version": plugin_version
-        if plugin_version is not None
-        else version("jupyterlab_code_formatter")
-    }
-
-
 def _check_http_code_and_schema(
     response: HTTPResponse, expected_code: int, expected_schema: t.Dict[str, t.Any]
 ) -> t.Dict[str, t.Any]:
@@ -95,7 +76,7 @@ def _check_http_code_and_schema(
 
 async def test_list_formatters(request_list_formatters):  # type: ignore[no-untyped-def]
     """Check if the formatters list route works."""
-    response: HTTPResponse = await request_list_formatters(headers=_create_headers())
+    response: HTTPResponse = await request_list_formatters()
     _check_http_code_and_schema(
         response=response,
         expected_code=200,
@@ -109,7 +90,6 @@ async def test_404_on_unknown(request_format):  # type: ignore[no-untyped-def]
         formatter="UNKNOWN",
         code=[SIMPLE_VALID_PYTHON_CODE],
         options={},
-        headers=_create_headers(),
         raise_error=False,
     )
     assert response.code == 404
@@ -121,7 +101,6 @@ async def test_can_apply_python_formatter(request_format):  # type: ignore[no-un
         formatter="black",
         code=[SIMPLE_VALID_PYTHON_CODE],
         options={"line_length": 88},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -140,7 +119,6 @@ async def test_can_use_black_config(request_format):  # type: ignore[no-untyped-
         formatter="black",
         code=[given],
         options={"line_length": 123, "string_normalization": False},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -158,7 +136,6 @@ async def test_return_error_if_any(request_format):  # type: ignore[no-untyped-d
         formatter="black",
         code=[bad_python],
         options={"line_length": 123, "string_normalization": False},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -178,7 +155,6 @@ async def test_can_handle_magic(request_format, formatter):  # type: ignore[no-u
         formatter=formatter,
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -198,7 +174,6 @@ async def test_can_handle_shell_cmd(request_format, formatter):  # type: ignore[
         formatter=formatter,
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -218,7 +193,6 @@ async def test_can_handle_incompatible_magic_language(request_format, formatter)
         formatter=formatter,
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -238,7 +212,6 @@ async def test_can_handle_incompatible_magic_language_single(request_format, for
         formatter=formatter,
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -257,7 +230,6 @@ async def test_can_ipython_help_signle(request_format):  # type: ignore[no-untyp
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -276,7 +248,6 @@ async def test_can_ipython_help_double(request_format):  # type: ignore[no-untyp
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -295,7 +266,6 @@ async def test_can_ipython_help_signle_leading(request_format):  # type: ignore[
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -314,7 +284,6 @@ async def test_can_ipython_help_double_leading(request_format):  # type: ignore[
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -333,7 +302,6 @@ async def test_will_ignore_quarto_comments(request_format):  # type: ignore[no-u
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -351,7 +319,6 @@ async def test_will_ignore_run_command(request_format):  # type: ignore[no-untyp
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -380,7 +347,6 @@ async def test_will_ignore_question_mark(request_format):  # type: ignore[no-unt
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -407,7 +373,6 @@ async def test_will_ignore_question_mark2(request_format):  # type: ignore[no-un
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -427,7 +392,6 @@ wat??"""
         formatter="black",
         code=[given],
         options={},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -445,7 +409,6 @@ async def test_can_use_styler(request_format):  # type: ignore[no-untyped-def]
         formatter="styler",
         code=[given],
         options={"scope": "tokens"},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -471,7 +434,6 @@ async def test_can_use_styler2(request_format):  # type: ignore[no-untyped-def]
         formatter="styler",
         code=[given],
         options={"strict": False},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -494,7 +456,6 @@ async def test_can_use_styler3(request_format):  # type: ignore[no-untyped-def]
                 "zero": ["'/'", "'*'", "'^'"],
             }
         },
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -526,7 +487,6 @@ async def test_can_use_styler4(request_format):  # type: ignore[no-untyped-def]
                 "comments_only": True,
             }
         },
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -550,7 +510,6 @@ async def test_can_use_styler5(request_format):  # type: ignore[no-untyped-def]
         formatter="styler",
         code=[given],
         options={"indent_by": 4, "start_comments_with_one_space": True},
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -571,7 +530,6 @@ async def test_can_use_styler6(request_format):  # type: ignore[no-untyped-def]
             "math_token_spacing": "tidyverse_math_token_spacing",
             "reindention": "tidyverse_reindention",
         },
-        headers=_create_headers(),
     )
     json_result = _check_http_code_and_schema(
         response=response,
@@ -581,36 +539,62 @@ async def test_can_use_styler6(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
-async def test_422_on_mismatch_version_1(request_list_formatters):  # type: ignore[no-untyped-def]
-    response: HTTPResponse = await request_list_formatters(
-        headers=_create_headers("0.0.0"),
-        raise_error=False,
+@pytest.mark.skip(reason="rust toolchain doesn't seem to be picked up here for some reason.")
+async def test_can_rustfmt(request_format):  # type: ignore[no-untyped-def]
+    given = """// function to add two numbers
+fn add() {
+    let a = 5;
+                let b = 10;
+
+            let sum = a + b;
+
+    println!("Sum of a and b = {}", 
+        sum);
+}
+
+fn main() {
+    // function call
+    add();
+}"""
+    expected = """// function to add two numbers
+fn add() {
+    let a = 5;
+    let b = 10;
+
+    let sum = a + b;
+
+    println!("Sum of a and b = {}", sum);
+}
+
+fn main() {
+    // function call
+    add();
+}"""
+
+    response: HTTPResponse = await request_format(
+        formatter="rustfmt",
+        code=[given],
+        options={},
     )
-    assert response.code == 422
-
-
-async def test_200_on_version_without_header(request_version):  # type: ignore[no-untyped-def]
-    response: HTTPResponse = await request_version()
-    _check_http_code_and_schema(
+    json_result = _check_http_code_and_schema(
         response=response,
         expected_code=200,
-        expected_schema=EXPECTED_VERSION_SCHEMA,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
     )
+    assert json_result["code"][0]["code"] == expected
 
 
-async def test_200_on_version_with_wrong_header(request_version):  # type: ignore[no-untyped-def]
-    response: HTTPResponse = await request_version(headers=_create_headers("0.0.0"))
-    _check_http_code_and_schema(
+async def test_can_apply_ruff(request_format):  # type: ignore[no-untyped-def]
+    """Check that it can apply black with simple config."""
+    response: HTTPResponse = await request_format(
+        formatter="ruff",
+        code=[SIMPLE_VALID_PYTHON_CODE],
+        options={},
+    )
+    json_result = _check_http_code_and_schema(
         response=response,
         expected_code=200,
-        expected_schema=EXPECTED_VERSION_SCHEMA,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
     )
-
-
-async def test_200_on_version_with_correct_header(request_version):  # type: ignore[no-untyped-def]
-    response: HTTPResponse = await request_version(headers=_create_headers())
-    _check_http_code_and_schema(
-        response=response,
-        expected_code=200,
-        expected_schema=EXPECTED_VERSION_SCHEMA,
-    )
+    import pdb; pdb.set_trace()
+    assert json_result["code"][0]["code"] == "x = 22\ne = 1"

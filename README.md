@@ -1,22 +1,20 @@
-![](docs_src/logo.png)
+![](docs/logo.png)
 
 *A JupyterLab plugin to facilitate invocation of code formatters.*
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ryantam626/jupyterlab_code_formatter/master?urlpath=lab)
-[![npm version](https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter.svg)](https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter)
-[![npm downloads](https://img.shields.io/npm/dw/%40ryantam626%2Fjupyterlab_code_formatter.svg)](https://badge.fury.io/js/%40ryantam626%2Fjupyterlab_code_formatter)
-[![code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![Github Actions Status](https://github.com/ryantam626/jupyterlab_code_formatter/workflows/CI/badge.svg)](https://github.com/ryantam626/jupyterlab_code_formatter/actions)
+PSA: This plugin is currently undergoing a major refactor, bear with me while I work on this.
 
 ----
 
 Documentation: [Hosted on GitHub Pages](https://ryantam626.github.io/jupyterlab_code_formatter/index.html)
 
+This is currently out of date. I will be updating that shortly.
+
 ----
 
 ## Demo
 
-![](docs_src/_static/format-all.gif)
+![](docs/_static/format-all.gif)
 
 ----
 
@@ -52,7 +50,7 @@ I could really use your support in giving me a star on GitHub, recommending feat
 
 - [Recommending features via GitHub Issues](https://github.com/ryantam626/jupyterlab_code_formatter/issues)
 - [Sumitting your PR on GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/pulls)
-- [Buy me a cofee](https://www.buymeacoffee.com/ryantam626)
+- [Buy me a coffee](https://www.buymeacoffee.com/ryantam626)
 - [Donating Via Solana](https://solana.com/): 6K7aK5RpskJkhEkwZi1ZQr68LhaVdfnTfWjZEQV3VbbD
 
 ----
@@ -67,4 +65,4 @@ Massive thanks to the below list of people who made past contributions to the pr
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the [MIT LICENSE](LICENSE) .

@@ -4,24 +4,42 @@ vars:
   BASE_DIR:
     sh: git rev-parse --show-toplevel
 
+env:
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+
 tasks:
   dev:build:
     desc: Build docker image for dev
     cmds:
-      - /{{.BASE_DIR}}/dev/scripts/docker-build.sh
+      - docker compose -f docker-compose.dev.yml build
+
+  dev:up:
+    desc: Spin up the docker compose stack for dev
+    cmds:
+      - docker compose -f docker-compose.dev.yml up
+
+  dev:down:
+    desc: Shut down the docker compose stack for dev
+    cmds:
+      - docker compose -f docker-compose.dev.yml up
+
+  dev:jlpm-watch:
+    desc: Run `jlpm watch` task inside the dev container.
+    cmds:
+      - docker exec -it jupyterlab_code_formatter-dev-1 jlpm watch
+
+  dev:jupyter-lab:
+    desc: Run `jupyter lab` task inside the dev container.
+    cmds:
+      - docker exec -it jupyterlab_code_formatter-dev-1 jupyter lab --allow-root
+
   dev:shell:
-    desc: Run dev docker image and obtain shell
+    desc: Get a shell in dev container.
     cmds:
-      - /{{.BASE_DIR}}/dev/scripts/docker-run.sh {{.CLI_ARGS}}
-  dev:shell-reuse:
-    desc: Obtain new shell in a currently running docker container
+      - docker exec -it jupyterlab_code_formatter-dev-1 bash
+
+  dev:format:
+    desc: Run formatter in dev container
     cmds:
-      - docker exec -it $(docker ps | grep jupyterlab-code-formatter-dev | cut -f1 -d' ') bash
-  dev:serve-docs:
-    desc: Serve docs
-    cmds:
-      - cd docs && python -m http.server 1234
-  publish:
-    desc: Publish package
-    cmds:
-      - /{{.BASE_DIR}}/bin/publish.sh
+      - docker exec -it jupyterlab_code_formatter-dev-1 /plugin/scripts/format.sh

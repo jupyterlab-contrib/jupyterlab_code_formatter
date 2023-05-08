@@ -7,8 +7,6 @@ from tornado.httpclient import HTTPResponse
 
 from jupyterlab_code_formatter import load_jupyter_server_extension
 
-pytest_plugins = ["jupyter_server.pytest_plugin"]
-
 
 @pytest.fixture(autouse=True)
 def jcf_serverapp(jp_serverapp: ServerApp) -> ServerApp:
@@ -53,23 +51,6 @@ def request_list_formatters(jp_fetch):  # type: ignore[no-untyped-def]
         return jp_fetch(  # type: ignore[no-any-return]
             "jupyterlab_code_formatter",
             "formatters",
-            method="GET",
-            headers=headers,
-            **kwargs,
-        )
-
-    return do_request
-
-
-@pytest.fixture
-def request_version(jp_fetch):  # type: ignore[no-untyped-def]
-    def do_request(
-        headers: t.Optional[t.Dict[str, t.Any]] = None,
-        **kwargs: t.Any,
-    ) -> HTTPResponse:
-        return jp_fetch(  # type: ignore[no-any-return]
-            "jupyterlab_code_formatter",
-            "version",
             method="GET",
             headers=headers,
             **kwargs,

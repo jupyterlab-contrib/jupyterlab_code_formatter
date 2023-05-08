@@ -6,8 +6,8 @@ import { Widget } from '@lumino/widgets';
 import { showErrorMessage } from '@jupyterlab/apputils';
 
 class JupyterlabCodeFormatter {
+  working = false;
   protected client: JupyterlabCodeFormatterClient;
-  protected working: boolean;
   constructor(client: JupyterlabCodeFormatterClient) {
     this.client = client;
   }
@@ -73,7 +73,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     notebook = notebook || this.notebookTracker.currentWidget.content;
     notebook.widgets.forEach((cell: Cell) => {
       if (cell.model.type === 'code') {
-        if (!selectedOnly || notebook.isSelectedOrActive(cell)) {
+        if (!selectedOnly || (<Notebook>notebook).isSelectedOrActive(cell)) {
           codeCells.push(cell as CodeCell);
         }
       }
@@ -86,7 +86,8 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
       return null;
     }
 
-    const metadata = this.notebookTracker.currentWidget.content.model.sharedModel.metadata;
+    const metadata =
+      this.notebookTracker.currentWidget.content.model!.metadata.toJSON();
 
     if (!metadata) {
       return null;
@@ -123,6 +124,68 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return [];
   }
 
+  private async getFormattersToUse(config: any, formatter?: string) {
+    const defaultFormatters = this.getDefaultFormatters(config);
+    const formattersToUse =
+      formatter !== undefined ? [formatter] : defaultFormatters;
+
+    if (formattersToUse.length === 0) {
+      await showErrorMessage(
+        'Jupyterlab Code Formatter Error',
+        'Unable to find default formatters to use, please file an issue on GitHub.'
+      );
+    }
+
+    return formattersToUse;
+  }
+
+  private async applyFormatters(
+    selectedCells: CodeCell[],
+    formattersToUse: string[],
+    config: any
+  ) {
+    for (const formatterToUse of formattersToUse) {
+      if (formatterToUse === 'noop' || formatterToUse === 'skip') {
+        continue;
+      }
+      const currentTexts = selectedCells.map(cell => cell.model.value.text);
+      const formattedTexts = await this.formatCode(
+        currentTexts,
+        formatterToUse,
+        config[formatterToUse],
+        true,
+        config.cacheFormatters
+      );
+
+      const showErrors = !(config.suppressFormatterErrors ?? false);
+      for (let i = 0; i < selectedCells.length; ++i) {
+        const cell = selectedCells[i];
+        const currentText = currentTexts[i];
+        const formattedText = formattedTexts.code[i];
+        const cellValueHasNotChanged = cell.model.value.text === currentText;
+        if (cellValueHasNotChanged) {
+          if (formattedText.error) {
+            if (showErrors) {
+              await showErrorMessage(
+                'Jupyterlab Code Formatter Error',
+                formattedText.error
+              );
+            }
+          } else {
+            cell.model.value.text = formattedText.code;
+          }
+        } else {
+          if (showErrors) {
+            await showErrorMessage(
+              'Jupyterlab Code Formatter Error',
+              `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
+            );
+          }
+        }
+      }
+    }
+  }
+
   private async formatCells(
     selectedOnly: boolean,
     config: any,
@@ -139,54 +202,9 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         this.working = false;
         return;
       }
-      const defaultFormatters = this.getDefaultFormatters(config);
-      const formattersToUse =
-        formatter !== undefined ? [formatter] : defaultFormatters;
 
-      if (formattersToUse.length === 0) {
-        await showErrorMessage(
-          'Jupyterlab Code Formatter Error',
-          `Unable to find default formatters to use, please file an issue on GitHub.`
-        );
-      }
-
-      for (let formatterToUse of formattersToUse) {
-        if (formatterToUse === 'noop' || formatterToUse === 'skip') {
-          continue;
-        }
-        const currentTexts = selectedCells.map(cell => cell.model.sharedModel.source);
-        const formattedTexts = await this.formatCode(
-          currentTexts,
-          formatterToUse,
-          config[formatterToUse],
-          true,
-          config.cacheFormatters
-        );
-        for (let i = 0; i < selectedCells.length; ++i) {
-          const cell = selectedCells[i];
-          const currentText = currentTexts[i];
-          const formattedText = formattedTexts.code[i];
-          if (cell.model.sharedModel.source === currentText) {
-            if (formattedText.error) {
-              if (!(config.suppressFormatterErrors ?? false)) {
-                await showErrorMessage(
-                  'Jupyterlab Code Formatter Error',
-                  formattedText.error
-                );
-              }
-            } else {
-              cell.model.sharedModel.source = formattedText.code;
-            }
-          } else {
-            if (!(config.suppressFormatterErrors ?? false)) {
-              await showErrorMessage(
-                'Jupyterlab Code Formatter Error',
-                `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
-              );
-            }
-          }
-        }
-      }
+      const formattersToUse = await this.getFormattersToUse(config, formatter);
+      await this.applyFormatters(selectedCells, formattersToUse, config);
     } catch (error) {
       await showErrorMessage('Jupyterlab Code Formatter Error', error);
     }
@@ -217,8 +235,8 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     }
     const editorWidget = this.editorTracker.currentWidget;
     this.working = true;
-    const editor = editorWidget.content.editor;
-    const code = editor.model.sharedModel.source;
+    const editor = editorWidget!.content.editor;
+    const code = editor.model.value.text;
     this.formatCode(
       [code],
       formatter,
@@ -235,7 +253,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
           this.working = false;
           return;
         }
-        this.editorTracker.currentWidget.content.editor.model.sharedModel.source =
+        this.editorTracker.currentWidget!.content.editor.model.value.text =
           data.code[0].code;
         this.working = false;
       })

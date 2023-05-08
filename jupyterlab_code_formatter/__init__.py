@@ -1,20 +1,12 @@
-import json
-import os.path as osp
-
-from .handlers import setup_handlers
 from ._version import __version__
-
-HERE = osp.abspath(osp.dirname(__file__))
-
-with open(osp.join(HERE, "labextension", "package.json")) as fid:
-    data = json.load(fid)
+from .handlers import setup_handlers
 
 
 def _jupyter_labextension_paths():
-    return [{"src": "labextension", "dest": data["name"]}]
+    return [{"src": "labextension", "dest": "jupyterlab_code_formatter"}]
 
 
-def _jupyter_server_extension_paths():
+def _jupyter_server_extension_points():
     return [{"module": "jupyterlab_code_formatter"}]
 
 
@@ -23,11 +15,13 @@ def _load_jupyter_server_extension(server_app):
 
     Parameters
     ----------
-    lab_app: jupyterlab.labapp.LabApp
+    server_app: jupyterlab.labapp.LabApp
         JupyterLab application instance
     """
     setup_handlers(server_app.web_app)
+    name = "jupyterlab_code_formatter"
+    server_app.log.info(f"Registered {name} server extension")
 
 
-# For backward compatibility
+# For backward compatibility with notebook server - useful for Binder/JupyterHub
 load_jupyter_server_extension = _load_jupyter_server_extension

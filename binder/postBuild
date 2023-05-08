@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-""" perform a development install of jupyter-archive
+""" perform a development install of jupyterlab_code_formatter
+
     On Binder, this will run _after_ the environment has been fully created from
     the environment.yml in this directory.
+
     This script should also run locally on Linux/MacOS/Windows:
+
         python3 binder/postBuild
 """
 import subprocess
@@ -14,6 +17,7 @@ ROOT = Path.cwd()
 
 def _(*args, **kwargs):
     """ Run a command, echoing the args
+
         fails hard if something goes wrong
     """
     print("\n\t", " ".join(args), "\n")
@@ -27,6 +31,24 @@ _(sys.executable, "-m", "pip", "check")
 
 # install the labextension
 _(sys.executable, "-m", "pip", "install", "-e", ".")
+_(sys.executable, "-m", "jupyter", "labextension", "develop", "--overwrite", ".")
+_(
+    sys.executable,
+    "-m",
+    "jupyter",
+    "serverextension",
+    "enable",
+    "jupyterlab_code_formatter",
+)
+_(
+    sys.executable,
+    "-m",
+    "jupyter",
+    "server",
+    "extension",
+    "enable",
+    "jupyterlab_code_formatter",
+)
 
 # verify the environment the extension didn't break anything
 _(sys.executable, "-m", "pip", "check")
@@ -37,6 +59,10 @@ _("jupyter", "server", "extension", "list")
 # initially list installed extensions to determine if there are any surprises
 _("jupyter", "labextension", "list")
 
+# install black and isort
+_(sys.executable, "-m", "pip", "install", "black")
+_(sys.executable, "-m", "pip", "install", "isort")
 
-print("JupyterLab with jupyter-archive is ready to run with:\n")
+
+print("JupyterLab with jupyterlab_code_formatter is ready to run with:\n")
 print("\tjupyter lab\n")
