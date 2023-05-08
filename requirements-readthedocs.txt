@@ -8,7 +8,7 @@ furo==2023.3.27
 imagesize==1.4.1
 requests==2.30.0
 snowballstemmer==2.2.0
-Sphinx==5.3.0
+Sphinx==6.2.1
 sphinx-basic-ng==1.0.0b1
 sphinxcontrib-applehelp==1.0.4
 sphinxcontrib-devhelp==1.0.2
