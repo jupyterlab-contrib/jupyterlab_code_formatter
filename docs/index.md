@@ -26,7 +26,7 @@ your-support.md
 ## Requirements
 
 - Python 3.7+
-- JupyterLab >= 3.0.0
+- JupyterLab >= 3.6.0 (if you are using JupyterLab>=3.0,<=3.5, pin this package to 2.0.0)
 - Any supported code formatters (you can also specify your own, see [custom formatter](custom-formatter.md)).
 
 :::{important}

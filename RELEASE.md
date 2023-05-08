@@ -12,7 +12,7 @@ packaging instructions in the `pyproject.toml` file to wrap your extension in a
 Python package. Before generating a package, we first need to install `build`.
 
 ```bash
-pip install build twine hatch
+pip install build twine hatch hatch-pip-deepfreeze
 ```
 
 Bump the version using `hatch`. By default this will create a tag.

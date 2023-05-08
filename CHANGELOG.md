@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 2023-05-08
+
+**Jupyterlab extension**
+
+- Support for JupyterLab 3.6+/4+ and Notebook v7, courtesy of mcrutch;
+  - This will drop support for jupyterlab<=3.5!
+
 ## 2.0.0 2023-05-08
 
 **General**
