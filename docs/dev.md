@@ -1,49 +1,15 @@
 # Development
 
-1. Get Task - A Go task runner
+Prerequisites:
 
-```bash
-sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-```
+- Install [task](https://taskfile.dev);
+- Install docker, with buildkit;
 
-2. Build docker image for dev
+1. Spin up docker compose based dev env - `task dev:up`
+2. Run `jlpm watch` inside dev container - `task dev:jlpm-watch`
+3. In another terminal, run `jupyter lab` inside dev container - `task dev:jupyter-lab`
 
-```bash
-task dev:build
-```
+This watches the source directory and run JupyterLab at the same time in different terminals to watch for changes in the
+extension's source and automatically rebuild the extension inside the dev docker container.
 
-3. Obtain a shell
-
-```bash
-task dev:shell
-# NOTE: If you have a running container already, use the following instead
-task dev:shell-reuse
-```
-
-4. Live compilation of Lab Extension
-
-Assume you have a shell in dev container, do
-
-```bash
-jlpm run build
-jlpm run watch
-```
-
-5. Start JupyterLab
-
-Do this in another terminal.
-
-Assume you have a shell in dev container, do
-
-````{tab} Watch mode
-```bash
-# NOTE: This might take a little while...
-./dev/start-jupyterlab.sh --watch
-```
-````
-
-````{tab} Non-watch mode
-```bash
-./dev/start-jupyterlab.sh
-```
-````
+With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).

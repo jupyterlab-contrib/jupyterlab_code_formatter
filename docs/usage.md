@@ -14,7 +14,7 @@ Here is a non-exhaustive list of possibilities:
 
 These commands invoke the specified code formatter in the current focused cell.
 
-To find out what formatters are available, you can query http://localhost:8888/jupyterlab_code_formatter/formatters?bypassVersionCheck=1 (you might need to replace the port and address), the keys of formatter are shown there.
+To find out what formatters are available, you can query http://localhost:8888/jupyterlab_code_formatter/formatters (you might need to replace the port and address), the keys of formatter are shown there.
 
 ---
 

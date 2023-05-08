@@ -93,6 +93,14 @@ For example to override settings for the `autopep8` formatter, enter something l
 
 :::{warning}
 This plugin does not pick up file based configuration at the moment (e.g. setup.cfg, pyproject.yml, etc.)
+
+Ticket is already opened at [#167](https://github.com/ryantam626/jupyterlab_code_formatter/issues/167).
+:::
+
+:::{warning}
+This plugin might be out of sync with the list of possibilities of configuration option.
+
+See [settings.json](https://github.com/ryantam626/jupyterlab_code_formatter/blob/master/schema/settings.json) for the JSON schema used, feel free to open a PR for updating it.
 :::
 
 ## Chaining Formatters Invocation
