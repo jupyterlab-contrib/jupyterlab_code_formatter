@@ -87,7 +87,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     }
 
     const metadata =
-      this.notebookTracker.currentWidget.content.model!.metadata.toJSON();
+      this.notebookTracker.currentWidget.content.model!.sharedModel.metadata;;
 
     if (!metadata) {
       return null;
@@ -148,7 +148,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
       if (formatterToUse === 'noop' || formatterToUse === 'skip') {
         continue;
       }
-      const currentTexts = selectedCells.map(cell => cell.model.value.text);
+      const currentTexts = selectedCells.map(cell => cell.model.sharedModel.source);
       const formattedTexts = await this.formatCode(
         currentTexts,
         formatterToUse,
@@ -162,7 +162,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         const cell = selectedCells[i];
         const currentText = currentTexts[i];
         const formattedText = formattedTexts.code[i];
-        const cellValueHasNotChanged = cell.model.value.text === currentText;
+        const cellValueHasNotChanged = cell.model.sharedModel.source === currentText;
         if (cellValueHasNotChanged) {
           if (formattedText.error) {
             if (showErrors) {
@@ -172,7 +172,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
               );
             }
           } else {
-            cell.model.value.text = formattedText.code;
+            cell.model.sharedModel.source = formattedText.code;
           }
         } else {
           if (showErrors) {
@@ -236,7 +236,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     const editorWidget = this.editorTracker.currentWidget;
     this.working = true;
     const editor = editorWidget!.content.editor;
-    const code = editor.model.value.text;
+    const code = editor.model.sharedModel.source;
     this.formatCode(
       [code],
       formatter,
@@ -253,7 +253,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
           this.working = false;
           return;
         }
-        this.editorTracker.currentWidget!.content.editor.model.value.text =
+        this.editorTracker.currentWidget!.content.editor.model.sharedModel.source =
           data.code[0].code;
         this.working = false;
       })
