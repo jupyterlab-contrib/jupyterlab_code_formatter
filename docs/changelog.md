@@ -1,19 +1,19 @@
 # Changelog
 
-
 ## Unreleased
 
 **General**
 
-None
+- Major refactor of repo, now based off the update jupyterlab extension cookiecutter;
+- Introduce an actually working dockerised dev env;
 
 **Server extension**
 
-None
+- Add `ruff` support - courtesy of felix-cw;
 
 **Jupyterlab extension**
 
-None
+- Add `ruff` support - courtesy of felix-cw;
 
 ## 1.6.1 2023-04-16
 
