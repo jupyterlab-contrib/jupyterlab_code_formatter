@@ -13,6 +13,7 @@ tasks:
     desc: Build docker image for dev
     cmds:
       - docker compose -f docker-compose.dev.yml build
+      - docker exec -it jupyterlab_code_formatter-dev-1 jlpm install
 
   dev:up:
     desc: Spin up the docker compose stack for dev
