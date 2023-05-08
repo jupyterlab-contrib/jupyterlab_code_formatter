@@ -54,7 +54,7 @@ test = [
 ]
 docs = [
     "furo",
-    "sphinx"
+    "sphinx==5.3.0"
 ]
 
 [tool.hatch.envs.default]
