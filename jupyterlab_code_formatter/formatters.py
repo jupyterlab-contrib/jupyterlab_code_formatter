@@ -14,7 +14,11 @@ try:
     import rpy2.robjects
 except ImportError:
     pass
-from functools import cache
+if sys.version_info >= (3, 9):
+    from functools import cache
+else:
+    from functools import lru_cache
+    cache = lru_cache(maxsize=None)
 
 from packaging import version
 

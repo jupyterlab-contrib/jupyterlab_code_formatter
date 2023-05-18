@@ -1,6 +1,10 @@
 import json
+import sys
 import typing as t
-from importlib.metadata import version
+if sys.version_info >= (3, 8):
+    from importlib.metadata import version
+else:
+    from importlib_metadata import version
 
 import pytest
 from jsonschema import validate
