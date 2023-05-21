@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+**General**
+
+- Iron out what's causing mismatch of labextension and package release process;
+
 **Server extension**
 
 - Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
