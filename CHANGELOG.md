@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+**Server extension**
+
+- Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
+
 ## 2.1.0 2023-05-08
 
 **Jupyterlab extension**
