@@ -65,7 +65,6 @@ class JupyterLabCodeFormatter
       this.setupContextMenu();
       this.setupWidgetExtension();
     });
-    console.log('222wat');
   }
 
   public createNew(
