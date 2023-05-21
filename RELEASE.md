@@ -25,10 +25,8 @@ hatch version <new-version>
 To create a Python source package (`.tar.gz`) and the binary package (`.whl`) in the `dist/` directory, do:
 
 ```bash
-python -m build
+./scripts/build.sh
 ```
-
-> `python setup.py sdist bdist_wheel` is deprecated and will not work for this package.
 
 Then to upload the package to PyPI, do:
 

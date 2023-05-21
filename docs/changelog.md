@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.2.1 2023-05-21
+
+**General**
+
+- Iron out what's causing mismatch of labextension and package release process;
+
+**Server extension**
+
+- Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
+
+## 2.2.0 Skipped
+
 ## 2.1.0 2023-05-08
 
 **Jupyterlab extension**

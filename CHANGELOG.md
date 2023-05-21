@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.2.1 2023-05-21
 
 **General**
 
@@ -9,6 +9,8 @@
 **Server extension**
 
 - Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
+
+## 2.2.0 Skipped
 
 ## 2.1.0 2023-05-08
 
