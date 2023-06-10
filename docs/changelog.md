@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.2 2023-06-10
+## Unreleased
 
 **Jupyterlab extension**
 
