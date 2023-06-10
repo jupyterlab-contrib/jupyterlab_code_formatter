@@ -47,9 +47,10 @@ To configure which/how formatters are invoked, see [configuration](https://jupyt
 I could really use your support in giving me a star on GitHub, recommending features, fixing bugs or maybe even providing monetary support!
 
 - [Recommending features via GitHub Issues](https://github.com/ryantam626/jupyterlab_code_formatter/issues)
-- [Sumitting your PR on GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/pulls)
+- [Submitting your PR on GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/pulls)
 - [Buy me a coffee](https://www.buymeacoffee.com/ryantam626)
-- [Donating Via Solana](https://solana.com/): 6K7aK5RpskJkhEkwZi1ZQr68LhaVdfnTfWjZEQV3VbbD
+
+Also shout-out to my employer [Huq Industires](https://huq.io/) for allowing me to work on this some of the time during work.
 
 ----
 
