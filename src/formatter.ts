@@ -3,7 +3,7 @@ import { INotebookTracker, Notebook } from '@jupyterlab/notebook';
 import JupyterlabCodeFormatterClient from './client';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { Widget } from '@lumino/widgets';
-import { showErrorMessage } from '@jupyterlab/apputils';
+import { showErrorMessage, Dialog, showDialog } from '@jupyterlab/apputils';
 
 class JupyterlabCodeFormatter {
   working = false;
@@ -166,10 +166,20 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         if (cellValueHasNotChanged) {
           if (formattedText.error) {
             if (showErrors) {
-              await showErrorMessage(
-                'Jupyterlab Code Formatter Error',
-                formattedText.error
-              );
+              const result = await showDialog(
+                  {
+                      title: 'Jupyterlab Code Formatter Error',
+                      body: formattedText.error,
+                      buttons: [
+                        Dialog.createButton({label: 'Go to cell', actions: ['revealError']}),
+                        Dialog.okButton({ label: 'Dismiss' }),
+                      ]
+                  }
+              )
+              if (result.button.actions.indexOf('revealError') !== -1) {
+                this.notebookTracker.currentWidget!.content.scrollToCell(cell)
+                break
+              }
             }
           } else {
             cell.model.sharedModel.source = formattedText.code;

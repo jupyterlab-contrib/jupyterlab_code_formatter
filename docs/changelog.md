@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.2 2023-06-10
+
+**Jupyterlab extension**
+
+- Add "Go to cell" option in dialog when formatting fails;
+
 ## 2.2.1 2023-05-21
 
 **General**
