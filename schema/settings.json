@@ -313,6 +313,10 @@
     "suppressFormatterErrors": {
       "additionalProperties": false,
       "type": "boolean"
+    },
+    "suppressFormatterErrorsIFFAutoFormatOnSave": {
+      "additionalProperties": false,
+      "type": "boolean"
     }
   },
   "properties": {
@@ -414,6 +418,12 @@
       "title": "Suppress formatter errors",
       "description": "Whether to suppress all errors reported by formatter while formatting. Useful when you have format on save mode on.",
       "$ref": "#/definitions/suppressFormatterErrors",
+      "default": false
+    },
+    "suppressFormatterErrorsIFFAutoFormatOnSave": {
+      "title": "Suppress formatter errors if and only if auto saving.",
+      "description": "Whether to suppress all errors reported by formatter while formatting (if and only if auto saving). Useful when you have format on save mode on and still want to see error when manually formatting.",
+      "$ref": "#/definitions/suppressFormatterErrorsIFFAutoFormatOnSave",
       "default": false
     }
   },

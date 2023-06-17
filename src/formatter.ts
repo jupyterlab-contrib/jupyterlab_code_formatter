@@ -5,6 +5,10 @@ import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { Widget } from '@lumino/widgets';
 import { showErrorMessage, Dialog, showDialog } from '@jupyterlab/apputils';
 
+type Context = {
+  saving: boolean;
+};
+
 class JupyterlabCodeFormatter {
   working = false;
   protected client: JupyterlabCodeFormatterClient;
@@ -46,7 +50,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   }
 
   public async formatAction(config: any, formatter?: string) {
-    return this.formatCells(true, config, formatter);
+    return this.formatCells(true, config, { saving: false }, formatter);
   }
 
   public async formatSelectedCodeCells(
@@ -54,15 +58,22 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     formatter?: string,
     notebook?: Notebook
   ) {
-    return this.formatCells(true, config, formatter, notebook);
+    return this.formatCells(
+      true,
+      config,
+      { saving: false },
+      formatter,
+      notebook
+    );
   }
 
   public async formatAllCodeCells(
     config: any,
+    context: Context,
     formatter?: string,
     notebook?: Notebook
   ) {
-    return this.formatCells(false, config, formatter, notebook);
+    return this.formatCells(false, config, context, formatter, notebook);
   }
 
   private getCodeCells(selectedOnly = true, notebook?: Notebook): CodeCell[] {
@@ -87,7 +98,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     }
 
     const metadata =
-      this.notebookTracker.currentWidget.content.model!.sharedModel.metadata;;
+      this.notebookTracker.currentWidget.content.model!.sharedModel.metadata;
 
     if (!metadata) {
       return null;
@@ -142,13 +153,16 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   private async applyFormatters(
     selectedCells: CodeCell[],
     formattersToUse: string[],
-    config: any
+    config: any,
+    context: Context
   ) {
     for (const formatterToUse of formattersToUse) {
       if (formatterToUse === 'noop' || formatterToUse === 'skip') {
         continue;
       }
-      const currentTexts = selectedCells.map(cell => cell.model.sharedModel.source);
+      const currentTexts = selectedCells.map(
+        cell => cell.model.sharedModel.source
+      );
       const formattedTexts = await this.formatCode(
         currentTexts,
         formatterToUse,
@@ -156,29 +170,37 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         true,
         config.cacheFormatters
       );
+      console.log(config.suppressFormatterErrorsIFFAutoFormatOnSave, context.saving);
 
-      const showErrors = !(config.suppressFormatterErrors ?? false);
+      const showErrors =
+        !(config.suppressFormatterErrors ?? false) &&
+        !(
+          (config.suppressFormatterErrorsIFFAutoFormatOnSave ?? false) &&
+          context.saving
+        );
       for (let i = 0; i < selectedCells.length; ++i) {
         const cell = selectedCells[i];
         const currentText = currentTexts[i];
         const formattedText = formattedTexts.code[i];
-        const cellValueHasNotChanged = cell.model.sharedModel.source === currentText;
+        const cellValueHasNotChanged =
+          cell.model.sharedModel.source === currentText;
         if (cellValueHasNotChanged) {
           if (formattedText.error) {
             if (showErrors) {
-              const result = await showDialog(
-                  {
-                      title: 'Jupyterlab Code Formatter Error',
-                      body: formattedText.error,
-                      buttons: [
-                        Dialog.createButton({label: 'Go to cell', actions: ['revealError']}),
-                        Dialog.okButton({ label: 'Dismiss' }),
-                      ]
-                  }
-              )
+              const result = await showDialog({
+                title: 'Jupyterlab Code Formatter Error',
+                body: formattedText.error,
+                buttons: [
+                  Dialog.createButton({
+                    label: 'Go to cell',
+                    actions: ['revealError']
+                  }),
+                  Dialog.okButton({ label: 'Dismiss' })
+                ]
+              });
               if (result.button.actions.indexOf('revealError') !== -1) {
-                this.notebookTracker.currentWidget!.content.scrollToCell(cell)
-                break
+                this.notebookTracker.currentWidget!.content.scrollToCell(cell);
+                break;
               }
             }
           } else {
@@ -199,6 +221,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
   private async formatCells(
     selectedOnly: boolean,
     config: any,
+    context: Context,
     formatter?: string,
     notebook?: Notebook
   ) {
@@ -214,7 +237,12 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
       }
 
       const formattersToUse = await this.getFormattersToUse(config, formatter);
-      await this.applyFormatters(selectedCells, formattersToUse, config);
+      await this.applyFormatters(
+        selectedCells,
+        formattersToUse,
+        config,
+        context
+      );
     } catch (error) {
       await showErrorMessage('Jupyterlab Code Formatter Error', error);
     }

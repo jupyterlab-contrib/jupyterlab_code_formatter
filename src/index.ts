@@ -80,6 +80,7 @@ class JupyterLabCodeFormatter
       onClick: async () => {
         await this.notebookCodeFormatter.formatAllCodeCells(
           this.config,
+          { saving: false },
           undefined,
           nb.content
         );
@@ -103,7 +104,12 @@ class JupyterLabCodeFormatter
     state: DocumentRegistry.SaveState
   ) {
     if (state === 'started' && this.config.formatOnSave) {
-      await this.notebookCodeFormatter.formatAllCodeCells(this.config);
+      await this.notebookCodeFormatter.formatAllCodeCells(
+        this.config,
+        { saving: true },
+        undefined,
+        undefined
+      );
     }
   }
 
@@ -143,7 +149,9 @@ class JupyterLabCodeFormatter
     });
     this.app.commands.addCommand(Constants.FORMAT_ALL_COMMAND, {
       execute: async () => {
-        await this.notebookCodeFormatter.formatAllCodeCells(this.config);
+        await this.notebookCodeFormatter.formatAllCodeCells(this.config, {
+          saving: false
+        });
       },
       iconClass: Constants.ICON_FORMAT_ALL,
       iconLabel: 'Format notebook'
