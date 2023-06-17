@@ -65,5 +65,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -e ".[test]"
 RUN jupyter labextension develop . --overwrite
 RUN jupyter server extension enable jupyterlab_code_formatter
-RUN jlpm install
 RUN jlpm build
