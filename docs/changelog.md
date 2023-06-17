@@ -5,6 +5,7 @@
 **Jupyterlab extension**
 
 - Add "Go to cell" option in dialog when formatting fails;
+- Add "suppressFormatterErrorsIFFAutoFormatOnSave" config;
 
 ## 2.2.1 2023-05-21
 
