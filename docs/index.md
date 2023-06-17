@@ -9,6 +9,7 @@ faq.md
 jupyterhub.md
 changelog.md
 dev.md
+getting-help.md
 your-support.md
 
 ```
