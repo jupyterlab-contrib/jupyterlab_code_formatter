@@ -12,7 +12,7 @@ tasks:
   dev:build:
     desc: Build docker image for dev
     cmds:
-      - docker compose -f docker-compose.dev.yml build
+      - BUILDKIT_PROGRESS=plain docker compose -f docker-compose.dev.yml build
 
   dev:up:
     desc: Spin up the docker compose stack for dev
