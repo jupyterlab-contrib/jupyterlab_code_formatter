@@ -56,18 +56,18 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
-        "@jupyterlab/application": "^3.6.0 || ~4.0.0",
+        "@jupyterlab/application": "^3.6.0",
         "@jupyterlab/coreutils": "^5.1.0",
-        "@jupyterlab/fileeditor": "^3.6.0 || ~4.0.0",
-        "@jupyterlab/mainmenu": "^3.6.0 || ~4.0.0",
+        "@jupyterlab/fileeditor": "^3.6.0",
+        "@jupyterlab/mainmenu": "^3.6.0",
         "@jupyterlab/services": "^6.1.0",
-        "@jupyterlab/settingregistry": "^3.6.0 || ~4.0.0"
+        "@jupyterlab/settingregistry": "^3.6.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
         "@babel/preset-env": "^7.0.0",
-        "@jupyterlab/builder": "^3.6.0 || ~4.0.0",
-        "@jupyterlab/testutils": "^3.6.0 || ~4.0.0",
+        "@jupyterlab/builder": "^3.6.0",
+        "@jupyterlab/testutils": "^3.6.0",
         "@types/jest": "^26.0.0",
         "@typescript-eslint/eslint-plugin": "^4.8.1",
         "@typescript-eslint/parser": "^4.8.1",
