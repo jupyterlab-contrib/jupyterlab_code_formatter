@@ -1,4 +1,4 @@
-import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { DocumentRegistry, DocumentWidget, DocumentModel } from '@jupyterlab/docregistry';
 import {
   INotebookModel,
   INotebookTracker,
@@ -113,8 +113,33 @@ class JupyterLabCodeFormatter
     }
   }
 
+  private createNewEditor(widget: DocumentWidget, context: DocumentRegistry.IContext<DocumentModel>): IDisposable {
+    // Connect to save(State) signal, to be able to detect document save event
+    context.saveState.connect(this.onSaveEditor, this);
+    // Return an empty disposable, because we don't create any object
+    return new DisposableDelegate(() => { });
+  }
+
+  private async onSaveEditor(
+      context: DocumentRegistry.IContext<DocumentModel>,
+      state: DocumentRegistry.SaveState
+  ) {
+    if (state === 'started' && this.config.formatOnSave) {
+      this.fileEditorCodeFormatter.formatEditor(
+          this.config,
+          {saving: true},
+          undefined,
+      )
+    }
+  }
+
   private setupWidgetExtension() {
     this.app.docRegistry.addWidgetExtension('Notebook', this);
+    this.app.docRegistry.addWidgetExtension('editor', {
+      createNew: (widget: DocumentWidget, context: DocumentRegistry.IContext<DocumentModel>): IDisposable => {
+        return this.createNewEditor(widget, context);
+      }
+    });
   }
 
   private setupContextMenu() {
