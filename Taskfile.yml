@@ -17,6 +17,8 @@ tasks:
   dev:up:
     desc: Spin up the docker compose stack for dev
     cmds:
+      - docker compose -f docker-compose.dev.yml up -d
+      - docker exec -it jupyterlab_code_formatter-dev-1 jlpm install
       - docker compose -f docker-compose.dev.yml up
 
   dev:down:
