@@ -24,7 +24,7 @@ This invokes `jupyterlab_code_formatter:format_all` every time you save, which u
 
 ## Keyboard Shortcuts
 
-To add a keyboard shortcut calling the JupyterLab commands registered by this plugin (documented [here](usage.md#preface)), add an entry in the Advanced Setting Edtior of JupyterLab (TDOO: How to get there.) like so:-
+To add a keyboard shortcut calling the JupyterLab commands registered by this plugin (documented [here](usage.md#preface)), add an entry in the Advanced Setting Edtior of JupyterLab (TODO: How to get there.) like so:-
 
 ```json
 {
