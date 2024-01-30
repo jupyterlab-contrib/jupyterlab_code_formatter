@@ -456,6 +456,8 @@ class CommandLineFormatter(BaseFormatter):
 
 
 class RuffFixFormatter(CommandLineFormatter):
+    ruff_args = ["check", "-eq", "--fix-only", "-"]
+
     @property
     def label(self) -> str:
         return f"Apply ruff Formatter"
@@ -467,7 +469,11 @@ class RuffFixFormatter(CommandLineFormatter):
             ruff_command = find_ruff_bin()
         except (ImportError, FileNotFoundError):
             ruff_command = "ruff"
-        self.command = [ruff_command, "check", "--fix-only", "-"]
+        self.command = [ruff_command, *self.ruff_args]
+
+
+class RuffFormatFormatter(RuffFixFormatter):
+    ruff_args = ["format", "-q", "-"]
 
 
 SERVER_FORMATTERS = {
@@ -477,6 +483,7 @@ SERVER_FORMATTERS = {
     "yapf": YapfFormatter(),
     "isort": IsortFormatter(),
     "ruff": RuffFixFormatter(),
+    "ruffformat": RuffFormatFormatter(),
     "formatR": FormatRFormatter(),
     "styler": StylerFormatter(),
     "scalafmt": CommandLineFormatter(command=["scalafmt", "--stdin"]),
