@@ -52,13 +52,12 @@ If you don't use Discord then feel free to open a [GitHub issue](https://github.
 
 ## Your Support
 
-I could really use your support in giving me a star on GitHub, recommending features, fixing bugs or maybe even providing monetary support!
+I could really use your support in giving me a star on GitHub, recommending features or fixing bugs.
 
 - [Recommending features via GitHub Issues](https://github.com/ryantam626/jupyterlab_code_formatter/issues)
 - [Submitting your PR on GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/pulls)
-- [Buy me a coffee](https://www.buymeacoffee.com/ryantam626)
 
-Also shout-out to my employer [Huq Industries](https://huq.io/)([@huq-industries](https://github.com/huq-industries)) for allowing me to work on this some of the time during work.
+Since I am no longer a data scientist and JupyterLab has stopped being part of my main workflow, I am unable to commit time to work on this project due to other commitments.
 
 ----
 
