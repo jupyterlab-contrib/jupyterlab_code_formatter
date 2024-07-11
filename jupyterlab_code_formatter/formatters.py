@@ -9,15 +9,11 @@ import sys
 from functools import wraps
 from typing import List, Type
 
-try:
-    import rpy2
-    import rpy2.robjects
-except ImportError:
-    pass
 if sys.version_info >= (3, 9):
     from functools import cache
 else:
     from functools import lru_cache
+
     cache = lru_cache(maxsize=None)
 
 from packaging import version
@@ -357,56 +353,55 @@ class IsortFormatter(BaseFormatter):
             return isort.code(code=code, **options)
 
 
-class FormatRFormatter(BaseFormatter):
+class RFormatter(BaseFormatter):
+    @property
+    @abc.abstractmethod
+    def package_name(self) -> str:
+        pass
+
+    @property
+    def importable(self) -> bool:
+        package_location = subprocess.run(
+            ["Rscript", "-e", f"cat(system.file(package='{self.package_name}'))"],
+            capture_output=True,
+            text=True,
+        )
+        return package_location != ""
+
+
+class FormatRFormatter(RFormatter):
     label = "Apply FormatR Formatter"
     package_name = "formatR"
 
-    @property
-    def importable(self) -> bool:
-        try:
-            import rpy2.robjects.packages as rpackages
-
-            rpackages.importr(self.package_name, robject_translations={".env": "env"})
-
-            return True
-        except Exception:
-            return False
-
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
         import rpy2.robjects.packages as rpackages
+        from rpy2.robjects import conversion, default_converter
 
-        format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
-        formatted_code = format_r.tidy_source(text=code, output=False, **options)
-        return "\n".join(formatted_code[0])
+        with conversion.localconverter(default_converter):
+            format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
+            formatted_code = format_r.tidy_source(text=code, output=False, **options)
+            return "\n".join(formatted_code[0])
 
 
-class StylerFormatter(BaseFormatter):
+class StylerFormatter(RFormatter):
     label = "Apply Styler Formatter"
     package_name = "styler"
 
-    @property
-    def importable(self) -> bool:
-        try:
-            import rpy2.robjects.packages as rpackages
-
-            rpackages.importr(self.package_name)
-
-            return True
-        except Exception:
-            return False
-
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
         import rpy2.robjects.packages as rpackages
+        from rpy2.robjects import conversion, default_converter
 
-        styler_r = rpackages.importr(self.package_name)
-        formatted_code = styler_r.style_text(code, **self._transform_options(styler_r, options))
-        return "\n".join(formatted_code)
+        with conversion.localconverter(default_converter):
+            styler_r = rpackages.importr(self.package_name)
+            formatted_code = styler_r.style_text(code, **self._transform_options(styler_r, options))
+            return "\n".join(formatted_code)
 
     @staticmethod
     def _transform_options(styler_r, options):
         transformed_options = copy.deepcopy(options)
+        import rpy2.robjects
 
         if "math_token_spacing" in transformed_options:
             if isinstance(options["math_token_spacing"], dict):
