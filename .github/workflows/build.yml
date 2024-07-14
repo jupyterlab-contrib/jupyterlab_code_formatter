@@ -2,9 +2,13 @@ name: Build
 
 on:
   push:
-    branches: main
+    branches: master
   pull_request:
     branches: '*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -12,13 +16,13 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
     - name: Install dependencies
-      run: python -m pip install -U jupyterlab~=3.1
+      run: python -m pip install -U "jupyterlab>=4.0.0,<5"
 
     - name: Lint the extension
       run: |
@@ -53,7 +57,7 @@ jobs:
         pip uninstall -y "jupyterlab_code_formatter" jupyterlab
 
     - name: Upload extension packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: extension-artifacts
         path: dist/jupyterlab_code_formatter*
@@ -64,14 +68,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
         architecture: 'x64'
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: extension-artifacts
     - name: Install and Test
@@ -81,7 +83,7 @@ jobs:
         sudo rm -rf $(which node)
         sudo rm -rf $(which node)
 
-        pip install "jupyterlab~=3.1" jupyterlab_code_formatter*.whl
+        pip install "jupyterlab>=4.0.0,<5" jupyterlab_code_formatter*.whl
 
 
         jupyter server extension list
@@ -101,20 +103,20 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
     - name: Download extension package
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: extension-artifacts
-        
+
     - name: Install the extension
       run: |
         set -eux
-        python -m pip install "jupyterlab~=3.1" jupyterlab_code_formatter*.whl
+        python -m pip install "jupyterlab>=4.0.0,<5" jupyterlab_code_formatter*.whl
 
     - name: Install dependencies
       working-directory: ui-tests
@@ -123,7 +125,7 @@ jobs:
       run: jlpm install
 
     - name: Set up browser cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ${{ github.workspace }}/pw-browsers
@@ -140,7 +142,7 @@ jobs:
 
     - name: Upload Playwright Test report
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: jupyterlab_code_formatter-playwright-tests
         path: |
@@ -152,6 +154,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
