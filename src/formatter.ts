@@ -105,17 +105,22 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     }
 
     // prefer kernelspec language
-    // @ts-ignore
-    if (metadata.kernelspec && metadata.kernelspec.language) {
-      // @ts-ignore
+    if (
+      metadata.kernelspec &&
+      metadata.kernelspec.language &&
+      typeof metadata.kernelspec.language === 'string'
+    ) {
       return metadata.kernelspec.language.toLowerCase();
     }
 
     // otherwise, check language info code mirror mode
-    // @ts-ignore
     if (metadata.language_info && metadata.language_info.codemirror_mode) {
-      // @ts-ignore
-      return metadata.language_info.codemirror_mode.name.toLowerCase();
+      const mode = metadata.language_info.codemirror_mode;
+      if (typeof mode === 'string') {
+        return mode.toLowerCase();
+      } else if (typeof mode.name === 'string') {
+        return mode.name.toLowerCase();
+      }
     }
 
     return null;
@@ -170,7 +175,10 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         true,
         config.cacheFormatters
       );
-      console.log(config.suppressFormatterErrorsIFFAutoFormatOnSave, context.saving);
+      console.log(
+        config.suppressFormatterErrorsIFFAutoFormatOnSave,
+        context.saving
+      );
 
       const showErrors =
         !(config.suppressFormatterErrors ?? false) &&
@@ -244,7 +252,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         context
       );
     } catch (error) {
-      await showErrorMessage('Jupyterlab Code Formatter Error', error);
+      await showErrorMessage('Jupyterlab Code Formatter Error', `${error}`);
     }
     this.working = false;
   }
@@ -271,11 +279,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     return this.formatEditor(config, { saving: false }, formatter);
   }
 
-  public async formatEditor(
-      config: any,
-      context: Context,
-      formatter?: string,
-  ) {
+  public async formatEditor(config: any, context: Context, formatter?: string) {
     if (this.working) {
       return;
     }
@@ -283,13 +287,10 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
       this.working = true;
 
       const formattersToUse = await this.getFormattersToUse(config, formatter);
-      await this.applyFormatters(
-          formattersToUse,
-          config,
-          context
-      );
+      await this.applyFormatters(formattersToUse, config, context);
     } catch (error) {
-      await showErrorMessage('Jupyterlab Code Formatter Error', error);
+      const msg = error instanceof Error ? error : `${error}`;
+      await showErrorMessage('Jupyterlab Code Formatter Error', msg);
     }
     this.working = false;
   }
@@ -299,15 +300,14 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
       return null;
     }
 
-    const mimeType =
-        this.editorTracker.currentWidget.content.model!.mimeType;
+    const mimeType = this.editorTracker.currentWidget.content.model!.mimeType;
 
     const mimeTypes = new Map([
       ['text/x-python', 'python'],
       ['application/x-rsrc', 'r'],
       ['application/x-scala', 'scala'],
       ['application/x-rustsrc', 'rust'],
-      ['application/x-c++src', 'cpp'],  // Not sure that this is right, whatever.
+      ['application/x-c++src', 'cpp'] // Not sure that this is right, whatever.
       // Add more MIME types and corresponding programming languages here
     ]);
 
@@ -317,8 +317,7 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
   private getDefaultFormatters(config: any): Array<string> {
     const editorType = this.getEditorType();
     if (editorType) {
-      const defaultFormatter =
-          config.preferences.default_formatter[editorType];
+      const defaultFormatter = config.preferences.default_formatter[editorType];
       if (defaultFormatter instanceof Array) {
         return defaultFormatter;
       } else if (defaultFormatter !== undefined) {
@@ -331,12 +330,12 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
   private async getFormattersToUse(config: any, formatter?: string) {
     const defaultFormatters = this.getDefaultFormatters(config);
     const formattersToUse =
-        formatter !== undefined ? [formatter] : defaultFormatters;
+      formatter !== undefined ? [formatter] : defaultFormatters;
 
     if (formattersToUse.length === 0) {
       await showErrorMessage(
-          'Jupyterlab Code Formatter Error',
-          'Unable to find default formatters to use, please file an issue on GitHub.'
+        'Jupyterlab Code Formatter Error',
+        'Unable to find default formatters to use, please file an issue on GitHub.'
       );
     }
 
@@ -344,53 +343,53 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
   }
 
   private async applyFormatters(
-      formattersToUse: string[],
-      config: any,
-      context: Context
+    formattersToUse: string[],
+    config: any,
+    context: Context
   ) {
     for (const formatterToUse of formattersToUse) {
       if (formatterToUse === 'noop' || formatterToUse === 'skip') {
         continue;
       }
       const showErrors =
-          !(config.suppressFormatterErrors ?? false) &&
-          !(
-              (config.suppressFormatterErrorsIFFAutoFormatOnSave ?? false) &&
-              context.saving
-          );
+        !(config.suppressFormatterErrors ?? false) &&
+        !(
+          (config.suppressFormatterErrorsIFFAutoFormatOnSave ?? false) &&
+          context.saving
+        );
 
       const editorWidget = this.editorTracker.currentWidget;
       this.working = true;
       const editor = editorWidget!.content.editor;
       const code = editor.model.sharedModel.source;
       this.formatCode(
-          [code],
-          formatterToUse,
-          config[formatterToUse],
-          false,
-          config.cacheFormatters
+        [code],
+        formatterToUse,
+        config[formatterToUse],
+        false,
+        config.cacheFormatters
       )
-          .then(data => {
-            if (data.code[0].error) {
-              if (showErrors) {
-                void showErrorMessage(
-                    'Jupyterlab Code Formatter Error',
-                    data.code[0].error
-                );
-              }
-              this.working = false;
-              return;
+        .then(data => {
+          if (data.code[0].error) {
+            if (showErrors) {
+              void showErrorMessage(
+                'Jupyterlab Code Formatter Error',
+                data.code[0].error
+              );
             }
-            this.editorTracker.currentWidget!.content.editor.model.sharedModel.source =
-                data.code[0].code;
             this.working = false;
-          })
-          .catch(error => {
-            void showErrorMessage('Jupyterlab Code Formatter Error', error);
-          });
+            return;
+          }
+          this.editorTracker.currentWidget!.content.editor.model.sharedModel.source =
+            data.code[0].code;
+          this.working = false;
+        })
+        .catch(error => {
+          const msg = error instanceof Error ? error : `${error}`;
+          void showErrorMessage('Jupyterlab Code Formatter Error', msg);
+        });
     }
   }
-
 
   applicable(formatter: string, currentWidget: Widget) {
     const currentEditorWidget = this.editorTracker.currentWidget;

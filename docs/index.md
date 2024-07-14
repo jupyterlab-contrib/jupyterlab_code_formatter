@@ -16,7 +16,7 @@ your-support.md
 
 # JupyterLab Code Formatter
 
-*A JupyterLab plugin to facilitate invocation of code formatters.*
+_A JupyterLab plugin to facilitate invocation of code formatters._
 
 **Source Code**: [GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/).
 
@@ -36,9 +36,10 @@ JupyterLab Code Formatter only provides an interface for invoking code formatter
 
 ## Quick Start
 
-[//]: # (TODO: Add tab for common package managers)
+[//]: # 'TODO: Add tab for common package managers'
 
 1. **Install the package**
+
 ````{tab} Pip
 ```bash
 pip install jupyterlab-code-formatter
@@ -58,6 +59,7 @@ pipenv install jupyterlab-code-formatter
 ````
 
 2. **Install some supported formatters** (isort+black are default for Python)
+
 ````{tab} Pip
 ```bash
 # NOTE: Install black and isort,

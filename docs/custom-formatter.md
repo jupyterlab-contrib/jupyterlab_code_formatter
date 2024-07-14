@@ -17,7 +17,7 @@ class ExampleCustomFormatter(BaseFormatter):
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, **options) -> str:
         return "42"
-        
+
 SERVER_FORMATTERS["example"] = ExampleCustomFormatter()
 
 ```

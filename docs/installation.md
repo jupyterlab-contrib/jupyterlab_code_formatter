@@ -3,6 +3,7 @@
 ## Python
 
 1. **Install the package**
+
 ````{tab} Pip
 ```bash
 pip install jupyterlab-code-formatter
@@ -35,7 +36,6 @@ Install any desired formatter from the below list
 - [yapf](https://github.com/google/yapf);
 - [autopep8](https://github.com/peter-evans/autopep8);
 - [isort](https://github.com/PyCQA/isort);
-
 
 ````{tab} Pip
 ```bash
@@ -88,6 +88,7 @@ To configure which/how formatters are invoked, see [configuration](configuration
 ## R
 
 1. **Install Python -> R Bridge**
+
 ````{tab} Pip
 ```bash
 pip install rpy2
@@ -113,6 +114,7 @@ pipenv install jupyterlab-code-formatter
 ````
 
 2. **Install the package**
+
 ````{tab} Pip
 ```bash
 pip install jupyterlab-code-formatter
@@ -138,7 +140,7 @@ pipenv install jupyterlab-code-formatter
 ````
 
 3. **Install some supported formatters**
-Install any desired formatter from the below list.
+   Install any desired formatter from the below list.
 
 - [formatR](https://github.com/yihui/formatR/);
 - [styler](https://github.com/r-lib/styler);

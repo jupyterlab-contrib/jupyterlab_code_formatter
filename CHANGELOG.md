@@ -268,10 +268,10 @@ No changes.
 **Jupyterlab extension**
 
 - Fix isort schema spec for the following settings:
-    + known_future_library
-    + known_standard_library
-    + known_third_party
-    + known_first_party
+  - known_future_library
+  - known_standard_library
+  - known_third_party
+  - known_first_party
 
 ## 1.3.5 2020-07-18
 
@@ -371,7 +371,6 @@ No changes.
 
 - Fix error reporting when blank code cell(s) exists;
 
-
 ## 1.2.1 2020-03-12
 
 **Server extension**
@@ -437,7 +436,6 @@ No changes.
 
 No change, simply fixing versioning error.
 
-
 ## 1.0.0 2019-12-01
 
 **Server extension**
@@ -465,7 +463,6 @@ No change, simply fixing versioning error.
 - Fix bad string comparsion of version strings;
 - Compile regex once only;
 
-
 **Jupyterlab extension**
 
 - Support more styler options;
@@ -477,11 +474,9 @@ No change, simply fixing versioning error.
 
 - Retain semicolon after black's formatting action - courtesy of dfm;
 
-
 **Jupyterlab extension**
 
 No Change.
-
 
 ## 0.6.0 2019-10-16
 
@@ -490,12 +485,10 @@ No Change.
 - Support formatting multiple code cell at the same time - courtesy of mlucool;
 - Return formatting error if they exists - courtesy of mlucool;
 
-
 **Jupyterlab extension**
 
 - Add `jupyterlab_code_foramtter:format` command and context menu button - courtesy of mlucool;
 - Add `jupyterlab_code_foramtter:format_all` command and command tools bar button - courtesy of mlucool;
-
 
 ## 0.5.2 2019-09-29
 
@@ -503,18 +496,15 @@ No Change.
 
 - Trim trialing newline for autopep8;
 
-
 **Jupyterlab extension**
 
 No changes.
-
 
 ## 0.5.1 2019-09-09
 
 **Server extension**
 
 - Fix bug where presence of `rpy2` could cause plugin to be useless;
-
 
 **Jupyterlab extension**
 
@@ -545,7 +535,6 @@ No changes.
 **General**
 
 - Minor updates to README - courtesy of reza1615;
-
 
 **Server extension**
 

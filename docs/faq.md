@@ -16,4 +16,4 @@ Make sure you really have one of the formatters properly installed in the Jupyte
 
 The plugin is also configured to only show commands when a suitable notebook/script is opened, it's worth checking if you have opened one such notebook/script.
 
-## 
+##

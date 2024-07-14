@@ -23,7 +23,7 @@ In addition to the above commands, this plugin also adds two non-formatter-speci
 - `jupyterlab_code_formatter:format`
 - `jupyterlab_code_formatter:format_all`
 
-These commands invoke the configured default code formatters,  to configure the default code formatters see [here](configuration.md#changing-default-formatters).
+These commands invoke the configured default code formatters, to configure the default code formatters see [here](configuration.md#changing-default-formatters).
 
 ## Invoke Default Code Formatter(s)
 
