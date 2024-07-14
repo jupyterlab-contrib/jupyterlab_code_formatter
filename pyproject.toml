@@ -51,6 +51,7 @@ test = [
     "blue==0.9.1",
     "isort",
     "yapf",
+    "rpy2",
     "importlib_metadata; python_version<'3.8'",
 ]
 
