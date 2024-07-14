@@ -1,11 +1,6 @@
 # Changelog
 
-## Unreleased
-
-**Jupyterlab extension**
-
-- Add "Go to cell" option in dialog when formatting fails;
-- Add "suppressFormatterErrorsIFFAutoFormatOnSave" config;
+<!-- <START NEW CHANGELOG ENTRY> -->
 
 ## 2.2.1 2023-05-21
 
@@ -16,6 +11,8 @@
 **Server extension**
 
 - Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
+
+<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 2.2.0 Skipped
 
