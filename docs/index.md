@@ -18,7 +18,7 @@ your-support.md
 
 _A JupyterLab plugin to facilitate invocation of code formatters._
 
-**Source Code**: [GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/).
+**Source Code**: [GitHub](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/).
 
 ## Demo
 
