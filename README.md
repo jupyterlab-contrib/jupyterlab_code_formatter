@@ -44,7 +44,6 @@ To configure which/how formatters are invoked, see [configuration](https://jupyt
 
 ## Getting help
 
-
 If you don't use Discord then feel free to open a [GitHub issue](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/issues), do note I am a bit slower in responding in GitHub.
 
 ---
