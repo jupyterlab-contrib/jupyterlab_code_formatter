@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.4.0", "jupyterlab>=3.6,<5", "hatch-nodejs-version"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version"]
 build-backend = "hatchling.build"
 
 [project]
@@ -10,7 +10,6 @@ requires-python = ">=3.7"
 classifiers = [
     "Framework :: Jupyter",
     "Framework :: Jupyter :: JupyterLab",
-    "Framework :: Jupyter :: JupyterLab :: 3",
     "Framework :: Jupyter :: JupyterLab :: 4",
     "Framework :: Jupyter :: JupyterLab :: Extensions",
     "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
@@ -52,12 +51,9 @@ test = [
     "blue==0.9.1",
     "isort",
     "yapf",
+    "rpy2",
     "importlib_metadata; python_version<'3.8'",
 ]
-
-[tool.hatch.envs.default]
-type = "pip-deepfreeze"
-features = ["dev", "test"]
 
 [tool.hatch.version]
 source = "nodejs"
@@ -101,7 +97,11 @@ build_dir = "jupyterlab_code_formatter/labextension"
 version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
-before-build-npm = ["python -m pip install jupyterlab~=3.1", "jlpm", "jlpm build:prod"]
+before-build-npm = [
+    "python -m pip install 'jupyterlab>=4.0.0,<5'",
+    "jlpm",
+    "jlpm build:prod"
+]
 before-build-python = ["jlpm clean:all"]
 
 [tool.check-wheel-contents]

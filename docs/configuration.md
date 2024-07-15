@@ -1,6 +1,6 @@
 # Configuration
 
-For configuring this plugin, I highly recommend you turn use the JSON Settings Editor instead of the weird graphical settings editor. 
+For configuring this plugin, I highly recommend you turn use the JSON Settings Editor instead of the weird graphical settings editor.
 
 ![settings](_static/settings.gif)
 
@@ -12,8 +12,6 @@ In the settings page, include the following key value pair:-
 {
   "formatOnSave": true
 }
-
-
 ```
 
 :::{note}
@@ -31,10 +29,7 @@ To add a keyboard shortcut calling the JupyterLab commands registered by this pl
   "shortcuts": [
     {
       "command": "jupyterlab_code_formatter:format",
-      "keys": [
-        "Ctrl K",
-        "Ctrl M"
-      ],
+      "keys": ["Ctrl K", "Ctrl M"],
       "selector": ".jp-Notebook.jp-mod-editMode"
     }
   ]
@@ -59,12 +54,12 @@ To override the default settings, enter something like so in the "User Preferenc
 
 ```json
 {
-    "preferences": {
-        "default_formatter": {
-            "python": "autopep8",
-            "R": "styler"
-        }
+  "preferences": {
+    "default_formatter": {
+      "python": "autopep8",
+      "R": "styler"
     }
+  }
 }
 ```
 
@@ -82,11 +77,7 @@ For example to override settings for the `autopep8` formatter, enter something l
 {
   "autopep8": {
     "max_line_length": 120,
-    "ignore": [
-      "E226",
-      "E302",
-      "E41"
-    ]
+    "ignore": ["E226", "E302", "E41"]
   }
 }
 ```
@@ -112,14 +103,15 @@ Settings can be found in "Settings" in the toolbar > "Advanced Settings Editor" 
 :::
 
 To do so, configure the default formatter to be an array of strings:-
+
 ```json
 {
-    "preferences": {
-        "default_formatter": {
-            "python": ["isort", "black"],
-            "R": ["styler", "formatR"]
-        }
+  "preferences": {
+    "default_formatter": {
+      "python": ["isort", "black"],
+      "R": ["styler", "formatR"]
     }
+  }
 }
 ```
 
@@ -129,16 +121,17 @@ R formatters are a little finicky to configure, the `list` construct in R is act
 
 ```json
 {
-    "styler": {
-        "math_token_spacing": {
-            "zero":["'^'"],
-            "one":["'+'", "'-'", "'*'","'/'"]
-        },
-        "reindention": {
-            "regex_pattern" : "^###",
-            "indention" : 0,
-            "comments_only" : true}
+  "styler": {
+    "math_token_spacing": {
+      "zero": ["'^'"],
+      "one": ["'+'", "'-'", "'*'", "'/'"]
+    },
+    "reindention": {
+      "regex_pattern": "^###",
+      "indention": 0,
+      "comments_only": true
     }
+  }
 }
 ```
 
