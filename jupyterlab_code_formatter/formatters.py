@@ -460,7 +460,7 @@ class RuffFixFormatter(CommandLineFormatter):
 
     @property
     def label(self) -> str:
-        return f"Apply ruff Formatter"
+        return "Apply ruff fix"
 
     def __init__(self):
         try:
@@ -473,6 +473,10 @@ class RuffFixFormatter(CommandLineFormatter):
 
 
 class RuffFormatFormatter(RuffFixFormatter):
+    @property
+    def label(self) -> str:
+        return "Apply ruff formatter"
+
     ruff_args = ["format", "-q", "-"]
 
 

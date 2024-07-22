@@ -588,11 +588,15 @@ fn main() {
     assert json_result["code"][0]["code"] == expected
 
 
-@pytest.mark.xfail(reason="Rust toolchain isn't respected in test for some reason atm.")
-async def test_can_apply_ruff(request_format):  # type: ignore[no-untyped-def]
-    """Check that it can apply black with simple config."""
+IMPORT_SORTING_EXAMPLE = (
+    "import numpy as np\nimport sys,os\nfrom enum import IntEnum\nfrom enum import auto"
+)
+
+
+async def test_can_apply_ruff_formatter(request_format):  # type: ignore[no-untyped-def]
+    """Check that it can apply ruff with simple config."""
     response: HTTPResponse = await request_format(
-        formatter="ruff",
+        formatter="ruffformat",
         code=[SIMPLE_VALID_PYTHON_CODE],
         options={},
     )
@@ -602,3 +606,47 @@ async def test_can_apply_ruff(request_format):  # type: ignore[no-untyped-def]
         expected_schema=EXPECTED_FROMAT_SCHEMA,
     )
     assert json_result["code"][0]["code"] == "x = 22\ne = 1"
+
+
+async def test_can_apply_ruff_import_fix(request_format):  # type: ignore[no-untyped-def]
+    """Check that it can organize imports with ruff."""
+
+    given = "import foo\nimport numpy as np\nimport sys,os\nfrom enum import IntEnum\nfrom enum import auto"
+    expected = "import os\nimport sys\nfrom enum import IntEnum, auto\n\nimport numpy as np\n\nimport foo"
+    response: HTTPResponse = await request_format(
+        formatter="ruff",
+        code=[given],
+        options={
+            "args": [
+                "--select=I001",
+                "--config",
+                "lint.isort.known-first-party=['foo']",
+            ]
+        },
+    )
+    json_result = _check_http_code_and_schema(
+        response=response,
+        expected_code=200,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
+    )
+    assert json_result["code"][0]["code"] == expected
+
+
+async def test_can_apply_ruff_fix_unsafe(request_format):  # type: ignore[no-untyped-def]
+    """Check that it can apply unsafe fixes."""
+
+    given = """if arg != None:
+    pass"""
+    expected = """if arg is not None:
+    pass"""
+    response: HTTPResponse = await request_format(
+        formatter="ruff",
+        code=[given],
+        options={"args": ["--select=E711", "--unsafe-fixes"]},
+    )
+    json_result = _check_http_code_and_schema(
+        response=response,
+        expected_code=200,
+        expected_schema=EXPECTED_FROMAT_SCHEMA,
+    )
+    assert json_result["code"][0]["code"] == expected
