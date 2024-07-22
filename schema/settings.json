@@ -208,6 +208,13 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ruffformat": {
+      "properties": {
+        "args": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "formatR": {
       "properties": {
         "comment": {
@@ -407,11 +414,19 @@
       }
     },
     "ruff": {
-      "title": "Ruff Config",
-      "description": "Command line options to be passed to ruff.",
+      "title": "Ruff Check Config",
+      "description": "Command line options to be passed to ruff check.  Default is to organise imports.",
       "$ref": "#/definitions/ruff",
       "default": {
-        "args": ["--select=I"]
+        "args": ["--select=I001"]
+      }
+    },
+    "ruffformat": {
+      "title": "Ruff Format Config",
+      "description": "Command line options to be passed to ruff format.",
+      "$ref": "#/definitions/ruffformat",
+      "default": {
+        "args": []
       }
     },
     "suppressFormatterErrors": {
