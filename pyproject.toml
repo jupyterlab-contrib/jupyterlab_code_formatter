@@ -53,6 +53,7 @@ test = [
     "yapf",
     "rpy2",
     "importlib_metadata; python_version<'3.8'",
+    "ruff",
 ]
 
 [tool.hatch.version]
