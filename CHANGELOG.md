@@ -2,6 +2,35 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 3.0.0
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v2.1.0...07f0478cc39a27eb03053fc621a032eb0eaa8931))
+
+### Enhancements made
+
+- Add JupyterLab :: 4 classifier [#322](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/322) ([@graelo](https://github.com/graelo))
+- Editor auto save [#318](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/318) ([@ryantam626](https://github.com/ryantam626))
+- Add suppress error iff auto formatting on save config [#317](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/317) ([@ryantam626](https://github.com/ryantam626))
+- Add go to cell option in failure dialog [#316](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/316) ([@ryantam626](https://github.com/ryantam626))
+
+### Bugs fixed
+
+- Fix environment variable leak for unused formatters [#338](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/338) ([@krassowski](https://github.com/krassowski))
+- Suppress stderr in call to ruff and add ruff formatter [#333](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/333) ([@felix-cw](https://github.com/felix-cw))
+- fix: restore support for python>=3.7,\<3.9 [#311](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/311) ([@pdhall99](https://github.com/pdhall99))
+
+### Maintenance and upkeep improvements
+
+- Fix workflows, build against JupyterLab 4, fix build TS 5 errors, lint [#346](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/346) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2023-05-08&to=2024-07-22&type=c))
+
+[@felix-cw](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Afelix-cw+updated%3A2023-05-08..2024-07-22&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agithub-actions+updated%3A2023-05-08..2024-07-22&type=Issues) | [@graelo](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agraelo+updated%3A2023-05-08..2024-07-22&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Akrassowski+updated%3A2023-05-08..2024-07-22&type=Issues) | [@pdhall99](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Apdhall99+updated%3A2023-05-08..2024-07-22&type=Issues) | [@ryantam626](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Aryantam626+updated%3A2023-05-08..2024-07-22&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 2.2.1 2023-05-21
 
 **General**
@@ -11,8 +40,6 @@
 **Server extension**
 
 - Actually support python>=3.7,<3.9 properly, courtesy of pdhall99;
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 2.2.0 Skipped
 
