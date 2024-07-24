@@ -86,7 +86,7 @@ pipenv install black isort
 
 3. **Restart JupyterLab**
 
-This plugin includes a server plugin, as suck you will need to restart JupyterLab if you have followed
+This plugin includes a server plugin, as such you will need to restart JupyterLab if you have followed
 the above steps while it's running.
 
 4. **Configure plugin**
