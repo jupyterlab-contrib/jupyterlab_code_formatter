@@ -8,7 +8,7 @@ It is possible that black will fail when trying to create local cache directory,
 python -c "import black; black.CACHE_DIR.mkdir(parents=True, exist_ok=True)"
 ```
 
-For more information, see [issue #10](https://github.com/ryantam626/jupyterlab_code_formatter/issues/10).
+For more information, see [issue #10](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/issues/10).
 
 ## JupyterLab Commands Not Showing Up
 
