@@ -1,5 +1,10 @@
 ![](docs/logo.png)
 
+[![Extension status](https://img.shields.io/badge/status-ready-success 'ready to be used')](https://jupyterlab-contrib.github.io/)
+[![GitHub Action Status](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/actions/workflows/build.yml/badge.svg)](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/actions/workflows/build.yml)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab-contrib/jupyterlab_code_formatter/master?urlpath=lab)
+[![pypi-version](https://img.shields.io/pypi/v/jupyterlab-code-formatter.svg)](https://python.org/pypi/jupyterlab-code-formatter)
+
 _A JupyterLab plugin to facilitate invocation of code formatters._
 
 ---
@@ -52,8 +57,8 @@ If you don't use Discord then feel free to open a [GitHub issue](https://github.
 
 I could really use your support in giving me a star on GitHub, recommending features or fixing bugs.
 
-- [Recommending features via GitHub Issues](https://github.com/ryantam626/jupyterlab_code_formatter/issues)
-- [Submitting your PR on GitHub](https://github.com/ryantam626/jupyterlab_code_formatter/pulls)
+- [Recommending features via GitHub Issues](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/issues)
+- [Submitting your PR on GitHub](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pulls)
 
 ---
 
@@ -62,8 +67,8 @@ I could really use your support in giving me a star on GitHub, recommending feat
 This extension was originally developed and maintained by [@ryantam626](https://github.com/ryantam626).
 Massive thanks to the below list of people who made past contributions to the project!
 
-<a href="https://github.com/ryantam626/jupyterlab_code_formatter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ryantam626/jupyterlab_code_formatter" />
+<a href="https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jupyterlab-contrib/jupyterlab_code_formatter" />
 </a>
 
 ## License
