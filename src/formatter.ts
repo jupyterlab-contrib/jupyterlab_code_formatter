@@ -92,7 +92,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return codeCells;
   }
 
-  private getNotebookType() {
+  private getNotebookType(): string | null {
     if (!this.notebookTracker.currentWidget) {
       return null;
     }
@@ -120,6 +120,16 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         return mode.toLowerCase();
       } else if (typeof mode.name === 'string') {
         return mode.name.toLowerCase();
+      }
+    }
+
+    // finally, try to get the language from the current session's kernel spec
+    const sessionContext = this.notebookTracker.currentWidget?.sessionContext;
+    const kernelName = sessionContext?.session?.kernel?.name;
+    if (kernelName) {
+      const specs = sessionContext.specsManager.specs?.kernelspecs;
+      if (specs && kernelName in specs) {
+        return specs[kernelName]!.language;
       }
     }
 
