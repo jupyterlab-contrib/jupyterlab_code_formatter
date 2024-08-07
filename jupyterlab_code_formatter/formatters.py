@@ -361,6 +361,9 @@ class RFormatter(BaseFormatter):
 
     @property
     def importable(self) -> bool:
+        if not command_exist("Rscript"):
+            return False
+
         package_location = subprocess.run(
             ["Rscript", "-e", f"cat(system.file(package='{self.package_name}'))"],
             capture_output=True,
