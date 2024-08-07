@@ -2,6 +2,31 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 3.0.1
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v3.0.0...aad4b750c93ac9aa524a1cc18315706c7d464c29))
+
+### Bugs fixed
+
+- Improve safety of `RFormatter.importable` [#353](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/353) ([@shreve](https://github.com/shreve))
+
+### Maintenance and upkeep improvements
+
+- Use the new `publish-release` action [#355](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/355) ([@krassowski](https://github.com/krassowski))
+- Add badges and fix some links [#351](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/351) ([@fcollonval](https://github.com/fcollonval))
+
+### Documentation improvements
+
+- Fix a typo in the documentation [#350](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/350) ([@panangam](https://github.com/panangam))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2024-07-22&to=2024-08-07&type=c))
+
+[@fcollonval](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Afcollonval+updated%3A2024-07-22..2024-08-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agithub-actions+updated%3A2024-07-22..2024-08-07&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Akrassowski+updated%3A2024-07-22..2024-08-07&type=Issues) | [@panangam](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Apanangam+updated%3A2024-07-22..2024-08-07&type=Issues) | [@shreve](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Ashreve+updated%3A2024-07-22..2024-08-07&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 3.0.0
 
 ([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v2.1.0...07f0478cc39a27eb03053fc621a032eb0eaa8931))
@@ -28,8 +53,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2023-05-08&to=2024-07-22&type=c))
 
 [@felix-cw](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Afelix-cw+updated%3A2023-05-08..2024-07-22&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agithub-actions+updated%3A2023-05-08..2024-07-22&type=Issues) | [@graelo](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agraelo+updated%3A2023-05-08..2024-07-22&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Akrassowski+updated%3A2023-05-08..2024-07-22&type=Issues) | [@pdhall99](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Apdhall99+updated%3A2023-05-08..2024-07-22&type=Issues) | [@ryantam626](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Aryantam626+updated%3A2023-05-08..2024-07-22&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 2.2.1 2023-05-21
 
