@@ -108,6 +108,7 @@ class JupyterLabCodeFormatter
     state: DocumentRegistry.SaveState
   ) {
     if (state === 'started' && this.config.formatOnSave) {
+      await context.sessionContext.ready;
       await this.notebookCodeFormatter.formatAllCodeCells(
         this.config,
         { saving: true },
