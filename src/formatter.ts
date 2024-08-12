@@ -98,7 +98,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     }
 
     const metadata =
-      this.notebookTracker.currentWidget.content.model!.sharedModel.metadata;
+      this.notebookTracker.currentWidget.content.model?.sharedModel?.metadata;
 
     if (!metadata) {
       return null;
