@@ -92,34 +92,44 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return codeCells;
   }
 
-  private getNotebookType() {
+  private getNotebookType(): string | null {
+    // If there is no current notebook, there is nothing to do
     if (!this.notebookTracker.currentWidget) {
       return null;
     }
 
+    // first, check the notebook's metadata for language info
     const metadata =
-      this.notebookTracker.currentWidget.content.model!.sharedModel.metadata;
+      this.notebookTracker.currentWidget.content.model?.sharedModel?.metadata;
 
-    if (!metadata) {
-      return null;
+    if (metadata) {
+      // prefer kernelspec language
+      if (
+        metadata.kernelspec &&
+        metadata.kernelspec.language &&
+        typeof metadata.kernelspec.language === 'string'
+      ) {
+        return metadata.kernelspec.language.toLowerCase();
+      }
+
+      // otherwise, check language info code mirror mode
+      if (metadata.language_info && metadata.language_info.codemirror_mode) {
+        const mode = metadata.language_info.codemirror_mode;
+        if (typeof mode === 'string') {
+          return mode.toLowerCase();
+        } else if (typeof mode.name === 'string') {
+          return mode.name.toLowerCase();
+        }
+      }
     }
 
-    // prefer kernelspec language
-    if (
-      metadata.kernelspec &&
-      metadata.kernelspec.language &&
-      typeof metadata.kernelspec.language === 'string'
-    ) {
-      return metadata.kernelspec.language.toLowerCase();
-    }
-
-    // otherwise, check language info code mirror mode
-    if (metadata.language_info && metadata.language_info.codemirror_mode) {
-      const mode = metadata.language_info.codemirror_mode;
-      if (typeof mode === 'string') {
-        return mode.toLowerCase();
-      } else if (typeof mode.name === 'string') {
-        return mode.name.toLowerCase();
+    // in the absence of metadata, look in the current session's kernel spec
+    const sessionContext = this.notebookTracker.currentWidget.sessionContext;
+    const kernelName = sessionContext?.session?.kernel?.name;
+    if (kernelName) {
+      const specs = sessionContext.specsManager.specs?.kernelspecs;
+      if (specs && kernelName in specs) {
+        return specs[kernelName]!.language;
       }
     }
 
