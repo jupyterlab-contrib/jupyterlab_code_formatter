@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 3.0.2
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v3.0.1...13234598efd659882e5a7862c8fe32b1f76828a1))
+
+### Bugs fixed
+
+- Update the method for determining kernel language [#354](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/354) ([@shreve](https://github.com/shreve))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2024-08-07&to=2024-08-14&type=c))
+
+[@shreve](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Ashreve+updated%3A2024-08-07..2024-08-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 3.0.1
 
 ([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v3.0.0...aad4b750c93ac9aa524a1cc18315706c7d464c29))
@@ -24,8 +40,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2024-07-22&to=2024-08-07&type=c))
 
 [@fcollonval](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Afcollonval+updated%3A2024-07-22..2024-08-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Agithub-actions+updated%3A2024-07-22..2024-08-07&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Akrassowski+updated%3A2024-07-22..2024-08-07&type=Issues) | [@panangam](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Apanangam+updated%3A2024-07-22..2024-08-07&type=Issues) | [@shreve](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Ashreve+updated%3A2024-07-22..2024-08-07&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 3.0.0
 
