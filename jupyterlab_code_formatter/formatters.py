@@ -107,7 +107,7 @@ class RunScriptEscaper(BaseLineEscaper):
     unesacpe_start = len(escaped_line_start)
 
     def escape(self, line: str) -> str:
-        if re.match(pattern="run\s+\w+", string=line.lstrip()):
+        if re.match(pattern=r"run\s+\w+", string=line.lstrip()):
             line = f"{self.escaped_line_start}{line}"
         return line
 
