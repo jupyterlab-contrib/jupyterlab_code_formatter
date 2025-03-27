@@ -480,7 +480,7 @@ class RuffFormatFormatter(RuffFixFormatter):
     def label(self) -> str:
         return "Apply ruff formatter"
 
-    ruff_args = ["format", "-q", "-"]
+    ruff_args = ["format", "-"]
 
 
 SERVER_FORMATTERS = {
