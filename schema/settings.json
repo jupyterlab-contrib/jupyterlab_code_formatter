@@ -157,12 +157,12 @@
         }
       },
       "patternProperties": {
-        "^known_[a-z_]+": {
+        "^known_[a-zA-Z_]+": {
           "type": "array",
           "items": { "type": "string" }
         }
       },
-      "additionalProperties": false,
+      "additionalProperties": true,
       "type": "object"
     },
     "yapf": {
