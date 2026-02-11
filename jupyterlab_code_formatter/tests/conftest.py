@@ -27,14 +27,12 @@ def request_format(jp_fetch):  # type: ignore[no-untyped-def]
             "jupyterlab_code_formatter",
             "format",
             method="POST",
-            body=json.dumps(
-                {
-                    "code": code,
-                    "options": options,
-                    "notebook": True,
-                    "formatter": formatter,
-                }
-            ),
+            body=json.dumps({
+                "code": code,
+                "options": options,
+                "notebook": True,
+                "formatter": formatter,
+            }),
             headers=headers,
             **kwargs,
         )

@@ -51,7 +51,7 @@ StandaloneHTMLBuilder.supported_image_types = [
     'image/svg+xml',
     'image/gif',
     'image/png',
-    'image/jpeg'
+    'image/jpeg',
 ]
 
 source_suffix = {

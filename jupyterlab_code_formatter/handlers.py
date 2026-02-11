@@ -13,17 +13,17 @@ class FormattersAPIHandler(APIHandler):
         """Show what formatters are installed and available."""
         use_cache = self.get_query_argument("cached", default=None)
         self.finish(
-            json.dumps(
-                {
-                    "formatters": {
-                        name: {
-                            "enabled": formatter.cached_importable if use_cache else formatter.importable,
-                            "label": formatter.label,
-                        }
-                        for name, formatter in SERVER_FORMATTERS.items()
+            json.dumps({
+                "formatters": {
+                    name: {
+                        "enabled": formatter.cached_importable
+                        if use_cache
+                        else formatter.importable,
+                        "label": formatter.label,
                     }
+                    for name, formatter in SERVER_FORMATTERS.items()
                 }
-            )
+            })
         )
 
 
@@ -35,7 +35,9 @@ class FormatAPIHandler(APIHandler):
         use_cache = self.get_query_argument("cached", default=None)
 
         if formatter_instance is None or not (
-            formatter_instance.cached_importable if use_cache else formatter_instance.importable
+            formatter_instance.cached_importable
+            if use_cache
+            else formatter_instance.importable
         ):
             self.set_status(404, f"Formatter {data['formatter']} not found!")
             self.finish()
@@ -45,7 +47,11 @@ class FormatAPIHandler(APIHandler):
             formatted_code = []
             for code in data["code"]:
                 try:
-                    formatted_code.append({"code": formatter_instance.format_code(code, notebook, **options)})
+                    formatted_code.append({
+                        "code": formatter_instance.format_code(
+                            code, notebook, **options
+                        )
+                    })
                 except Exception as e:
                     formatted_code.append({"error": str(e)})
             self.finish(json.dumps({"code": formatted_code}))

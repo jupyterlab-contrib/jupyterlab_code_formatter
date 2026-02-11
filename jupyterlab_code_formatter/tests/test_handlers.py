@@ -1,6 +1,7 @@
 import json
 import sys
 import typing as t
+
 if sys.version_info >= (3, 8):
     from importlib.metadata import version
 else:
@@ -557,7 +558,9 @@ async def test_can_use_styler6(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
-@pytest.mark.skip(reason="rust toolchain doesn't seem to be picked up here for some reason.")
+@pytest.mark.skip(
+    reason="rust toolchain doesn't seem to be picked up here for some reason."
+)
 async def test_can_rustfmt(request_format):  # type: ignore[no-untyped-def]
     given = """// function to add two numbers
 fn add() {
