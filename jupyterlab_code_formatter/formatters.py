@@ -426,6 +426,10 @@ class StylerFormatter(RFormatter):
         return transformed_options
 
 
+class FormatterError(Exception):
+    pass
+
+
 class CommandLineFormatter(BaseFormatter):
     command: List[str]
 
@@ -451,11 +455,12 @@ class CommandLineFormatter(BaseFormatter):
         )
 
         if process.stderr:
-            logger.info(f"An error with {self.command[0]} has occurred:")
-            logger.info(process.stderr)
-            return code
-        else:
-            return process.stdout
+            msg = f"Error running `{self.command[0]}`:\n{process.stderr}"
+            raise FormatterError(msg)
+        if process.returncode != 0:
+            msg = f"Formatter `{self.command[0]}` exited with status {process.returncode}"
+            raise FormatterError(msg)
+        return process.stdout
 
 
 class RuffFixFormatter(CommandLineFormatter):
