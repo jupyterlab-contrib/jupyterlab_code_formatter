@@ -183,9 +183,9 @@ ESCAPER_CLASSES: List[Type[BaseLineEscaper]] = [
 def handle_line_ending_and_magic(func):
     @wraps(func)
     def wrapped(self, code: str, notebook: bool, **options) -> str:
-        if any(
-            code.startswith(f"%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES
-        ) or any(code.startswith(f"%%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES):
+        if any(code.startswith(f"%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES) or any(
+            code.startswith(f"%%{lang}") for lang in INCOMPATIBLE_MAGIC_LANGUAGES
+        ):
             logger.info("Non compatible magic language cell block detected, ignoring.")
             return code
 
@@ -382,9 +382,7 @@ class FormatRFormatter(RFormatter):
         from rpy2.robjects import conversion, default_converter
 
         with conversion.localconverter(default_converter):
-            format_r = rpackages.importr(
-                self.package_name, robject_translations={".env": "env"}
-            )
+            format_r = rpackages.importr(self.package_name, robject_translations={".env": "env"})
             formatted_code = format_r.tidy_source(text=code, output=False, **options)
             return "\n".join(formatted_code[0])
 
@@ -400,9 +398,7 @@ class StylerFormatter(RFormatter):
 
         with conversion.localconverter(default_converter):
             styler_r = rpackages.importr(self.package_name)
-            formatted_code = styler_r.style_text(
-                code, **self._transform_options(styler_r, options)
-            )
+            formatted_code = styler_r.style_text(code, **self._transform_options(styler_r, options))
             return "\n".join(formatted_code)
 
     @staticmethod
@@ -422,17 +418,17 @@ class StylerFormatter(RFormatter):
 
         if "reindention" in transformed_options:
             if isinstance(options["reindention"], dict):
-                transformed_options["reindention"] = rpy2.robjects.ListVector(
-                    options["reindention"]
-                )
+                transformed_options["reindention"] = rpy2.robjects.ListVector(options["reindention"])
             else:
                 transformed_options["reindention"] = rpy2.robjects.ListVector(
                     getattr(styler_r, options["reindention"])()
                 )
         return transformed_options
 
+
 class FormatterError(Exception):
     pass
+
 
 class CommandLineFormatter(BaseFormatter):
     command: List[str]
@@ -449,9 +445,7 @@ class CommandLineFormatter(BaseFormatter):
         return command_exist(self.command[0])
 
     @handle_line_ending_and_magic
-    def format_code(
-        self, code: str, notebook: bool, args: List[str] = [], **options
-    ) -> str:
+    def format_code(self, code: str, notebook: bool, args: List[str] = [], **options) -> str:
         process = subprocess.run(
             self.command + args,
             input=code,
@@ -461,14 +455,12 @@ class CommandLineFormatter(BaseFormatter):
         )
 
         if process.stderr:
-            raise FormatterError(
-                f"Error running `{self.command[0]}`:\n" + process.stderr
-            )
-        elif process.returncode != 0:
-            raise FormatterError(
-                f"Formatter `{self.command[0]}` exited with status {process.returncode}"
-                + process.stderr
-            )
+            msg = f"Error running `{self.command[0]}`:\n{process.stderr}"
+            raise FormatterError(msg)
+        if process.returncode != 0:
+            msg = f"Formatter `{self.command[0]}` exited with status {process.returncode}"
+            raise FormatterError(msg)
+        return process.stdout
         else:
             return process.stdout
 
