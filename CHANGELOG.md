@@ -2,6 +2,32 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 3.0.3
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v3.0.2...2ba87d6bfcc069a5eacf134aea7184eb5e86db81))
+
+### Maintenance and upkeep improvements
+
+- Update snapshots bot checkout and permission check [#373](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/373) ([@martinRenou](https://github.com/martinRenou), [@krassowski](https://github.com/krassowski))
+
+### Other merged PRs
+
+- Drop `NPM_TOKEN` for trusted publishers setup [#374](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/374) ([@krassowski](https://github.com/krassowski), [@AA-Turner](https://github.com/AA-Turner))
+- feat: improve isort configurability [#370](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/370) ([@lucas-bremond](https://github.com/lucas-bremond), [@AA-Turner](https://github.com/AA-Turner), [@krassowski](https://github.com/krassowski))
+- ruff format: don't pass -q [#368](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/368) ([@nelhage](https://github.com/nelhage), [@AA-Turner](https://github.com/AA-Turner), [@Hnasar](https://github.com/Hnasar), [@krassowski](https://github.com/krassowski))
+- Fix SyntaxWarning by using a raw string in the regex pattern [#366](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/pull/366) ([@tsvikas](https://github.com/tsvikas), [@krassowski](https://github.com/krassowski), [@shreve](https://github.com/shreve))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2024-08-14&to=2026-02-11&type=c))
+
+@AA-Turner ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3AAA-Turner+updated%3A2024-08-14..2026-02-11&type=Issues)) | @Hnasar ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3AHnasar+updated%3A2024-08-14..2026-02-11&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Akrassowski+updated%3A2024-08-14..2026-02-11&type=Issues)) | @lucas-bremond ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Alucas-bremond+updated%3A2024-08-14..2026-02-11&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3AmartinRenou+updated%3A2024-08-14..2026-02-11&type=Issues)) | @nelhage ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Anelhage+updated%3A2024-08-14..2026-02-11&type=Issues)) | @shreve ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Ashreve+updated%3A2024-08-14..2026-02-11&type=Issues)) | @tsvikas ([activity](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Atsvikas+updated%3A2024-08-14..2026-02-11&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 3.0.2
 
 ([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/compare/v3.0.1...13234598efd659882e5a7862c8fe32b1f76828a1))
@@ -15,8 +41,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/graphs/contributors?from=2024-08-07&to=2024-08-14&type=c))
 
 [@shreve](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab_code_formatter+involves%3Ashreve+updated%3A2024-08-07..2024-08-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 3.0.1
 
