@@ -446,20 +446,19 @@ class CommandLineFormatter(BaseFormatter):
 
     @handle_line_ending_and_magic
     def format_code(self, code: str, notebook: bool, args: List[str] = [], **options) -> str:
-        process = subprocess.run(
-            self.command + args,
-            input=code,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
-        )
+        try:
+            process = subprocess.run(
+                self.command + args,
+                input=code,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                check=True,
+            )
+        except subprocess.CalledProcessError as err:
+            msg = f"Formatter `{self.command[0]}` exited with status {err.returncode}"
+            raise FormatterError(msg) from err
 
-        if process.stderr:
-            msg = f"Error running `{self.command[0]}`:\n{process.stderr}"
-            raise FormatterError(msg)
-        if process.returncode != 0:
-            msg = f"Formatter `{self.command[0]}` exited with status {process.returncode}"
-            raise FormatterError(msg)
         return process.stdout
 
 
