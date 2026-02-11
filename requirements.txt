@@ -12,7 +12,7 @@ fastjsonschema==2.16.3
 fqdn==1.5.1
 idna==3.4
 isoduration==20.11.0
-Jinja2==3.1.2
+Jinja2==3.1.6
 jsonpointer==2.3
 jsonschema==4.17.3
 jupyter-events==0.6.3
