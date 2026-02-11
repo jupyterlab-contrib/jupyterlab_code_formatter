@@ -12,6 +12,14 @@ from tornado.httpclient import HTTPResponse
 
 from jupyterlab_code_formatter.formatters import SERVER_FORMATTERS
 
+try:
+    import rpy2
+except ImportError:
+    MISSING_RPY2 = True
+else:
+    MISSING_RPY2 = False
+skip_if_missing_rpy2 = pytest.mark.skipif(MISSING_RPY2, reason='missing rpy2')
+
 
 def _generate_list_formaters_entry_json_schema(
     formatter_name: str,
@@ -405,6 +413,7 @@ wat??"""
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler(request_format):  # type: ignore[no-untyped-def]
     given = "a = 3; 2"
     expected = "a <- 3\n2"
@@ -422,6 +431,7 @@ async def test_can_use_styler(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler2(request_format):  # type: ignore[no-untyped-def]
     given = """data_frame(
      small  = 2 ,
@@ -447,6 +457,7 @@ async def test_can_use_styler2(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler3(request_format):  # type: ignore[no-untyped-def]
     given = "1++1/2*2^2"
     expected = "1 + +1/2*2^2"
@@ -469,6 +480,7 @@ async def test_can_use_styler3(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler4(request_format):  # type: ignore[no-untyped-def]
     given = """a <- function() {
     ### not to be indented
@@ -500,6 +512,7 @@ async def test_can_use_styler4(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler5(request_format):  # type: ignore[no-untyped-def]
     given = """call(
 #          SHOULD BE ONE SPACE BEFORE
@@ -523,6 +536,7 @@ async def test_can_use_styler5(request_format):  # type: ignore[no-untyped-def]
     assert json_result["code"][0]["code"] == expected
 
 
+@skip_if_missing_rpy2
 async def test_can_use_styler6(request_format):  # type: ignore[no-untyped-def]
     given = "1+1-3"
     expected = "1 + 1 - 3"
