@@ -461,8 +461,6 @@ class CommandLineFormatter(BaseFormatter):
             msg = f"Formatter `{self.command[0]}` exited with status {process.returncode}"
             raise FormatterError(msg)
         return process.stdout
-        else:
-            return process.stdout
 
 
 class RuffFixFormatter(CommandLineFormatter):
