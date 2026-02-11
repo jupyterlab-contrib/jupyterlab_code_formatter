@@ -6,13 +6,12 @@ The extension can be published to `PyPI` and `npm` manually or using the [Jupyte
 
 ### Python package
 
-This extension can be distributed as Python
-packages. All of the Python
-packaging instructions in the `pyproject.toml` file to wrap your extension in a
-Python package. Before generating a package, we first need to install `build`.
+This extension can be distributed as Python packages. All of the Python
+packaging instructions are in the `pyproject.toml` file to wrap your extension in a
+Python package. Before generating a package, you first need to install some tools:
 
 ```bash
-pip install build twine hatch hatch-pip-deepfreeze
+pip install build twine hatch
 ```
 
 Bump the version using `hatch`. By default this will create a tag.
@@ -22,11 +21,25 @@ See the docs on [hatch-nodejs-version](https://github.com/agoose77/hatch-nodejs-
 hatch version <new-version>
 ```
 
+Make sure to clean up all the development files before building the package:
+
+```bash
+jlpm clean:all
+```
+
+You could also clean up the local git repository:
+
+```bash
+git clean -dfX
+```
+
 To create a Python source package (`.tar.gz`) and the binary package (`.whl`) in the `dist/` directory, do:
 
 ```bash
-./scripts/build.sh
+python -m build
 ```
+
+> `python setup.py sdist bdist_wheel` is deprecated and will not work for this package.
 
 Then to upload the package to PyPI, do:
 
@@ -45,19 +58,20 @@ npm publish --access public
 
 ## Automated releases with the Jupyter Releaser
 
-The extension repository should already be compatible with the Jupyter Releaser.
-
-Check out the [workflow documentation](https://github.com/jupyter-server/jupyter_releaser#typical-workflow) for more information.
+The extension repository should already be compatible with the Jupyter Releaser. But
+the GitHub repository and the package managers need to be properly set up. Please
+follow the instructions of the Jupyter Releaser [checklist](https://jupyter-releaser.readthedocs.io/en/latest/how_to_guides/convert_repo_from_repo.html).
 
 Here is a summary of the steps to cut a new release:
 
-- Fork the [`jupyter-releaser` repo](https://github.com/jupyter-server/jupyter_releaser)
-- Add `ADMIN_GITHUB_TOKEN`, `PYPI_TOKEN` and `NPM_TOKEN` to the Github Secrets in the fork
 - Go to the Actions panel
-- Run the "Draft Changelog" workflow
-- Merge the Changelog PR
-- Run the "Draft Release" workflow
-- Run the "Publish Release" workflow
+- Run the "Step 1: Prep Release" workflow
+- Check the draft changelog
+- Run the "Step 2: Publish Release" workflow
+
+> [!NOTE]
+> Check out the [workflow documentation](https://jupyter-releaser.readthedocs.io/en/latest/get_started/making_release_from_repo.html)
+> for more information.
 
 ## Publishing to `conda-forge`
 

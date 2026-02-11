@@ -19,6 +19,9 @@ ui-tests/playwright-report/
 # Edit at https://www.gitignore.io/?templates=python
 
 ### Python ###
+# Virtual environments
+.venv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -122,4 +125,6 @@ dmypy.json
 .DS_Store
 
 .idea/
+
+# Yarn cache
 .yarn/

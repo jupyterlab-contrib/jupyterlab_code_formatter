@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2"]
 build-backend = "hatchling.build"
 
 [project]
@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "jupyter_server>=1.21,<3",
+    "jupyter_server>=2.4.0,<3",
     "packaging",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
@@ -37,7 +37,7 @@ dev = [
     "yapf",
     "rpy2",
     "autopep8",
-    "jupyterlab>=3.0.0",
+    "jupyterlab>=4",
     "click==8.0.2",
 
 ]
@@ -60,7 +60,7 @@ test = [
 source = "nodejs"
 
 [tool.hatch.metadata.hooks.nodejs]
-fields = ["description", "authors", "urls"]
+fields = ["description", "authors", "urls", "keywords"]
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_code_formatter/labextension"]
@@ -70,7 +70,6 @@ exclude = [".github", "binder"]
 "jupyterlab_code_formatter/labextension" = "share/jupyter/labextensions/jupyterlab_code_formatter"
 "install.json" = "share/jupyter/labextensions/jupyterlab_code_formatter/install.json"
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
-"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
 
 [tool.hatch.build.hooks.version]
 path = "jupyterlab_code_formatter/_version.py"
