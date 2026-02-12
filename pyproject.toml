@@ -30,30 +30,35 @@ dynamic = ["version", "description", "authors", "urls", "keywords"]
 
 [project.optional-dependencies]
 dev = [
+    "autopep8",
     "black==22.1.0",
     "blue==0.9.1",
-    "ruff",
-    "isort",
-    "yapf",
-    "rpy2",
-    "autopep8",
-    "jupyterlab>=4",
     "click==8.0.2",
-
+    "isort",
+    "jupyterlab>=4",
+    "rpy2",
+    "ruff",
+    "yapf",
 ]
 test = [
+    "black==22.1.0",
+    "blue==0.9.1",
     "coverage",
+    "isort",
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
     "pytest-jupyter[server]>=0.6.0",
-    "black==22.1.0",
-    "blue==0.9.1",
-    "isort",
-    "yapf",
     "rpy2",
-    "importlib_metadata; python_version<'3.8'",
     "ruff",
+    "yapf",
+]
+docs = [
+    "furo>=2025",
+    "myst-parser>=1",
+    "sphinx>=5.3",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-inline-tabs>=2021.3.28b7",
 ]
 
 [tool.hatch.version]
