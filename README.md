@@ -47,6 +47,28 @@ To configure which/how formatters are invoked, see [configuration](https://jupyt
 
 ---
 
+## Troubleshoot
+
+This extension is composed of a Python package named `jupyterlab_code_formatter`
+for the server extension and a NPM package named `jupyterlab-code-formatter`
+for the frontend extension.
+
+If you are seeing the frontend extension, but it is not working, check
+that the server extension is enabled:
+
+```bash
+jupyter server extension list
+```
+
+If the server extension is installed and enabled, but you are not seeing
+the frontend extension, check the frontend extension is installed:
+
+```bash
+jupyter labextension list
+```
+
+---
+
 ## Getting help
 
 If you don't use Discord then feel free to open a [GitHub issue](https://github.com/jupyterlab-contrib/jupyterlab_code_formatter/issues), do note I am a bit slower in responding in GitHub.

@@ -26,9 +26,10 @@ import { Constants } from './constants';
 import { LabIcon } from '@jupyterlab/ui-components';
 import { Widget } from '@lumino/widgets';
 
-class JupyterLabCodeFormatter
-  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
-{
+class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
+  NotebookPanel,
+  INotebookModel
+> {
   private app: JupyterFrontEnd;
   private readonly tracker: INotebookTracker;
   private palette: ICommandPalette;
