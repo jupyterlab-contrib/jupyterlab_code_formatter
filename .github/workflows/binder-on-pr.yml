@@ -1,4 +1,10 @@
 name: Binder Badge
+
+#####
+# This workflow is triggered by pull_request_target event.
+# Never checkout the PR and run ANY local code on it.
+#####
+
 on:
   pull_request_target:
     types: [opened]
@@ -9,6 +15,6 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/binder-link@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/binder-link@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
