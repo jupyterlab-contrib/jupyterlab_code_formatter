@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       with:
         persist-credentials: false
 
@@ -31,12 +31,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       with:
         persist-credentials: false
 
     - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v0.34.2
 
     - name: Install dependencies
       run: python -m pip install -U "jupyterlab>=4.0.0,<5"
@@ -126,12 +126,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       with:
         persist-credentials: false
 
     - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v0.34.2
 
     - name: Download extension package
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -183,8 +183,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
-      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v0.34.2
+      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@b48fcdb87e70c45789abd80d4042b06641e47b46 # v0.34.2
