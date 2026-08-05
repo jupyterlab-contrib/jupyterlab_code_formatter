@@ -63,7 +63,7 @@ docs = [
 
 [dependency-groups]
 ui-tests = [
-    "black",
+    "black==22.1.0",
     "isort",
 ]
 
