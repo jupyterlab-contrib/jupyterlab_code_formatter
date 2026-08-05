@@ -141,7 +141,8 @@ jobs:
     - name: Install the extension
       run: |
         set -eux
-        python -m pip install "jupyterlab>=4.0.0,<5" jupyterlab_code_formatter*.whl
+        python -m pip install --upgrade pip
+        python -m pip install --group ui-tests "jupyterlab>=4.0.0,<5" jupyterlab_code_formatter*.whl
 
     - name: Install dependencies
       working-directory: ui-tests

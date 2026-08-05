@@ -61,6 +61,12 @@ docs = [
     "sphinx-inline-tabs>=2021.3.28b7",
 ]
 
+[dependency-groups]
+ui-tests = [
+    "black",
+    "isort",
+]
+
 [tool.hatch.version]
 source = "nodejs"
 

@@ -1,13 +1,45 @@
 import { Cell, CodeCell } from '@jupyterlab/cells';
-import { INotebookTracker, Notebook } from '@jupyterlab/notebook';
+import {
+  INotebookTracker,
+  Notebook,
+  NotebookPanel
+} from '@jupyterlab/notebook';
 import JupyterlabCodeFormatterClient from './client';
-import { IEditorTracker } from '@jupyterlab/fileeditor';
+import { FileEditor, IEditorTracker } from '@jupyterlab/fileeditor';
+import { IDocumentWidget } from '@jupyterlab/docregistry';
 import { Widget } from '@lumino/widgets';
-import { showErrorMessage, Dialog, showDialog } from '@jupyterlab/apputils';
+import { Dialog, showDialog, showErrorMessage } from '@jupyterlab/apputils';
+import {
+  IConfig,
+  IFormatOptions,
+  IFormatResult,
+  IFormatterError
+} from './tokens';
 
-type Context = {
-  saving: boolean;
-};
+/**
+ * A notebook to format: either a widget, or the path of an open notebook.
+ */
+export type NotebookTarget = NotebookPanel | Notebook | string;
+
+/**
+ * A file to format: either a file editor widget, or the path of an open file.
+ */
+export type EditorTarget = IDocumentWidget<FileEditor> | string;
+
+/**
+ * The pseudo-formatters which indicate that no formatting should be performed.
+ */
+const NOOP_FORMATTERS = ['noop', 'skip'];
+
+/**
+ * The error raised when a formatting operation is requested while another one
+ * is still in progress.
+ */
+export class FormattingInProgressError extends Error {
+  constructor() {
+    super('A formatting operation is already in progress');
+  }
+}
 
 class JupyterlabCodeFormatter {
   working = false;
@@ -19,7 +51,7 @@ class JupyterlabCodeFormatter {
   protected formatCode(
     code: string[],
     formatter: string,
-    options: any,
+    options: unknown,
     notebook: boolean,
     cache: boolean
   ) {
@@ -36,6 +68,57 @@ class JupyterlabCodeFormatter {
       )
       .then(resp => JSON.parse(resp));
   }
+
+  /**
+   * Whether the errors raised by formatters should be shown to the user.
+   */
+  protected shouldShowErrors(options: IFormatOptions): boolean {
+    if (options.showDialogs !== undefined) {
+      return options.showDialogs;
+    }
+    const config = options.config;
+    return (
+      !config.suppressFormatterErrors &&
+      !(config.suppressFormatterErrorsIFFAutoFormatOnSave && options.saving)
+    );
+  }
+
+  /**
+   * Get the formatters to use, raising if there is no formatter to use at all.
+   *
+   * The `noop` and `skip` pseudo-formatters are filtered out.
+   */
+  protected getFormattersToUse(
+    options: IFormatOptions,
+    language: string | null | undefined
+  ): string[] {
+    const formatters =
+      options.formatter !== undefined
+        ? [options.formatter]
+        : this.getDefaultFormatters(options.config, language);
+    if (formatters.length === 0) {
+      throw new Error(
+        'Unable to find default formatters to use, please file an issue on GitHub.'
+      );
+    }
+    return formatters.filter(formatter => !NOOP_FORMATTERS.includes(formatter));
+  }
+
+  /**
+   * Get the formatters configured as default for a given language.
+   */
+  private getDefaultFormatters(
+    config: IConfig,
+    language: string | null | undefined
+  ): string[] {
+    const defaultFormatter = language
+      ? config.preferences?.default_formatter?.[language]
+      : undefined;
+    if (defaultFormatter instanceof Array) {
+      return defaultFormatter;
+    }
+    return defaultFormatter !== undefined ? [defaultFormatter] : [];
+  }
 }
 
 export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
@@ -49,42 +132,72 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     this.notebookTracker = notebookTracker;
   }
 
-  public async formatAction(config: any, formatter?: string) {
-    return this.formatCells(true, config, { saving: false }, formatter);
+  /**
+   * Format all the code cells of a notebook.
+   */
+  public async formatAllCodeCells(
+    options: JupyterlabNotebookCodeFormatter.IOptions
+  ): Promise<IFormatResult> {
+    return this.formatCells(false, options);
   }
 
+  /**
+   * Format the selected (or active) code cells of a notebook.
+   */
   public async formatSelectedCodeCells(
-    config: any,
-    formatter?: string,
-    notebook?: Notebook
-  ) {
-    return this.formatCells(
-      true,
-      config,
-      { saving: false },
-      formatter,
-      notebook
+    options: JupyterlabNotebookCodeFormatter.IOptions
+  ): Promise<IFormatResult> {
+    return this.formatCells(true, options);
+  }
+
+  /**
+   * Find the panel of the open notebook with a given path, if any.
+   */
+  public findPanel(path: string): NotebookPanel | null {
+    return (
+      this.notebookTracker.find(panel => panel.context.path === path) ?? null
     );
   }
 
-  public async formatAllCodeCells(
-    config: any,
-    context: Context,
-    formatter?: string,
-    notebook?: Notebook
-  ) {
-    return this.formatCells(false, config, context, formatter, notebook);
+  /**
+   * Resolve the notebook panel to format, raising if it cannot be found.
+   */
+  private resolvePanel(target?: NotebookTarget): NotebookPanel {
+    if (typeof target === 'string') {
+      const panel = this.findPanel(target);
+      if (!panel) {
+        throw new Error(`Could not find an open notebook with path: ${target}`);
+      }
+      return panel;
+    }
+    if (target instanceof NotebookPanel) {
+      return target;
+    }
+    if (target) {
+      // A `Notebook` was given, kept for backward compatibility.
+      const panel =
+        this.notebookTracker.find(candidate => candidate.content === target) ??
+        null;
+      if (!panel) {
+        throw new Error('Could not find the panel of the given notebook');
+      }
+      return panel;
+    }
+    const panel = this.notebookTracker.currentWidget;
+    if (!panel) {
+      throw new Error(
+        'There is no active notebook; please pass a `path` of an open notebook'
+      );
+    }
+    return panel;
   }
 
-  private getCodeCells(selectedOnly = true, notebook?: Notebook): CodeCell[] {
-    if (!this.notebookTracker.currentWidget) {
-      return [];
-    }
+  private getCodeCells(panel: NotebookPanel, selectedOnly = true): CodeCell[] {
     const codeCells: CodeCell[] = [];
-    notebook = notebook || this.notebookTracker.currentWidget.content;
+    const notebook = panel.content;
     notebook.widgets.forEach((cell: Cell) => {
       if (cell.model.type === 'code') {
-        if (!selectedOnly || (<Notebook>notebook).isSelectedOrActive(cell)) {
+        if (!selectedOnly || notebook.isSelectedOrActive(cell)) {
           codeCells.push(cell as CodeCell);
         }
       }
@@ -92,15 +205,9 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return codeCells;
   }
 
-  private getNotebookType(): string | null {
-    // If there is no current notebook, there is nothing to do
-    if (!this.notebookTracker.currentWidget) {
-      return null;
-    }
-
+  private getNotebookType(panel: NotebookPanel): string | null {
     // first, check the notebook's metadata for language info
-    const metadata =
-      this.notebookTracker.currentWidget.content.model?.sharedModel?.metadata;
+    const metadata = panel.content.model?.sharedModel?.metadata;
 
     if (metadata) {
       // prefer kernelspec language
@@ -124,7 +231,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     }
 
     // in the absence of metadata, look in the current session's kernel spec
-    const sessionContext = this.notebookTracker.currentWidget.sessionContext;
+    const sessionContext = panel.sessionContext;
     const kernelName = sessionContext?.session?.kernel?.name;
     if (kernelName) {
       const specs = sessionContext.specsManager.specs?.kernelspecs;
@@ -136,45 +243,17 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
     return null;
   }
 
-  private getDefaultFormatters(config: any): Array<string> {
-    const notebookType = this.getNotebookType();
-    if (notebookType) {
-      const defaultFormatter =
-        config.preferences.default_formatter[notebookType];
-      if (defaultFormatter instanceof Array) {
-        return defaultFormatter;
-      } else if (defaultFormatter !== undefined) {
-        return [defaultFormatter];
-      }
-    }
-    return [];
-  }
-
-  private async getFormattersToUse(config: any, formatter?: string) {
-    const defaultFormatters = this.getDefaultFormatters(config);
-    const formattersToUse =
-      formatter !== undefined ? [formatter] : defaultFormatters;
-
-    if (formattersToUse.length === 0) {
-      await showErrorMessage(
-        'Jupyterlab Code Formatter Error',
-        'Unable to find default formatters to use, please file an issue on GitHub.'
-      );
-    }
-
-    return formattersToUse;
-  }
-
   private async applyFormatters(
+    panel: NotebookPanel,
     selectedCells: CodeCell[],
     formattersToUse: string[],
-    config: any,
-    context: Context
-  ) {
+    options: JupyterlabNotebookCodeFormatter.IOptions
+  ): Promise<IFormatterError[]> {
+    const errors: IFormatterError[] = [];
+    const config = options.config;
+    const showErrors = this.shouldShowErrors(options);
+
     for (const formatterToUse of formattersToUse) {
-      if (formatterToUse === 'noop' || formatterToUse === 'skip') {
-        continue;
-      }
       const currentTexts = selectedCells.map(
         cell => cell.model.sharedModel.source
       );
@@ -185,17 +264,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
         true,
         config.cacheFormatters
       );
-      console.log(
-        config.suppressFormatterErrorsIFFAutoFormatOnSave,
-        context.saving
-      );
 
-      const showErrors =
-        !(config.suppressFormatterErrors ?? false) &&
-        !(
-          (config.suppressFormatterErrorsIFFAutoFormatOnSave ?? false) &&
-          context.saving
-        );
       for (let i = 0; i < selectedCells.length; ++i) {
         const cell = selectedCells[i];
         const currentText = currentTexts[i];
@@ -204,6 +273,11 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
           cell.model.sharedModel.source === currentText;
         if (cellValueHasNotChanged) {
           if (formattedText.error) {
+            errors.push({
+              index: i,
+              formatter: formatterToUse,
+              error: formattedText.error
+            });
             if (showErrors) {
               const result = await showDialog({
                 title: 'Jupyterlab Code Formatter Error',
@@ -217,7 +291,7 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
                 ]
               });
               if (result.button.actions.indexOf('revealError') !== -1) {
-                this.notebookTracker.currentWidget!.content.scrollToCell(cell);
+                panel.content.scrollToCell(cell);
                 break;
               }
             }
@@ -225,52 +299,81 @@ export class JupyterlabNotebookCodeFormatter extends JupyterlabCodeFormatter {
             cell.model.sharedModel.source = formattedText.code;
           }
         } else {
+          const error = `Cell value changed since format request was sent, formatting for cell ${i} skipped.`;
+          errors.push({ index: i, formatter: formatterToUse, error });
           if (showErrors) {
-            await showErrorMessage(
-              'Jupyterlab Code Formatter Error',
-              `Cell value changed since format request was sent, formatting for cell ${i} skipped.`
-            );
+            await showErrorMessage('Jupyterlab Code Formatter Error', error);
           }
         }
       }
     }
+    return errors;
   }
 
   private async formatCells(
     selectedOnly: boolean,
-    config: any,
-    context: Context,
-    formatter?: string,
-    notebook?: Notebook
-  ) {
+    options: JupyterlabNotebookCodeFormatter.IOptions
+  ): Promise<IFormatResult> {
     if (this.working) {
-      return;
+      throw new FormattingInProgressError();
     }
+    const panel = this.resolvePanel(options.target);
     try {
       this.working = true;
-      const selectedCells = this.getCodeCells(selectedOnly, notebook);
+      const selectedCells = this.getCodeCells(panel, selectedOnly);
       if (selectedCells.length === 0) {
-        this.working = false;
-        return;
+        return {
+          path: panel.context.path,
+          formatters: [],
+          considered: 0,
+          changed: 0,
+          errors: []
+        };
       }
 
-      const formattersToUse = await this.getFormattersToUse(config, formatter);
-      await this.applyFormatters(
+      const formattersToUse = this.getFormattersToUse(
+        options,
+        this.getNotebookType(panel)
+      );
+      const originalTexts = selectedCells.map(
+        cell => cell.model.sharedModel.source
+      );
+      const errors = await this.applyFormatters(
+        panel,
         selectedCells,
         formattersToUse,
-        config,
-        context
+        options
       );
-    } catch (error) {
-      await showErrorMessage('Jupyterlab Code Formatter Error', `${error}`);
+      return {
+        path: panel.context.path,
+        formatters: formattersToUse,
+        considered: selectedCells.length,
+        changed: selectedCells.filter(
+          (cell, i) => cell.model.sharedModel.source !== originalTexts[i]
+        ).length,
+        errors
+      };
+    } finally {
+      this.working = false;
     }
-    this.working = false;
   }
 
   applicable(formatter: string, currentWidget: Widget) {
     const currentNotebookWidget = this.notebookTracker.currentWidget;
     // TODO: Handle showing just the correct formatter for the language later
     return currentNotebookWidget && currentWidget === currentNotebookWidget;
+  }
+}
+
+export namespace JupyterlabNotebookCodeFormatter {
+  /**
+   * The options of a notebook formatting operation.
+   */
+  export interface IOptions extends IFormatOptions {
+    /**
+     * The notebook to format; when not given, the active notebook is used.
+     */
+    target?: NotebookTarget;
   }
 }
 
@@ -285,32 +388,75 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     this.editorTracker = editorTracker;
   }
 
-  formatAction(config: any, formatter: string) {
-    return this.formatEditor(config, { saving: false }, formatter);
-  }
-
-  public async formatEditor(config: any, context: Context, formatter?: string) {
+  /**
+   * Format the content of a file editor.
+   */
+  public async formatEditor(
+    options: JupyterlabFileEditorCodeFormatter.IOptions
+  ): Promise<IFormatResult> {
     if (this.working) {
-      return;
+      throw new FormattingInProgressError();
     }
+    const widget = this.resolveWidget(options.target);
     try {
       this.working = true;
-
-      const formattersToUse = await this.getFormattersToUse(config, formatter);
-      await this.applyFormatters(formattersToUse, config, context);
-    } catch (error) {
-      const msg = error instanceof Error ? error : `${error}`;
-      await showErrorMessage('Jupyterlab Code Formatter Error', msg);
+      const formattersToUse = this.getFormattersToUse(
+        options,
+        this.getEditorType(widget)
+      );
+      const sharedModel = widget.content.editor.model.sharedModel;
+      const originalText = sharedModel.source;
+      const errors = await this.applyFormatters(
+        widget,
+        formattersToUse,
+        options
+      );
+      return {
+        path: widget.context.path,
+        formatters: formattersToUse,
+        considered: 1,
+        changed: sharedModel.source !== originalText ? 1 : 0,
+        errors
+      };
+    } finally {
+      this.working = false;
     }
-    this.working = false;
   }
 
-  private getEditorType() {
-    if (!this.editorTracker.currentWidget) {
-      return null;
-    }
+  /**
+   * Find the widget of the open file with a given path, if any.
+   */
+  public findWidget(path: string): IDocumentWidget<FileEditor> | null {
+    return (
+      this.editorTracker.find(widget => widget.context.path === path) ?? null
+    );
+  }
 
-    const mimeType = this.editorTracker.currentWidget.content.model!.mimeType;
+  /**
+   * Resolve the file editor widget to format, raising if it cannot be found.
+   */
+  private resolveWidget(target?: EditorTarget): IDocumentWidget<FileEditor> {
+    if (typeof target === 'string') {
+      const widget = this.findWidget(target);
+      if (!widget) {
+        throw new Error(`Could not find an open file with path: ${target}`);
+      }
+      return widget;
+    }
+    if (target) {
+      return target;
+    }
+    const widget = this.editorTracker.currentWidget;
+    if (!widget) {
+      throw new Error(
+        'There is no active file editor; please pass a `path` of an open file'
+      );
+    }
+    return widget;
+  }
+
+  private getEditorType(widget: IDocumentWidget<FileEditor>) {
+    const mimeType = widget.content.model.mimeType;
 
     const mimeTypes = new Map([
       ['text/x-python', 'python'],
@@ -324,86 +470,59 @@ export class JupyterlabFileEditorCodeFormatter extends JupyterlabCodeFormatter {
     return mimeTypes.get(mimeType);
   }
 
-  private getDefaultFormatters(config: any): Array<string> {
-    const editorType = this.getEditorType();
-    if (editorType) {
-      const defaultFormatter = config.preferences.default_formatter[editorType];
-      if (defaultFormatter instanceof Array) {
-        return defaultFormatter;
-      } else if (defaultFormatter !== undefined) {
-        return [defaultFormatter];
-      }
-    }
-    return [];
-  }
-
-  private async getFormattersToUse(config: any, formatter?: string) {
-    const defaultFormatters = this.getDefaultFormatters(config);
-    const formattersToUse =
-      formatter !== undefined ? [formatter] : defaultFormatters;
-
-    if (formattersToUse.length === 0) {
-      await showErrorMessage(
-        'Jupyterlab Code Formatter Error',
-        'Unable to find default formatters to use, please file an issue on GitHub.'
-      );
-    }
-
-    return formattersToUse;
-  }
-
   private async applyFormatters(
+    widget: IDocumentWidget<FileEditor>,
     formattersToUse: string[],
-    config: any,
-    context: Context
-  ) {
-    for (const formatterToUse of formattersToUse) {
-      if (formatterToUse === 'noop' || formatterToUse === 'skip') {
-        continue;
-      }
-      const showErrors =
-        !(config.suppressFormatterErrors ?? false) &&
-        !(
-          (config.suppressFormatterErrorsIFFAutoFormatOnSave ?? false) &&
-          context.saving
-        );
+    options: JupyterlabFileEditorCodeFormatter.IOptions
+  ): Promise<IFormatterError[]> {
+    const errors: IFormatterError[] = [];
+    const config = options.config;
+    const showErrors = this.shouldShowErrors(options);
 
-      const editorWidget = this.editorTracker.currentWidget;
-      this.working = true;
-      const editor = editorWidget!.content.editor;
-      const code = editor.model.sharedModel.source;
-      this.formatCode(
-        [code],
+    for (const formatterToUse of formattersToUse) {
+      const sharedModel = widget.content.editor.model.sharedModel;
+      const data = await this.formatCode(
+        [sharedModel.source],
         formatterToUse,
         config[formatterToUse],
         false,
         config.cacheFormatters
-      )
-        .then(data => {
-          if (data.code[0].error) {
-            if (showErrors) {
-              void showErrorMessage(
-                'Jupyterlab Code Formatter Error',
-                data.code[0].error
-              );
-            }
-            this.working = false;
-            return;
-          }
-          this.editorTracker.currentWidget!.content.editor.model.sharedModel.source =
-            data.code[0].code;
-          this.working = false;
-        })
-        .catch(error => {
-          const msg = error instanceof Error ? error : `${error}`;
-          void showErrorMessage('Jupyterlab Code Formatter Error', msg);
+      );
+      const formattedText = data.code[0];
+      if (formattedText.error) {
+        errors.push({
+          index: 0,
+          formatter: formatterToUse,
+          error: formattedText.error
         });
+        if (showErrors) {
+          await showErrorMessage(
+            'Jupyterlab Code Formatter Error',
+            formattedText.error
+          );
+        }
+        continue;
+      }
+      sharedModel.source = formattedText.code;
     }
+    return errors;
   }
 
   applicable(formatter: string, currentWidget: Widget) {
     const currentEditorWidget = this.editorTracker.currentWidget;
     // TODO: Handle showing just the correct formatter for the language later
     return currentEditorWidget && currentWidget === currentEditorWidget;
+  }
+}
+
+export namespace JupyterlabFileEditorCodeFormatter {
+  /**
+   * The options of a file editor formatting operation.
+   */
+  export interface IOptions extends IFormatOptions {
+    /**
+     * The file to format; when not given, the active file editor is used.
+     */
+    target?: EditorTarget;
   }
 }
