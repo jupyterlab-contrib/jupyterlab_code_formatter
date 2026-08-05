@@ -217,6 +217,16 @@ test.describe('Commands', () => {
     await page.locator('.jp-Dialog .jp-Dialog-button').click();
   });
 
+  test('commands reject invalid arguments', async ({ page }) => {
+    for (const args of [{ path: null }, { path: 1 }, { showDialogs: 'yes' }]) {
+      await expect(
+        executeCommand(page, 'jupyterlab_code_formatter:format_all', args)
+      ).rejects.toThrow(/argument has to be a/);
+    }
+    // invalid arguments are a programming error: they are not shown in a dialog
+    expect(await page.locator('.jp-Dialog').count()).toBe(0);
+  });
+
   test('`showDialogs: false` returns the formatter errors instead of showing them', async ({
     page,
     tmpPath

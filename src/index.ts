@@ -364,9 +364,12 @@ namespace Private {
     type: 'string' | 'boolean'
   ): T | undefined => {
     const value = args[name];
-    if (value === undefined || value === null) {
+    if (value === undefined) {
       return undefined;
     }
+    // `null` is rejected too: it is not allowed by `FORMAT_ARGUMENTS_SCHEMA`,
+    // and silently formatting the active document instead of the intended one
+    // would be worse than telling the caller about it.
     if (typeof value !== type) {
       throw new Error(`The \`${name}\` argument has to be a ${type}`);
     }
