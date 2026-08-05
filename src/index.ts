@@ -95,10 +95,15 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
         svgstr: Constants.ICON_FORMAT_ALL_SVG
       }),
       onClick: async () => {
-        // Errors are reported to the user by the command itself.
-        await this.app.commands
-          .execute(Constants.FORMAT_ALL_COMMAND, { path: nb.context.path })
-          .catch(() => undefined);
+        // Errors are reported to the user by `_runFormatting`.
+        await this._runFormatting(() =>
+          this.notebookCodeFormatter.formatAllCodeCells(
+            this.config,
+            { saving: false },
+            undefined,
+            nb
+          )
+        ).catch(() => undefined);
       }
     });
     nb.toolbar.insertAfter(
@@ -120,12 +125,13 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
   ) {
     if (state === 'started' && this.config.formatOnSave) {
       await context.sessionContext.ready;
-      await this.runFormatting(() =>
-        this.notebookCodeFormatter.formatAllCodeCells({
-          config: this.config,
-          target: context.path,
-          saving: true
-        })
+      await this._runFormatting(() =>
+        this.notebookCodeFormatter.formatAllCodeCells(
+          this.config,
+          { saving: true },
+          undefined,
+          context.path
+        )
       ).catch(() => undefined);
     }
   }
@@ -145,12 +151,13 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
     state: DocumentRegistry.SaveState
   ) {
     if (state === 'started' && this.config.formatOnSave) {
-      await this.runFormatting(() =>
-        this.fileEditorCodeFormatter.formatEditor({
-          config: this.config,
-          target: context.path,
-          saving: true
-        })
+      await this._runFormatting(() =>
+        this.fileEditorCodeFormatter.formatEditor(
+          this.config,
+          { saving: true },
+          undefined,
+          context.path
+        )
       ).catch(() => undefined);
     }
   }
@@ -193,13 +200,14 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
     this.app.commands.addCommand(Constants.FORMAT_COMMAND, {
       execute: args => {
         const { path, showDialogs } = Private.getArguments(args);
-        return this.runFormatting(
+        return this._runFormatting(
           () =>
-            this.notebookCodeFormatter.formatSelectedCodeCells({
-              config: this.config,
-              target: path,
-              showDialogs
-            }),
+            this.notebookCodeFormatter.formatSelectedCodeCells(
+              this.config,
+              undefined,
+              path,
+              { showDialogs }
+            ),
           showDialogs
         );
       },
@@ -210,13 +218,15 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
     this.app.commands.addCommand(Constants.FORMAT_ALL_COMMAND, {
       execute: args => {
         const { path, showDialogs } = Private.getArguments(args);
-        return this.runFormatting(
+        return this._runFormatting(
           () =>
-            this.notebookCodeFormatter.formatAllCodeCells({
-              config: this.config,
-              target: path,
-              showDialogs
-            }),
+            this.notebookCodeFormatter.formatAllCodeCells(
+              this.config,
+              { saving: false },
+              undefined,
+              path,
+              { showDialogs }
+            ),
           showDialogs
         );
       },
@@ -242,8 +252,8 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
     this.app.commands.addCommand(command, {
       execute: args => {
         const { path, showDialogs } = Private.getArguments(args);
-        return this.runFormatting(
-          () => this.formatWithFormatter(name, { path, showDialogs }),
+        return this._runFormatting(
+          () => this._formatWithFormatter(name, { path, showDialogs }),
           showDialogs
         );
       },
@@ -269,23 +279,27 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
   /**
    * Format a specific document (or the active one) with a specific formatter.
    */
-  private async formatWithFormatter(
+  private async _formatWithFormatter(
     formatter: string,
     { path, showDialogs }: IFormatArguments
   ): Promise<IFormatResult> {
-    const options = { config: this.config, formatter, showDialogs };
+    const options = { showDialogs };
     if (path !== undefined) {
       if (this.notebookCodeFormatter.findPanel(path)) {
-        return this.notebookCodeFormatter.formatSelectedCodeCells({
-          ...options,
-          target: path
-        });
+        return this.notebookCodeFormatter.formatAction(
+          this.config,
+          formatter,
+          path,
+          options
+        );
       }
       if (this.fileEditorCodeFormatter.findWidget(path)) {
-        return this.fileEditorCodeFormatter.formatEditor({
-          ...options,
-          target: path
-        });
+        return this.fileEditorCodeFormatter.formatAction(
+          this.config,
+          formatter,
+          path,
+          options
+        );
       }
       throw new Error(
         `Could not find an open notebook nor file with path: ${path}`
@@ -293,10 +307,20 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
     }
     const currentWidget = <Widget>this.app.shell.currentWidget;
     if (this.notebookCodeFormatter.applicable(formatter, currentWidget)) {
-      return this.notebookCodeFormatter.formatSelectedCodeCells(options);
+      return this.notebookCodeFormatter.formatAction(
+        this.config,
+        formatter,
+        undefined,
+        options
+      );
     }
     if (this.fileEditorCodeFormatter.applicable(formatter, currentWidget)) {
-      return this.fileEditorCodeFormatter.formatEditor(options);
+      return this.fileEditorCodeFormatter.formatAction(
+        this.config,
+        formatter,
+        undefined,
+        options
+      );
     }
     throw new Error(
       'There is no active notebook nor file editor; please pass a `path` of an open document'
@@ -308,7 +332,7 @@ class JupyterLabCodeFormatter implements DocumentRegistry.IWidgetExtension<
    * `showDialogs` is `false`) and re-raising it so that programmatic callers
    * can handle it too.
    */
-  private async runFormatting(
+  private async _runFormatting(
     operation: () => Promise<IFormatResult>,
     showDialogs?: boolean
   ): Promise<IFormatResult> {

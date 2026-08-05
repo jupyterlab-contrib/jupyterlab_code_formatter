@@ -7,7 +7,7 @@ import {
 /**
  * The arguments accepted by the formatting commands.
  */
-export interface IFormatArguments {
+export interface IFormatArguments extends IFormatOptions {
   /**
    * The path of the document to format.
    *
@@ -15,17 +15,6 @@ export interface IFormatArguments {
    * The document has to be open in JupyterLab.
    */
   path?: string;
-  /**
-   * Whether to report the errors to the user in a dialog.
-   *
-   * Programmatic callers should pass `false` to prevent the commands from
-   * waiting for the user to dismiss the dialogs; the errors are then only
-   * available in `IFormatResult.errors` and in the rejection reason.
-   *
-   * If not given, the `suppressFormatterErrors` and
-   * `suppressFormatterErrorsIFFAutoFormatOnSave` settings are used.
-   */
-  showDialogs?: boolean;
 }
 
 /**
@@ -69,34 +58,23 @@ export interface IConfig extends ReadonlyPartialJSONObject {
 }
 
 /**
- * The options shared by all the formatting operations.
+ * The options of a formatting operation.
  *
- * The individual formatters extend it with the type of the document
- * they can act on, see their `IOptions`.
+ * Any new option should be added here rather than as a new argument of the
+ * formatting methods and of the commands.
  */
 export interface IFormatOptions {
   /**
-   * The configuration of this extension.
-   */
-  config: IConfig;
-  /**
-   * The formatter to use.
-   *
-   * When not given, the formatters configured as default for the language
-   * of the document are used.
-   */
-  formatter?: string;
-  /**
    * Whether to report the errors to the user in a dialog.
+   *
+   * Programmatic callers should pass `false` to prevent the operation from
+   * waiting for the user to dismiss the dialogs; the errors are then only
+   * available in `IFormatResult.errors` and in the rejection reason.
    *
    * When not given, the `suppressFormatterErrors` and
    * `suppressFormatterErrorsIFFAutoFormatOnSave` settings are used.
    */
   showDialogs?: boolean;
-  /**
-   * Whether the formatting was triggered by saving the document.
-   */
-  saving?: boolean;
 }
 
 /**
