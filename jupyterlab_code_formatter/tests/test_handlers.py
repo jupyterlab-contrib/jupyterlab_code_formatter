@@ -11,6 +11,7 @@ import pytest
 from jsonschema import validate
 from tornado.httpclient import HTTPResponse
 
+from jupyterlab_code_formatter import handlers
 from jupyterlab_code_formatter.formatters import SERVER_FORMATTERS, BlackFormatter
 
 try:
@@ -128,6 +129,68 @@ async def test_404_on_unavailable(request_format, monkeypatch):  # type: ignore[
     message = json.loads(response.body)["message"]
     assert "black" in message
     assert "not available" in message
+
+
+@pytest.mark.parametrize(
+    "code,expected_problem",
+    (
+        # a labextension running on a too old JupyterLab cannot read the cell
+        # source, and `JSON.stringify` turns the resulting `undefined` into `null`
+        ([SIMPLE_VALID_PYTHON_CODE, None], "entry of `code` to be a string, got NoneType"),
+        ([123], "entry of `code` to be a string, got int"),
+        (SIMPLE_VALID_PYTHON_CODE, "`code` to be a list of strings, got str"),
+        (None, "`code` to be a list of strings, got NoneType"),
+    ),
+)
+async def test_400_on_malformed_code(request_format, code, expected_problem):  # type: ignore[no-untyped-def]
+    """Check that a `code` payload which is not a list of strings is rejected."""
+    response: HTTPResponse = await request_format(
+        formatter="black",
+        code=code,
+        options={},
+        raise_error=False,
+    )
+
+    assert response.code == 400
+    message = json.loads(response.body)["message"]
+    assert expected_problem in message
+
+
+async def test_400_on_malformed_code_mentions_jupyterlab(request_format, monkeypatch):  # type: ignore[no-untyped-def]
+    """Check that an outdated JupyterLab is called out as the likely cause."""
+    monkeypatch.setattr(
+        handlers, "_outdated_jupyterlab_version", lambda: "3.4.5", raising=True
+    )
+
+    response: HTTPResponse = await request_format(
+        formatter="black",
+        code=[None],
+        options={},
+        raise_error=False,
+    )
+
+    assert response.code == 400
+    message = json.loads(response.body)["message"]
+    assert "JupyterLab 3.4.5 is too old" in message
+    assert f"pin jupyterlab-code-formatter to {handlers.LAST_JUPYTERLAB_3_RELEASE}" in message
+
+
+async def test_400_on_malformed_code_without_jupyterlab(request_format, monkeypatch):  # type: ignore[no-untyped-def]
+    """Check the fallback message used when JupyterLab's version looks fine."""
+    monkeypatch.setattr(
+        handlers, "_outdated_jupyterlab_version", lambda: None, raising=True
+    )
+
+    response: HTTPResponse = await request_format(
+        formatter="black",
+        code=[None],
+        options={},
+        raise_error=False,
+    )
+
+    assert response.code == 400
+    message = json.loads(response.body)["message"]
+    assert "different versions of jupyterlab-code-formatter" in message
 
 
 async def test_can_apply_python_formatter(request_format):  # type: ignore[no-untyped-def]
