@@ -53,6 +53,8 @@ test = [
     "ruff",
     "yapf",
 ]
+
+[dependency-groups]
 docs = [
     "furo>=2025",
     "myst-parser>=1",
@@ -60,8 +62,6 @@ docs = [
     "sphinx-copybutton>=0.5.2",
     "sphinx-inline-tabs>=2021.3.28b7",
 ]
-
-[dependency-groups]
 ui-tests = [
     "black==22.1.0",
     "isort",
