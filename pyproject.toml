@@ -31,7 +31,7 @@ dynamic = ["version", "description", "authors", "urls", "keywords"]
 [project.optional-dependencies]
 dev = [
     "autopep8",
-    "black==22.1.0",
+    "black==26.3.1",
     "blue==0.9.1",
     "click==8.0.2",
     "isort",
@@ -41,7 +41,7 @@ dev = [
     "yapf",
 ]
 test = [
-    "black==22.1.0",
+    "black==26.3.1",
     "blue==0.9.1",
     "coverage",
     "isort",
@@ -63,7 +63,7 @@ docs = [
     "sphinx-inline-tabs>=2021.3.28b7",
 ]
 ui-tests = [
-    "black==22.1.0",
+    "black==26.3.1",
     "isort",
 ]
 
